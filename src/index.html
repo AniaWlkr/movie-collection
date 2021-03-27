@@ -29,10 +29,10 @@
           <nav class="navigation">
             <ul class="navigation-list">
               <li class="navigation-item">
-                <a href="" class="navigation-link link current">HOME</a>
+                <a href="" class="navigation-link link current" data-page="home" >HOME</a>
               </li>
               <li class="navigation-item">
-                <a href="" class="navigation-link link">MY LIBRARY</a>
+                <a href="" class="navigation-link link" data-page="library" >MY LIBRARY</a>
               </li>
             </ul>
           </nav>
@@ -53,6 +53,34 @@
       </div>
     </header>
 
+    <header class="header-library  is-hidden">
+      <div class="container">
+        <div class="header-container">
+          <a href="" class="header-logo link">
+            <svg class="logo-icon" width="24" height="24">
+              <use href="./images/sprite.svg#icon-film"></use>
+            </svg>
+            <span class="logo-txt">Filmoteka</span>
+          </a>
+    
+          <nav class="navigation">
+            <ul class="navigation-list">
+              <li class="navigation-item">
+                <a href="" class="navigation-link link "  data-page="home">HOME</a>
+              </li>
+              <li class="navigation-item">
+                <a href="" class="navigation-link link current" data-page="library">MY LIBRARY</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+    
+        <div class="tabs">
+          <button class="tabs-button" data-action ="finished" type="button">WATCHED</button>
+          <button class="tabs-button is-active" data-action ="waiting" type="button" >QUEUE</button>
+        </div>
+      </div>
+    </header>
     <main>
       <section>
         <div class="container"></div>
