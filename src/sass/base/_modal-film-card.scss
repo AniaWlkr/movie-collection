@@ -1,0 +1,268 @@
+// * {
+//   outline: 1px solid salmon;
+// }
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $transition-duration $transition-timing-function;
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: initial;
+  }
+
+  &-backdrope {
+    position: absolute;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $overlay-color;
+  }
+
+  &-content {
+    max-width: 280px;
+    max-height: 958px;
+    margin: 20px;
+    padding: 48px 20px 41px 20px;
+    background-color: $primary-text-color;
+    transform: scale(0.95);
+    transition: transform $transition-duration $transition-timing-function;
+  }
+
+  &.is-open &-content {
+    transform: scale(1);
+  }
+
+  &-close-button {
+    position: absolute;
+    position: fixed;
+    top: 10px;
+    right: 18px;
+    color: $secondary-text-color;
+    font-size: 30px;
+    border: none;
+    background-color: $primary-text-color;
+    transition: color $transition-duration $transition-timing-function;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      color: $accent-color;
+    }
+  }
+
+  &-card-img {
+    cursor: pointer;
+    width: 240px;
+    height: 356.57px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  &-card-title {
+    text-transform: uppercase;
+    margin-top: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    color: $secondary-text-color;
+  }
+
+  &-card-info-list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    list-style: none;
+  }
+
+  &-card-film-info {
+    display: flex;
+  }
+
+  &-card-info-list-item {
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: $secondary-text-color;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+
+  &-right {
+    margin-right: 40px;
+  }
+
+  &-value-name {
+    color: $modal-text-color;
+  }
+
+  &-rate {
+    color: $secondary-text-color;
+    background-color: $background-color;
+    width: 36px;
+    height: 16px;
+    border-radius: 5px;
+    text-align: center;
+    transition: color,
+      background-color $transition-duration $transition-timing-function;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      background-color: $accent-color;
+      color: $primary-text-color;
+    }
+  }
+
+  &-stick {
+    color: $modal-text-color;
+    margin-right: 3px;
+    margin-left: 3px;
+  }
+
+  &-original-title {
+    text-transform: uppercase;
+  }
+
+  &-card-about-title {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  &-card-about {
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: $secondary-text-color;
+    line-height: 20px;
+  }
+
+  &-button-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-card-button {
+    text-align: center;
+    text-transform: uppercase;
+    width: 112.58px;
+    height: 44px;
+    background-color: $primary-text-color;
+    color: $secondary-text-color;
+    border-radius: 5px;
+    border: 1px solid $secondary-text-color;
+    font-size: 12px;
+    line-height: 16px;
+    transition: color, background-color,
+      $transition-duration $transition-timing-function;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      background-color: $accent-color;
+      color: $primary-text-color;
+      border: 1px solid $accent-color;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    &-card {
+      display: flex;
+    }
+
+    &-content {
+      max-width: 618px;
+      max-height: 562px;
+      margin: 70px;
+      padding: 42px 28px 41px 40px;
+    }
+
+    &-card-img {
+      margin-right: 32px;
+      width: 264px;
+      height: 373.55px;
+    }
+
+    &-card-title {
+      margin-top: 0;
+    }
+
+    &-button-div {
+      justify-content: center;
+    }
+
+    &-card-button {
+      text-align: center;
+      text-transform: uppercase;
+      width: 112.58px;
+      height: 44px;
+      background-color: $primary-text-color;
+      color: $secondary-text-color;
+      border-radius: 5px;
+      border: 1px solid $secondary-text-color;
+      font-size: 12px;
+      line-height: 16px;
+
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $accent-color;
+        color: $primary-text-color;
+        border: 1px solid $accent-color;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    &-content {
+      max-width: 882px;
+      max-height: 568px;
+      margin: 100px 70px;
+      padding: 50px 30px 41px 30px;
+    }
+
+    &-close-button {
+      top: 18px;
+      font-size: 40px;
+    }
+
+    &-card-img {
+      cursor: pointer;
+      width: 396px;
+      height: 477px;
+    }
+
+    &-card-title {
+      font-size: 30px;
+      line-height: 35px;
+    }
+
+    &-right {
+      margin-right: 83px;
+    }
+
+    &-button-div {
+      justify-content: flex-start;
+    }
+  }
+}
