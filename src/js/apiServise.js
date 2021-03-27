@@ -7,11 +7,4 @@ const url = `${BASE_URL}3/trending/all/day?api_key=${API_KEY}`;
 export default function getResponse(query, page) {
     return axios.get(url)
 }
-// fetch(url).then(response => {
-//     return response.json()
-// }).then(movie => {
-//           console.log(movie);
-//     }).catch(error => {
-//             console.log(error);
-//         })
     
