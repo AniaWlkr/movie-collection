@@ -1,0 +1,41 @@
+.footer {
+  padding: 30px 0px 28px 0px;
+  background-color: $background-color;
+}
+
+.footer-conteiner {
+  font-size: 14px;
+  line-height: 1.1721;
+  text-align: center;
+
+  @media screen and (min-width: $tablet) {
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1.1718;
+  }
+}
+
+.text {
+  margin-top: 0px;
+  margin-bottom: 10px;
+
+  @media screen and (min-width: $tablet) {
+    margin-bottom: 0px;
+    margin-right: 4px;
+  }
+}
+
+.inner {
+  @extend %centered;
+}
+
+.developed-txt,
+.heart-icon {
+  margin-right: 10px;
+}
+
+.students-txt:hover,
+.students-txt:focus {
+  text-decoration: underline;
+}
