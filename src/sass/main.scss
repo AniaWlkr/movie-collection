@@ -3,11 +3,11 @@
 @import './utils/brakepoints';
 @import './utils/placeholders';
 @import './utils/visually-hidden';
-//-------------BASE-----------------------
+// //-------------BASE-----------------------
 @import './base/common';
 @import './base/container';
 //-------------COMPONENTS-----------------
 //-------------PAGE HEADER----------------
 @import './layout/header-page';
-//--------------MAIN----------------------
+@import './layout/pagination'; //--------------MAIN----------------------
 //--------------PAGE FOOTER---------------
