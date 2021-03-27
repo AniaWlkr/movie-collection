@@ -1,6 +1,4 @@
-// const { template } = require('handlebars');
-
-import modalCardTemplate from '../templates/modal_film_card.hbs';
+import modalCardTemplate from '../templates/modal-film-card.hbs';
 
 const modalRef = document.querySelector('.modal');
 const modalBackdropeRef = document.querySelector('.modal-backdrope');
