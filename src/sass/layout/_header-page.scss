@@ -9,14 +9,14 @@
 @media screen and (min-device-pixel-ratio: 2) and (max-width: $mobile),
   screen and (min-resolution: 192dpi) and (max-width: $mobile),
   screen and (min-resolution: 2dppx) and (max-width: $mobile) {
-  .header-page {
+  .header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/home-page/mobile-bg@2x.jpg');
   }
 }
 
 @media screen and (min-width: $tablet) {
-  .header-page {
+  .header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/home-page/tablet-bg.jpg');
     padding: 41px 0px 97px 0px;
@@ -26,14 +26,14 @@
 @media screen and (min-device-pixel-ratio: 2) and (min-width: $tablet),
   screen and (min-resolution: 192dpi) and (min-width: $tablet),
   screen and (min-resolution: 2dppx) and (min-width: $tablet) {
-  .header-page {
+  .header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/home-page/tablet-bg@2x.jpg');
   }
 }
 
 @media screen and (min-width: $desktop) {
-  .header-page {
+  .header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/home-page/desktop-bg.jpg');
   }
@@ -42,7 +42,7 @@
 @media screen and (min-device-pixel-ratio: 2) and (min-width: $desktop),
   screen and (min-resolution: 192dpi) and (min-width: $desktop),
   screen and (min-resolution: 2dppx) and (min-width: $desktop) {
-  .header-page {
+  .header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/home-page/desktop-bg@2x.jpg');
   }
