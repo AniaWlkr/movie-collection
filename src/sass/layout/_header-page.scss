@@ -1,4 +1,4 @@
-.header-page {
+.header {
   padding: 46px 0px 96px 0px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -51,16 +51,16 @@
 //================= logo =====================
 
 .header-logo {
+  @extend %link;
   display: flex;
   align-items: center;
-  text-decoration: none;
 }
 
 .logo-icon {
   margin-right: 10px;
 }
 
-.header-logo-txt {
+.logo-txt {
   display: none;
   @media screen and (min-width: $tablet) {
     display: flex;
@@ -81,7 +81,7 @@
 }
 
 .navigation-list {
-  list-style: none;
+  @extend %list;
   display: flex;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .current {
-  color: $accent-color;
+  color: $primary-text-color;
   &::after {
     content: '';
     left: 0;
