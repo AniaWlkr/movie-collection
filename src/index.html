@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Webpack Starter Kit</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.css"
@@ -13,21 +13,75 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <title>Filmoteka</title>
   </head>
-
   <body>
-    <header class="page-header">
-      <div class="container"></div>
+    <header class="header">
+      <div class="container">
+        <div class="header-container">
+          <a href="" class="header-logo link">
+            <svg class="logo-icon" width="24" height="24">
+              <use href="./images/sprite.svg#icon-film"></use>
+            </svg>
+            <span class="logo-txt">Filmoteka</span>
+          </a>
+          <nav class="navigation">
+            <ul class="navigation-list">
+              <li class="navigation-item">
+                <a href="" class="navigation-link link current">HOME</a>
+              </li>
+              <li class="navigation-item">
+                <a href="" class="navigation-link link">MY LIBRARY</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <form class="search-form" id="search-form">
+          <input
+            class="search-input"
+            type="text"
+            name="query"
+            autocomplete="on"
+            placeholder="Search film"
+          />
+          <svg class="search-icon" width="12" height="12">
+            <use href="./images/sprite.svg#icon-search"></use>
+          </svg>
+        </form>
+      </div>
     </header>
-
-    <main>
-      <section>
-        <div class="container"></div>
-      </section>
-    </main>
-
-    <footer class="page-footer">
+  <main>
+    <section>
       <div class="container"></div>
+    </section>
+  </main>
+
+   <footer class="footer">
+      <div class="container footer-container">
+        <p class="copyright">&#169; 2021 | All Rights Reserved |</p>
+        <p class="developers-txt">
+          Developed with
+          <svg class="heart-icon" width="14" height="13">
+            <use href="./images/sprite.svg#icon-heart"></use>
+          </svg>
+          <a class="developers-link">by GoIT Students</a>
+        </p>
+      </div>
     </footer>
-  </body>
+
+  <button class="test-modal-button">временная кнопка для теста модалки</button>
+  <div class="modal">
+    <div class="modal-backdrope"></div>
+    <div class="modal-content">
+      <button class="modal-close-button material-icons">close</button></div>
+
+  </div>
+
+  <button class="button-up"><span class="arrow material-icons">
+      keyboard_arrow_up
+    </span></button>
+</body>
+
 </html>
+
