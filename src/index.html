@@ -4,12 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Webpack Starter Kit</title>
+    <title>Filmoteka</title>
   </head>
 
   <body>
-    <header class="page-header">
-      <div class="container"></div>
+    <header class="header-page">
+      <div class="container">
+        <div class="header-container">
+          <a href="" class="header-logo link">
+            <svg class="logo-icon" width="24" height="24">
+              <use href="./images/sprite.svg#icon-film"></use>
+            </svg>
+            <span class="header-logo-txt">Filmoteka</span>
+          </a>
+
+          <nav class="navigation">
+            <ul class="navigation-list">
+              <li class="navigation-item">
+                <a href="./index.html" class="navigation-link link current"
+                  >HOME</a
+                >
+              </li>
+              <li class="navigation-item">
+                <a href="" class="navigation-link link">MY LIBRARY</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <form class="search-form" id="search-form">
+          <input
+            class="search-input"
+            type="text"
+            name="query"
+            autocomplete="on"
+            placeholder="Search film"
+          />
+          <svg class="search-icon" width="12" height="12">
+            <use href="./images/sprite.svg#icon-search"></use>
+          </svg>
+        </form>
+
+        <!--<button class="btn-libary is-hiden" type="button">Watched</button>
+      <button class="btn-libary is-hiden" type="button">queue</button>-->
+      </div>
     </header>
 
     <main>
