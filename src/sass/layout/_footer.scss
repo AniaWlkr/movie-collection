@@ -26,16 +26,16 @@
   }
 }
 
-.inner {
+.developers-txt {
   @extend %centered;
 }
 
-.developers-txt,
 .heart-icon {
+  margin-left: 10px;
   margin-right: 10px;
 }
 
-.developers-link:hover,
-.developers-link:focus {
+.developed-txt:hover,
+.developed-txt:focus {
   text-decoration: underline;
 }
