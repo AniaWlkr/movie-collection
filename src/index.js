@@ -1,19 +1,15 @@
 import './sass/main.scss';
 import './modal_film_card/modal-film-card';
 import './modal_film_card/go-up';
-import apiServise from './js/apiServise';
-
-(apiServise('all', 1).then(({ data: { results } }) => console.log(results)));
-
 import MoviesApiService from './js/api-service.js/apiService';
 
 const moviesApiService = new MoviesApiService();
 moviesApiService.getResponseAll().then(({ data: { results } }) => console.log(results));
  
-const inputRef = document.querySelector('.search-input');
-inputRef.addEventListener('input', onSearch);
+const searchForm = document.querySelector('#search-form');
+searchForm.addEventListener('input', onSearch);
 
 function onSearch(event) {
-    moviesApiService.query = event.target.value;
+    moviesApiService.query = event.currentTarget.elements.query.value;
     moviesApiService.getResponseWord().then(({ data: { results } }) => console.log(results));
 }
