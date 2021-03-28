@@ -25,6 +25,7 @@ testFetch();
 
 const openModal = event => {
   modalRef.classList.add('is-open');
+  window.addEventListener('keyup', modalCloseByEsc);
 };
 
 const closeModal = event => {
@@ -35,9 +36,9 @@ const closeModal = event => {
 const modalCloseByEsc = event => {
   if (event.code !== 'Escape') return;
   modalRef.classList.remove('is-open');
+  window.removeEventListener('keyup', modalCloseByEsc);
 };
 
 testModalButton.addEventListener('click', openModal);
 modalCloseButtonRef.addEventListener('click', closeModal);
-window.addEventListener('keyup', modalCloseByEsc);
 modalBackdropeRef.addEventListener('click', closeModal);

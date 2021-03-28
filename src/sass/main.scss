@@ -8,14 +8,17 @@
 @import './base/container';
 //-------------COMPONENTS-----------------
 
-@import './base/modal-film-card';
-@import './utils/go-up.scss'; 
+@import './components/modal-film-card';
+@import './components/go-up';
+@import './components/pagination';
 
 //-------------PAGE HEADER----------------
 @import './layout/header-page';
 @import './layout/header-page-library';
+
 //--------------MAIN----------------------
+
 @import './layout/movies-section';
-@import './layout/pagination'; 
+
 //--------------PAGE FOOTER---------------
 @import './layout/footer';

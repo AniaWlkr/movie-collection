@@ -31,12 +31,12 @@
           <nav class="navigation">
             <ul class="navigation-list">
               <li class="navigation-item">
-                <a href="" class="navigation-link link current" data-page="home"
+                <a href="" class="navigation-link link current" data-state="home"
                   >HOME</a
                 >
               </li>
               <li class="navigation-item">
-                <a href="" class="navigation-link link" data-page="library"
+                <a href="" class="navigation-link link" data-state="library"
                   >MY LIBRARY</a
                 >
               </li>
@@ -52,56 +52,24 @@
             autocomplete="on"
             placeholder="Search film"
           />
+          <button type="submit">
           <svg class="search-icon" width="12" height="12">
             <use href="./images/sprite.svg#icon-search"></use>
           </svg>
+          </button>
         </form>
-      </div>
-    </header>
 
-    <header class="header-library is-hidden">
-      <div class="container">
-        <div class="header-container">
-          <a href="" class="header-logo link">
-            <svg class="logo-icon" width="24" height="24">
-              <use href="./images/sprite.svg#icon-film"></use>
-            </svg>
-            <span class="logo-txt">Filmoteka</span>
-          </a>
-
-          <nav class="navigation">
-            <ul class="navigation-list">
-              <li class="navigation-item">
-                <a href="" class="navigation-link link" data-page="home"
-                  >HOME</a
-                >
-              </li>
-              <li class="navigation-item">
-                <a
-                  href=""
-                  class="navigation-link link current"
-                  data-page="library"
-                  >MY LIBRARY</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <div class="tabs">
+        <div class="tabs is-hidden">
           <button class="tabs-button" data-action="finished" type="button">
             WATCHED
           </button>
-          <button
-            class="tabs-button is-active"
-            data-action="waiting"
-            type="button"
-          >
+          <button class="tabs-button is-active" data-action="waiting" type="button">
             QUEUE
           </button>
         </div>
       </div>
     </header>
+
     <main>
       <section class="movies">
         <div class="container">
@@ -122,17 +90,38 @@
           <div id="pagination-box" class="tui-pagination"></div>
         </div>
       </section>
+=======
+      <section class="movies">
+        <div class="container">
+          <h2 class="visually-hidden">Movies Roll</h2>
+          <ul class="movies-list">
+            <!-- <li class="movies-item">
+              <img src="./images/movies-card/Rectangle 5.jpg" alt="" class="movie-img">
+              <div class="movie-wrapper">
+                <h3 class="movie-title">TITLE</h3>
+                <p class="movie-info"><span class="movie-genres">genres</span> | <span class="movie-date">2020</p>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </section>
+        <section>
+          <div class="container">
+            <div class="pagination-wrapper"></div>
+          </div>
+        </section>
     </main>
 
     <footer class="footer">
       <div class="container footer-container">
         <p class="copyright">&#169; 2021 | All Rights Reserved |</p>
-        <p class="developers-txt">
+        <p class="developers">
           Developed with
           <svg class="heart-icon" width="14" height="13">
             <use href="./images/sprite.svg#icon-heart"></use>
           </svg>
-          <a class="developers-link">by GoIT Students</a>
+          by&nbsp; 
+          <a href="" class="developers-link">GoIT Students</a>
         </p>
       </div>
     </footer>
