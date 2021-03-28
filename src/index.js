@@ -3,6 +3,7 @@ import './modal_film_card/modal-film-card';
 import './modal_film_card/go-up';
 import './js/switch-page'
 import MoviesApiService from './js/api-service/apiService';
+import pagination from './js/pagination/pagination';
 
 // (apiServise('all', 1).then(({ data: { results } }) => console.log(results)));
 
