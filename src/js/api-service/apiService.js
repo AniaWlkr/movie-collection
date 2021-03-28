@@ -13,8 +13,8 @@ export default class MoviesApiService {
     getResponseWord() {
     return axios.get(`${BASE_URL}3/search/movie?api_key=${API_KEY}&page=1&query=${this.searchQuery}&include_adult=false&language=en`)
     }
-    getResponseInfo() {
-    return axios.get(`${BASE_URL}3/movie/{movie_id}?api_key=${API_KEY}&language=en-US`)
+    getResponseInfo(movie_id) {
+    return axios.get(`${BASE_URL}3/movie/${movie_id}?api_key=${API_KEY}&language=en-US`)
     }
     get query() {
         return this.searchQuery;
