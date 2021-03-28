@@ -1,78 +1,70 @@
-
 .movies {
-    padding: 20px 0 40px;
+  padding: 20px 0 40px;
 }
 .movies-list {
-    @extend %list;
+  @extend %list;
 }
-.movies-item {
-    max-width: 280px;
+.movie-item {
+  max-width: 280px;
 }
-.movies-item:not(:last-child) {
-    margin-bottom: 30px;
+.movie-item:not(:last-child) {
+  margin-bottom: 30px;
 }
-.movies-img {
-    width: 100%;
-    margin-bottom: 10px;
+.movie-img {
+  width: 100%;
+  margin-bottom: 10px;
 }
-.movies-title {
-    margin-bottom: 7px;
-}
-.movies-description-list {
-    display: flex;
-    @extend %list;
-}
-.movies-description-item{
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.33;
-    color: $accent-color;
-}
-.movies-description-item:not(:last-child) {
-    margin-right: 5px;
-}
-.movies-line-before::before {
-    content: '';
-    margin-right: 5px;
-    left: 0;
-    bottom: 0;
-    width: 1px;
-    height: 10px;
-    display: inline-block;
-    background-color: $accent-color;
+.movie-title {
+  margin-bottom: 7px;
 }
 
+.movies-info {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  color: $accent-color;
+}
+
+// .movies-line-before::before {
+//   content: '';
+//   margin-right: 5px;
+//   left: 0;
+//   bottom: 0;
+//   width: 1px;
+//   height: 10px;
+//   display: inline-block;
+//   background-color: $accent-color;
+// }
+
 @media screen and (min-width: $tablet) {
-    .movies {
-        padding: 60px 0 50px;
-    }
-    .movies-list {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .movies-item {
-        max-width: 294px;
-    }
+  .movies {
+    padding: 60px 0 50px;
+  }
+  .movies-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .movie-item {
+    max-width: 294px;
+  }
 }
 @media screen and (min-width: $tablet) and (max-width: 1023px) {
-    .movies-list {
-        margin: -15px;
-    }
-    .movies-item {
-        margin: 15px;
-    }
+  .movies-list {
+    margin: -15px;
+  }
+  .movie-item {
+    margin: 15px;
+  }
 }
 
 @media screen and (min-width: $desktop) {
-    .movies-item {
-        max-width: 274px;
-    }
-    .movies-item:not(:nth-last-child(-n + 3)) {
-        margin-bottom: 30px;
-    }
-    .movies-item:not(:nth-child(3n + 3)) {
-        margin-right: 30px;
-    }
+  .movie-item {
+    max-width: 274px;
+  }
+  .movie-item:not(:nth-last-child(-n + 3)) {
+    margin-bottom: 30px;
+  }
+  .movie-item:not(:nth-child(3n + 3)) {
+    margin-right: 30px;
+  }
 }
