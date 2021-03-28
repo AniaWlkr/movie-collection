@@ -7,7 +7,14 @@
 @import './base/common';
 @import './base/container';
 //-------------COMPONENTS-----------------
+
+@import './base/modal-film-card';
+@import './utils/go-up.scss'; 
+
 //-------------PAGE HEADER----------------
 @import './layout/header-page';
-@import './layout/pagination'; //--------------MAIN----------------------
+@import './layout/header-page-library';
+//--------------MAIN----------------------
+@import './layout/pagination'; 
 //--------------PAGE FOOTER---------------
+@import './layout/footer';
