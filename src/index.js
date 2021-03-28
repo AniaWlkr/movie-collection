@@ -1,8 +1,6 @@
 import './sass/main.scss';
 import './modal_film_card/modal-film-card';
 import './modal_film_card/go-up';
-import './js/switch-page'
-import MoviesApiService from './js/api-service.js/apiService';
 import './js/switch-page';
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';

@@ -3,7 +3,7 @@
 @import './utils/brakepoints';
 @import './utils/placeholders';
 @import './utils/visually-hidden';
-//-------------BASE-----------------------
+// //-------------BASE-----------------------
 @import './base/common';
 @import './base/container';
 //-------------COMPONENTS-----------------
@@ -15,5 +15,7 @@
 @import './layout/header-page';
 @import './layout/header-page-library';
 //--------------MAIN----------------------
+@import './layout/movies-section';
+@import './layout/pagination'; 
 //--------------PAGE FOOTER---------------
 @import './layout/footer';
