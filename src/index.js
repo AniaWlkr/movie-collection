@@ -1,10 +1,12 @@
 import './sass/main.scss';
-import './modal_film_card/modal-film-card';
-import './modal_film_card/go-up';
+import './button-up/go-up';
+import './modal-film-card/modal-film-card';
 import './js/switch-page';
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import PaginationPlugin from './js/pagination/pagination';
+
+// (apiServise('all', 1).then(({ data: { results } }) => console.log(results)));
 
 const PagPlugin = new PaginationPlugin();
 const moviesApiService = new MoviesApiService();
