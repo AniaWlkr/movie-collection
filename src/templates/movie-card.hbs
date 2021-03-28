@@ -1,0 +1,12 @@
+{{#each this}}
+<li class="movies-item">
+    <img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{original_title}}" class="movies-img">
+    <div class="movies-wrapper">
+        <h3 class="movies-title">{{original_title}}</h3>
+        <ul class="movies-description-list">
+          <li class="movies-description-item">genre</li>
+          <li class="movies-description-item movies-line-before">2020</li>
+        </ul>
+    </div>
+</li>
+{{/each}}
