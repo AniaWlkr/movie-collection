@@ -1,20 +1,23 @@
 import './sass/main.scss';
-import './modal_film_card/modal-film-card';
-import './modal_film_card/go-up';
-import './js/switch-page'
-import MoviesApiService from './js/api-service/apiService';
+import './button-up/go-up';
+import './modal-film-card/modal-film-card';
+import './js/switch-page.js';
+import MoviesApiService from './js/api-service.js/apiService';
 import pagination from './js/pagination/pagination';
 
 // (apiServise('all', 1).then(({ data: { results } }) => console.log(results)));
 
 const moviesApiService = new MoviesApiService();
-moviesApiService.getResponseAll().then(({ data: { results } }) => console.log(results));
- 
+moviesApiService
+  .getResponseAll()
+  .then(({ data: { results } }) => console.log(results));
+
 const searchForm = document.querySelector('#search-form');
 searchForm.addEventListener('input', onSearch);
 
 function onSearch(event) {
-    moviesApiService.query = event.currentTarget.elements.query.value;
-    moviesApiService.getResponseWord().then(({ data: { results } }) => console.log(results));
+  moviesApiService.query = event.currentTarget.elements.query.value;
+  moviesApiService
+    .getResponseWord()
+    .then(({ data: { results } }) => console.log(results));
 }
-

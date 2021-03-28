@@ -5,28 +5,45 @@
   <div class="modal-tablet-style">
     <h1 class="modal-card-title">{{original_title}}</h1>
 
+    {{!-- <ul>
+  <li flex >
+    <div >
+
+    </div>
+  </li>
+</ul> --}}
+
+
     <div class="modal-card-film-info">
-      <ul class="modal-card-info-list modal-right">
-        <li class="modal-card-info-list-item modal-value-name">Vote / Votes</li>
-        <li class="modal-card-info-list-item modal-value-name">Popularity</li>
-        <li class="modal-card-info-list-item modal-value-name">Original Title</li>
-        <li class="modal-card-info-list-item modal-value-name">Genre</li>
+      <ul class="modal-card-info-list">
+        <li class="modal-list-item">
+          <div class="modal-card-info-list-item modal-value-name">Vote / Votes</div>
+          <div class="modal-card-info-list-item modal-left">
+            <p class="modal-rate">{{vote_average}}</p> <span class="modal-stick">/</span>
+            <p class="modal-rate">{{vote_count}}</p>
+          </div>
+        </li>
+        <li class="modal-list-item">
+          <div class="modal-card-info-list-item modal-value-name">Popularity
+          </div>
+          <div class="modal-card-info-list-item modal-left">
+            {{popularity}}
+          </div>
+        </li>
+        <li class="modal-list-item">
+          <div class="modal-card-info-list-item modal-value-name">Original Title</div>
+          <div class="modal-card-info-list-item modal-original-title modal-left">
+            {{original_title}}
+          </div>
+        </li>
+        <li class="modal-list-item">
+          <div class="modal-card-info-list-item modal-value-name">Genre</div>
+          <div class="modal-card-info-list-item modal-left">
+            {{genres.0.name}}
+          </div>
+        </li>
       </ul>
-      <ul class="modal-card-info-list modal-left">
-        <li class="modal-card-info-list-item">
-          <p class="modal-rate">{{vote_average}}</p> <span class="modal-stick">/</span>
-          <p class="modal-rate">{{vote_count}}</p>
-        </li>
-        <li class="modal-card-info-list-item">
-          {{popularity}}
-        </li>
-        <li class="modal-card-info-list-item modal-original-title">
-          {{original_title}}
-        </li>
-        <li class="modal-card-info-list-item">
-          {{genres.0.name}}
-        </li>
-      </ul>
+
     </div>
     <p class="modal-card-about-title">about</p>
     <p class="modal-card-about">
@@ -37,34 +54,3 @@
     </div>
   </div>
 </div>
-
-
-
-{{!-- adult: false
-backdrop_path: "/52AfXWuXCHn3UjD17rBruA9f5qb.jpg"
-belongs_to_collection: null
-budget: 63000000
-genres: [{…}]
-homepage: "http://www.foxmovies.com/movies/fight-club"
-id: 550
-imdb_id: "tt0137523"
-original_language: "en"
-original_title: "Fight Club"
-overview: "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new
-form of therapy. Their concept catches on, with underground "fight clubs" forming in every town, until an eccentric gets
-in the way and ignites an out-of-control spiral toward oblivion."
-popularity: 47.401
-poster_path: "/8kNruSfhk5IoE4eZOc4UpvDn6tq.jpg"
-production_companies: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
-production_countries: (2) [{…}, {…}]
-release_date: "1999-10-15"
-revenue: 100853753
-runtime: 139
-spoken_languages: [{…}]
-status: "Released"
-tagline: "Mischief. Mayhem. Soap."
-title: "Fight Club"
-video: false
-vote_average: 8.4
-vote_count: 21394
-__proto__: Object --}}
