@@ -1,7 +1,8 @@
 import './sass/main.scss';
 import './modal_film_card/modal-film-card';
 import './modal_film_card/go-up';
-import './js/switch-page'
+import './js/switch-page';
+import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import pagination from './js/pagination/pagination';
 
@@ -17,4 +18,5 @@ function onSearch(event) {
     moviesApiService.query = event.currentTarget.elements.query.value;
     moviesApiService.getResponseWord().then(({ data: { results } }) => console.log(results));
 }
+
 
