@@ -3,12 +3,19 @@
 @import './utils/brakepoints';
 @import './utils/placeholders';
 @import './utils/visually-hidden';
-//-------------BASE-----------------------
+// //-------------BASE-----------------------
 @import './base/common';
 @import './base/container';
 //-------------COMPONENTS-----------------
+
+@import './base/modal-film-card';
+@import './utils/go-up.scss'; 
+
 //-------------PAGE HEADER----------------
 @import './layout/header-page';
-@import './layout/movies-section';
+@import './layout/header-page-library';
 //--------------MAIN----------------------
+@import './layout/movies-section';
+@import './layout/pagination'; 
 //--------------PAGE FOOTER---------------
+@import './layout/footer';
