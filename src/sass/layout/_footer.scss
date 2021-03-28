@@ -26,7 +26,7 @@
   }
 }
 
-.developers-txt {
+.developers {
   @extend %centered;
 }
 
@@ -35,7 +35,14 @@
   margin-right: 10px;
 }
 
-.developed-txt:hover,
-.developed-txt:focus {
-  text-decoration: underline;
+.developers-link {
+  color: $secondary-text-color;
+}
+
+.developers-link:hover,
+.developers-link:focus {
+  text-decoration: none;
+  cursor: pointer;
+
+  color: $accent-color;
 }
