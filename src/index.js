@@ -2,6 +2,7 @@ import './sass/main.scss';
 import './modal_film_card/modal-film-card';
 import './modal_film_card/go-up';
 import './js/switch-page';
+import './js/insert_popular_films';
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import pagination from './js/pagination/pagination';
