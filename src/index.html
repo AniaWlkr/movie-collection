@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <title>Filmoteka</title>
-  </head>
-
-  <body>
-    <header class="header">
-      <div class="container">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <title>Filmoteka</title>
+</head>
+<body>
+  <header class="header">
+     <div class="container">
         <!----------- switch-theme ----------->
         <div class="toolbar">
           <div class="switch-theme">
@@ -53,59 +43,45 @@
             </div>
           </div>
         </div>
-        <div class="header-container">
-          <a href="" class="header-logo link">
-            <svg class="logo-icon" width="24" height="24">
-              <use href="./images/sprite.svg#icon-film"></use>
-            </svg>
-            <span class="logo-txt">Filmoteka</span>
-          </a>
-          <nav class="navigation">
-            <ul class="navigation-list">
-              <li class="navigation-item">
-                <a
-                  href=""
-                  class="navigation-link link current"
-                  data-state="home"
-                  >HOME</a
-                >
-              </li>
-              <li class="navigation-item">
-                <a href="" class="navigation-link link" data-state="library"
-                  >MY LIBRARY</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <form class="search-form" id="search-form">
-          <input
-            class="search-input"
-            type="text"
-            name="query"
-            autocomplete="on"
-            placeholder="Search film"
-          />
-          <button type="submit">
-            <svg class="search-icon" width="12" height="12">
-              <use href="./images/sprite.svg#icon-search"></use>
-            </svg>
-          </button>
-        </form>
-
-        <div class="tabs is-hidden">
-          <button class="tabs-button" data-action="finished" type="button">
-            WATCHED
-          </button>
-          <button
-            class="tabs-button is-active"
-            data-action="waiting"
-            type="button"
-          >
-            QUEUE
-          </button>
-        </div>
+      <div class="header-container">
+        <a href="" class="header-logo link">
+          <svg class="logo-icon" width="24" height="24">
+            <use href="./images/sprite.svg#icon-film"></use>
+          </svg>
+          <span class="logo-txt">Filmoteka</span>
+        </a>
+        <nav class="navigation">
+          <ul class="navigation-list">
+            <li class="navigation-item">
+              <a href="" class="navigation-link link current" data-state="home">HOME</a>
+            </li>
+            <li class="navigation-item">
+              <a href="" class="navigation-link link" data-state="library">MY LIBRARY</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <form class="search-form" id="search-form">
+        <input
+          class="search-input"
+          type="text"
+          name="query"
+          autocomplete="off"
+          placeholder="Search film"
+        />
+        <button class="btn-submit" type="submit">
+          <svg class="search-icon" width="12" height="12">
+            <use href="./images/sprite.svg#icon-search"></use>
+          </svg>
+        </button>
+      </form>
+      <div class="tabs is-hidden">
+        <button class="tabs-button" data-action="finished" type="button">
+          WATCHED
+        </button>
+        <button class="tabs-button is-active" data-action="waiting" type="button">
+          QUEUE
+        </button>
       </div>
     </header>
 
