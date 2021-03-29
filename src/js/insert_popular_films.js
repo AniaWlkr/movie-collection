@@ -15,7 +15,7 @@ function apiServise() {
 }
 
 function genresApi() {
-    const url = `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`
+    const url = `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
     return fetch(url)
         .then(r => r.json())
         .then(({ genres }) => { return genres });

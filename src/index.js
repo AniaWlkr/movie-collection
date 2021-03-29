@@ -12,6 +12,7 @@ const moviesApiService = new MoviesApiService();
 //--------------------------------------------------------
 // константи
 const searchForm = document.querySelector('#search-form');
+const searchInput = document.querySelector('.search-input');
 const moviesRef = document.querySelector('.movies-list');
 //--------------------------------------------------------
 
@@ -51,7 +52,7 @@ function onSearch(event) {
       moviesApiService.goToPage(page);
       moviesApiService.getResponseWord().then(({ data: { results } }) => {
         renderCard(results);
-      });
+      })
     });
   });
 }
