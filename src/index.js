@@ -7,6 +7,14 @@ import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import PaginationPlugin from './js/pagination/pagination';
 
+//отображение лоадера при загрузке страницы
+window.addEventListener('load', pageLoading());
+
+function pageLoading() {
+  const loader = document.querySelector('.loader');
+  loader.className += ' hidden-loader';
+}
+
 // екземпляр класу
 const moviesApiService = new MoviesApiService();
 //--------------------------------------------------------
