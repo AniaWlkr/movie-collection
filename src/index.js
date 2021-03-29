@@ -2,17 +2,26 @@ import './sass/main.scss';
 import './button-up/go-up';
 import './modal-film-card/modal-film-card';
 import './js/switch-page';
+
+//---------------------- Раскомментировать чтобы запустить проверку localStorage в тестовом режиме
+// import './js/test'; 
+//---------------------- Но перед этим закомментировать import './modal-film-card/modal-film-card'; 
+//---------------------- и всё что ниже констант
+
 // import './js/insert_popular_films'; //необхідно поєднати з аксіосом
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import PaginationPlugin from './js/pagination/pagination';
+import LocalStorageService from './js/local-storage/local-storage';
 
 // екземпляр класу
 const moviesApiService = new MoviesApiService();
+const localStorageService = new LocalStorageService();
 //--------------------------------------------------------
 // константи
 const searchForm = document.querySelector('#search-form');
 const moviesRef = document.querySelector('.movies-list');
+
 //--------------------------------------------------------
 
 //сброс пагинации
@@ -30,7 +39,7 @@ moviesApiService.getResponseAll().then(({ data }) => {
   });
 });
 
-//--------------------------------------------------------
+// //--------------------------------------------------------
 searchForm.addEventListener('submit', onSearch);
 
 function onSearch(event) {
