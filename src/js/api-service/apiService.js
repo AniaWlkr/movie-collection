@@ -13,7 +13,7 @@ export default class MoviesApiService {
     let page = this.page;
     if (newPage) page = newPage;
     return axios.get(
-      ${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${page},
+      `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${page}`,
     );
   }
 
