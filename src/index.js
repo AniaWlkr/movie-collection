@@ -2,43 +2,64 @@ import './sass/main.scss';
 import './button-up/go-up';
 import './modal-film-card/modal-film-card';
 import './js/switch-page';
+// import './js/insert_popular_films'; //необхідно поєднати з аксіосом
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import PaginationPlugin from './js/pagination/pagination';
 
-// (apiServise('all', 1).then(({ data: { results } }) => console.log(results)));
-
-const PagPlugin = new PaginationPlugin();
+// екземпляр класу
 const moviesApiService = new MoviesApiService();
-moviesApiService
-  .getResponseAll()
-  .then(({ data }) => {
-      const { results, total_results } = data;
-      console.log(results);
-    PagPlugin.updateTotalResult(total_results);
-    PagPlugin.initPlugin().on('afterMove', ({ page }) => {
-      moviesApiService
-        .goToPagePopular(page)
-        .then(({ data: { results, page } }) => {
-          console.log(results);
-          console.log(page);
-        });
-    });
-  });
- 
+//--------------------------------------------------------
+// константи
 const searchForm = document.querySelector('#search-form');
 const moviesRef = document.querySelector('.movies-list');
+//--------------------------------------------------------
+
+//сброс пагинации
+// популярні фільми
+PaginationPlugin.reset();
+moviesApiService.getResponseAll().then(({ data }) => {
+  const { results, total_results } = data;
+  renderCard(results);
+  PaginationPlugin.setTotalItems(total_results);
+  PaginationPlugin.on('afterMove', ({ page }) => {
+    moviesApiService.goToPage(page);
+    moviesApiService.getResponseAll().then(({ data: { results } }) => {
+      renderCard(results);
+    });
+  });
+});
+
+//--------------------------------------------------------
 searchForm.addEventListener('submit', onSearch);
 
 function onSearch(event) {
-    event.preventDefault();
-    moviesApiService.query = event.currentTarget.elements.query.value;
-    appendMovieMarkup(moviesApiService.query, MoviesApiService);
-    
-};
-
-function appendMovieMarkup(query) {
-    moviesApiService.getResponseWord().then(({ data: { results } }) => {
-        moviesRef.insertAdjacentHTML('beforeend', results.map(query => movieCard(query)))
+  event.preventDefault();
+  //знімаем слушателя на інпут
+  searchForm.removeEventListener('submit', onSearch);
+  PaginationPlugin.reset();
+  moviesApiService.page = 1;
+  moviesApiService.query = event.currentTarget.elements.query.value;
+  moviesApiService.getResponseWord().then(({ data }) => {
+    const { results, total_results } = data;
+    renderCard(results);
+    //добавляем після першого рендеру
+    searchForm.addEventListener('submit', onSearch);
+    //------------
+    PaginationPlugin.setTotalItems(total_results);
+    PaginationPlugin.on('afterMove', ({ page }) => {
+      moviesApiService.goToPage(page);
+      moviesApiService.getResponseWord().then(({ data: { results } }) => {
+        renderCard(results);
+      });
     });
-};
+  });
+}
+
+function renderCard(arr) {
+  moviesRef.innerHTML = '';
+  moviesRef.insertAdjacentHTML(
+    'beforeend',
+    arr.map(query => movieCard(query)).join(''),
+  );
+}

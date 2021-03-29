@@ -8,16 +8,26 @@ export default class MoviesApiService {
     this.page = 1;
   }
   getResponseAll() {
-    return axios.get(`${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=1`);
-  }
-  getResponseWord() {
+    // return axios.get(`${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=1`)
+    //   добавив this.page
+    // return axios.get(
+    //   `${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${this.page}`,
+    // );
     return axios.get(
-      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=1&query=${this.searchQuery}&include_adult=false&language=en`,
+      `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${this.page}`,
     );
   }
-  getResponseInfo() {
+  getResponseWord() {
+    // return axios.get(`${BASE_URL}3/search/movie?api_key=${API_KEY}&page=1&query=${this.searchQuery}&include_adult=false&language=en`)
+    //   добавив this.page
     return axios.get(
-      `${BASE_URL}3/movie/{movie_id}?api_key=${API_KEY}&language=en-US`,
+      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${this.page}&query=${this.searchQuery}&include_adult=false&language=en`,
+    );
+  }
+  // получаем id фільма віддаем інфу після кліка по карточці
+  getResponseInfo(id) {
+    return axios.get(
+      `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
     );
   }
   get query() {
@@ -26,8 +36,10 @@ export default class MoviesApiService {
   set query(newQuery) {
     this.searchQuery = newQuery;
   }
-  goToPagePopular(page) {
-    this.page = page;
-    return this.getResponseAll();
+  goToPage(newPage) {
+    return (this.page = newPage);
   }
+  //   set page(newPage) {
+  //     this.page = newPage;
+  //   }
 }
