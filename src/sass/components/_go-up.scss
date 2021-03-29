@@ -10,8 +10,8 @@
   width: 70px;
   height: 70px;
   border: none;
-  transition: color,
-    background-color $transition-duration $transition-timing-function;
+  transition: color, background-color,
+    $transition-duration $transition-timing-function;
 }
 
 .button-up:hover,
