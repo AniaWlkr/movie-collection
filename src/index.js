@@ -6,7 +6,7 @@ import './js/switch-page';
 //---------------------- Раскомментировать чтобы запустить проверку localStorage в тестовом режиме
 // import './js/test'; 
 //---------------------- Но перед этим закомментировать import './modal-film-card/modal-film-card'; 
-//---------------------- и всё что ниже констант
+//---------------------- и всё что ниже констант!
 
 // import './js/insert_popular_films'; //необхідно поєднати з аксіосом
 import movieCard from './templates/movie-card.hbs';
