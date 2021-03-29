@@ -96,13 +96,13 @@ function renderAndPaginationSearchMovies() {
   searchForm.addEventListener('submit', onSearch);
 }
 //--------------------------------------------------------
-
 function onSearch(event) {
   event.preventDefault();
   //знімаем слушателя на інпут
   //   searchForm.removeEventListener('submit', onSearch);
   PaginationPlugin.reset();
-  moviesApiService.query = event.currentTarget.elements.query.value;
+
+moviesApiService.query = event.currentTarget.elements.query.value;
   moviesApiService.getResponseWord().then(({ data }) => {
     const { results, total_results } = data;
     createCorectResult(results).then(renderCard);
@@ -119,7 +119,6 @@ function onSearch(event) {
     });
   });
 }
-
 //--------------------------------------------------------
 // функція популярних фільмів
 renderAndPaginationPopularMovies();
