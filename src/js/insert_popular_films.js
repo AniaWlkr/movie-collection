@@ -36,16 +36,16 @@ function insertPopularFilms(results) {
                 results[j]["release_date"] = results[j]["first_air_date"]; 
             }
             results[j]["release_date"] = results[j]["release_date"].slice(0, 4);
-            results[j]["genre"] = []
+            results[j]["genres"] = []
             for (let i = 0; i < results[j]["genre_ids"].length; i++) {
                 let genre = genres.find(genre => genre.id === results[j]["genre_ids"][i]);
                 if (genre) {
-                    results[j]["genre"].push(genre["name"]);
+                    results[j]["genres"].push(genre["name"]);
                 }
             };
         }
         
-        refs.movieList.insertAdjacentHTML('beforeend', movieCard(results))
+        refs.movieList.insertAdjacentHTML('beforeend', results.map(result => movieCard(result)).join(''))
     });   
 }
 
