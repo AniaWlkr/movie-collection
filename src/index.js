@@ -2,6 +2,7 @@ import './sass/main.scss';
 import './button-up/go-up';
 import './modal-film-card/modal-film-card';
 import './js/switch-page';
+import './js/theme';
 // import './js/insert_popular_films'; //необхідно поєднати з аксіосом
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
