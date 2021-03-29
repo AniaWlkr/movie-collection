@@ -12,11 +12,9 @@ import './js/switch-page';
 import movieCard from './templates/movie-card.hbs';
 import MoviesApiService from './js/api-service/apiService';
 import PaginationPlugin from './js/pagination/pagination';
-import LocalStorageService from './js/local-storage/local-storage';
 
 // екземпляр класу
 const moviesApiService = new MoviesApiService();
-const localStorageService = new LocalStorageService();
 //--------------------------------------------------------
 // константи
 const searchForm = document.querySelector('#search-form');
