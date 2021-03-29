@@ -7,22 +7,29 @@ export default class MoviesApiService {
     this.searchQuery = '';
     this.page = 1;
   }
-  getResponseAll() {
-    // return axios.get(`${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=1`)
-    //   добавив this.page
-    // return axios.get(
-    //   `${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${this.page}`,
-    // );
+  //відповідь фільми в тренді
+  getResponseAll(newPage) {
+    // по замовчуванню 1 сторінка дальше передаем № сторінки
+    let page = this.page;
+    if (newPage) page = newPage;
     return axios.get(
-      `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${this.page}`,
+      `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${page}`,
     );
   }
-  getResponseWord() {
-    // return axios.get(`${BASE_URL}3/search/movie?api_key=${API_KEY}&page=1&query=${this.searchQuery}&include_adult=false&language=en`)
-    //   добавив this.page
+  //відповідь при пошуку по слову
+  getResponseWord(newPage) {
+    // по замовчуванню 1 сторінка дальше передаем № сторінки
+    let page = this.page;
+    if (newPage) page = newPage;
     return axios.get(
-      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${this.page}&query=${this.searchQuery}&include_adult=false&language=en`,
+      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${page}&query=${this.searchQuery}&include_adult=false&language=en`,
     );
+  }
+  //відповідь жанри фільміву відповіді масив
+  getGenresMovies() {
+    return axios
+      .get(`${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+      .then(({ data: genres }) => genres.genres);
   }
   // получаем id фільма віддаем інфу після кліка по карточці
   getResponseInfo(id) {
@@ -36,9 +43,9 @@ export default class MoviesApiService {
   set query(newQuery) {
     this.searchQuery = newQuery;
   }
-  goToPage(newPage) {
-    return (this.page = newPage);
-  }
+  // goToPage(newPage) {
+  //   return (this.page = newPage);
+  // }
   //   set page(newPage) {
   //     this.page = newPage;
   //   }
