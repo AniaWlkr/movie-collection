@@ -31,17 +31,35 @@ function onSearchPopularFilms() {
 function insertPopularFilms(results) {
     
     genresApi().then(function (genres) {
+        //перебираем массив results
         for (let j = 0; j < results.length; j++) {
+            //если нету release_date поставь first_air_date
             if (!results[j]["release_date"]) {
                 results[j]["release_date"] = results[j]["first_air_date"]; 
             }
+            //обрежь дату, оставь год
             results[j]["release_date"] = results[j]["release_date"].slice(0, 4);
+            
+            //если нету original_title поставь original_name
+            if (!results[j]["original_title"]) {
+                results[j]["original_title"] = results[j]["original_name"]
+            }
+            
+            //создаем пустой массив жанров в объекте массива results
             results[j]["genres"] = []
+            //перебираем id жанров в results и сравниваем их с полученными id из массива ganres, берем name
             for (let i = 0; i < results[j]["genre_ids"].length; i++) {
+
+                //найди в массиве жанров id который есть, и если есть - запиши его name в массив жанров фильма
                 let genre = genres.find(genre => genre.id === results[j]["genre_ids"][i]);
                 if (genre) {
                     results[j]["genres"].push(genre["name"]);
                 }
+
+                // обрезает массив жанров до двух первых
+                // if (results[j]["genres"].length > 2) {
+                //     results[j]["genres"] = results[j]["genres"].slice(0, 2);
+                // };
             };
         }
         

@@ -24,6 +24,7 @@
 
   &-content {
     position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
@@ -36,7 +37,6 @@
 
   &-close-button {
     position: absolute;
-    position: fixed;
     top: 10px;
     right: 18px;
     color: $secondary-text-color;
@@ -53,10 +53,11 @@
   }
 
   &-card-img {
+    position: relative;
     cursor: pointer;
     width: 240px;
     height: 356.57px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 5px;
   }
 

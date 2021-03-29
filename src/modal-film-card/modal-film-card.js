@@ -4,33 +4,9 @@ import MoviesApiService from '../js/api-service/apiService';
 const modalRef = document.querySelector('.modal');
 const modalBackdropeRef = document.querySelector('.modal-backdrope');
 const modalContentRef = document.querySelector('.modal-content');
-const modalCloseButtonRef = document.querySelector('.modal-close-button');
-const testModalButton = document.querySelector('.test-modal-button');
-const movieItemRef = document.querySelector('.movie-item');
+const moviesListRef = document.querySelector('.movies-list');
 
 const newApi = new MoviesApiService();
-
-// const testFetch = () => {
-//   fetch(
-//     'https://api.themoviedb.org/3/movie/550?api_key=82ebb55e4d1a1877b6dae0db2ea1f68e',
-//   )
-//     .then(response => {
-//       return response.json();
-//     })
-//     .then(data => {
-//       return modalContentRef.insertAdjacentHTML(
-//         'afterbegin',
-//         modalCardTemplate(data),
-//       );
-//     });
-// };
-
-// testFetch();
-newApi.getResponseAll().then(function (answer) {
-  console.log(answer);
-});
-// const a = newApi.getResponseInfo();
-// console.log(a.then(console.log));
 
 const openModal = event => {
   modalRef.classList.add('is-open');
@@ -38,8 +14,9 @@ const openModal = event => {
 };
 
 const closeModal = event => {
+  console.dir(event);
   modalRef.classList.remove('is-open');
-  // modalRef.innerHTML = ""
+  modalContentRef.innerHTML = '';
 };
 
 const modalCloseByEsc = event => {
@@ -49,10 +26,18 @@ const modalCloseByEsc = event => {
 };
 
 const drawSelectedFilm = event => {
-  console.dir(event);
+  const targetId = event.path[1].id;
+  newApi.getResponseInfo(targetId).then(function (answer) {
+    modalContentRef.insertAdjacentHTML(
+      'afterbegin',
+      modalCardTemplate(answer.data),
+    );
+
+    const modalCloseButtonRef = document.querySelector('.modal-close-button');
+    modalCloseButtonRef.addEventListener('click', closeModal);
+    openModal();
+  });
 };
 
-testModalButton.addEventListener('click', openModal);
-modalCloseButtonRef.addEventListener('click', closeModal);
 modalBackdropeRef.addEventListener('click', closeModal);
-// movieItemRef.addEventListener('click', drawSelectedFilm);
+moviesListRef.addEventListener('click', drawSelectedFilm);
