@@ -4,6 +4,7 @@ import './modal-film-card/modal-film-card';
 import './js/switch-page';
 import './js/insert_popular_films';
 import './js/theme';
+import './js/hackers-modal/hackers-modal'
 
 //отображение лоадера при загрузке страницы
 window.addEventListener('load', pageLoading());
