@@ -27,6 +27,7 @@
     position: fixed;
     top: 50%;
     left: 50%;
+    z-index: 100;
     transform: translate(-50%, -50%) scale(1);
     max-width: 280px;
     max-height: 958px;
@@ -90,6 +91,7 @@
     @extend %standart-text-style;
     font-size: 12px;
     line-height: 16px;
+    color: $secondary-text-color;
 
     &:not(:last-child) {
       margin-bottom: 10px;
@@ -140,6 +142,7 @@
     @extend %standart-text-style;
     font-size: 12px;
     line-height: 20px;
+    color: $secondary-text-color;
   }
 
   &-button-div {
