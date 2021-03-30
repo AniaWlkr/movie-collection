@@ -25,7 +25,7 @@
   &-content {
     position: absolute;
     position: fixed;
-    top: 50px;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
     max-width: 280px;
@@ -142,7 +142,6 @@
     font-size: 12px;
     line-height: 20px;
     overflow: auto;
-    // text-overflow: ellipsis;
   }
 
   &-button-div {
