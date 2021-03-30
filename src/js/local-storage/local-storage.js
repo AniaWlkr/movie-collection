@@ -1,17 +1,19 @@
 class LocalStorageService {
   constructor() {
-    this.watched = [];
-    this.queue = [];
+    // this.watched = [];
+    // this.queue = [];
     this.movieId = '';
+    this._moviesList = {watсhed: [], inQueue: []};
     this._keyName = 'movies';
+    this._currentPage = 0;
     this.storageHandler = this.storageHandler.bind(this);
   }
 
-  set addMovieId(newId) {
+  set addMovieId (newId) {
    this.movieId = newId;
   }
 
-  storageHandler(event) {
+  storageHandler (event) {
 
     const activeItem = event.target;
 
@@ -26,20 +28,24 @@ class LocalStorageService {
       this.addToQueue();
       activeItem.disabled = true;
     }
-
   }
 
-  saveToStorage () {
-    const moviesList = {
-      watched: this.watched,
-      inQueue: this.queue
-    }
+  saveToStorage (element) {
+    // const moviesList = {
+    //   wathed: this.watched,
+    //   inQueue: this.queue
+    // }
 
-    localStorage.setItem(this._keyName, JSON.stringify(moviesList));
+    localStorage.setItem(this._keyName, JSON.stringify(element));
+  }
+
+  saveCurrentPageToStorage(page) {
+    this._currentPage = page;
   }
   
   //Метод для Лены Гоевой
   takeFromStorage() {
+
     try {
 
       const moviesList = localStorage.getItem(this._keyName);
@@ -53,13 +59,15 @@ class LocalStorageService {
   }
 
   addToWatched() {
-    this.watched.push(this.movieId);
-    this.saveToStorage();
+    this._moviesList.watсhed.push(this.movieId);
+    // this.watched.push(this.movieId);
+    this.saveToStorage(this._moviesList);
   }
 
-  addToQueue () {
-    this.queue.push(this.movieId);
-    this.saveToStorage();
+  addToQueue() {
+    this._moviesList.inQueue.push(this.movieId);
+    // this.queue.push(this.movieId);
+    this.saveToStorage(this._moviesList);
   }
 
   //Метод для Лены Губаренко

@@ -27,6 +27,7 @@ const modalCloseByEsc = (event) => {
 };
 
 function onSearch(event) {
+  event.preventDefault();
   moviesApiService.query = event.currentTarget.elements.query.value;
   moviesApiService.getResponseWord().then(({ data: { results } }) => {
     //Коррекция сделана для того чтобы обойти ошибку!!! (Денис)
