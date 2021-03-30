@@ -4,18 +4,23 @@
   bottom: 10%;
   right: 10%;
 
-  background-color: #8c8c8c4b;
+  background-color: $go-up-background;
   color: white;
   border-radius: 50%;
   width: 70px;
   height: 70px;
   border: none;
+  outline: none;
   transition: color, background-color,
     $transition-duration $transition-timing-function;
-}
 
-.button-up:hover,
-.button-up:focus {
-  cursor: pointer;
-  background-color: $accent-color;
+  &:hover {
+    cursor: pointer;
+    background-color: $accent-color;
+    outline: none;
+  }
+
+  &:active {
+    background-color: $go-up-background;
+  }
 }

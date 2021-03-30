@@ -14,7 +14,6 @@ const openModal = event => {
 };
 
 const closeModal = event => {
-  console.dir(event);
   modalRef.classList.remove('is-open');
   modalContentRef.innerHTML = '';
 };
@@ -26,13 +25,15 @@ const modalCloseByEsc = event => {
 };
 
 const drawSelectedFilm = event => {
-  const targetId = event.path[1].id;
+  const checkTargetElements = event.path.find(
+    element => element.nodeName === 'LI',
+  );
+  const targetId = checkTargetElements.dataset.sourse;
   newApi.getResponseInfo(targetId).then(function (answer) {
     modalContentRef.insertAdjacentHTML(
       'afterbegin',
       modalCardTemplate(answer.data),
     );
-
     const modalCloseButtonRef = document.querySelector('.modal-close-button');
     modalCloseButtonRef.addEventListener('click', closeModal);
     openModal();
