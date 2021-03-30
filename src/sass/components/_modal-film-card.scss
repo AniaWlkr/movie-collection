@@ -138,10 +138,12 @@
   }
 
   &-card-about {
+    max-height: 150px;
     margin-bottom: 20px;
     @extend %standart-text-style;
     font-size: 12px;
     line-height: 20px;
+    overflow: auto;
     color: $secondary-text-color;
   }
 
