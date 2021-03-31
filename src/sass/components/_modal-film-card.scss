@@ -168,7 +168,7 @@
   &-card-button {
     text-align: center;
     text-transform: uppercase;
-    width: 112.58px;
+    width: 72px;
     height: 44px;
     background-color: $primary-text-color;
     border-radius: 5px;
@@ -193,7 +193,7 @@
     }
 
     &-content {
-      max-width: 618px;
+      max-width: 680px;
       max-height: 562px;
       padding: 42px 28px 41px 40px;
     }
@@ -208,13 +208,20 @@
       margin-top: 0;
     }
 
+    &-card-about {
+      max-width: 320px;
+    }
+
     &-button-div {
       justify-content: center;
     }
 
     &-card-button {
+      width: 100px;
+      height: 44px;
+
       &:not(:last-child) {
-        margin-right: 15px;
+        margin-right: 10px;
       }
     }
   }

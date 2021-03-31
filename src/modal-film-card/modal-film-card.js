@@ -27,10 +27,15 @@ class ModalFilmCard {
   modalCloseByEsc(event) {
     if (event.code !== 'Escape') return;
     this.modalRef.classList.remove('is-open');
+    this.modalContentRef.innerHTML = '';
     window.removeEventListener('keyup', this.modalCloseByEsc);
   }
 
   drawSelectedFilm(event) {
+    if (event.target.nodeName === 'UL') {
+      return;
+    }
+
     const newApi = new MoviesApiService();
     const newStorage = new LocalStorageService();
 
@@ -38,22 +43,24 @@ class ModalFilmCard {
       element => element.nodeName === 'LI',
     );
     const targetId = checkTargetElements.dataset.sourse;
+
     const contentRef = this.modalContentRef;
     const openModalInPromice = this.openModal();
     const closeModalInPromice = this.closeModal;
     newStorage.addMovieId = targetId;
     const modalButtonsDivRefPromice = this.modalButtonsDivRef;
     this.modalContentRef.innerHTML = '';
+
     newApi.getResponseInfo(targetId).then(function (answer) {
       contentRef.insertAdjacentHTML(
         'afterbegin',
         modalCardTemplate(answer.data),
       );
-
+      openModalInPromice;
       const modalCloseButtonRef = document.querySelector('.modal-close-button');
       const modalButtonsDivRef = document.querySelector('.modal-button-div');
       modalCloseButtonRef.addEventListener('click', closeModalInPromice);
-      openModalInPromice;
+      // openModalInPromice;
       newStorage.addLocalStorageListener(modalButtonsDivRef);
     });
   }
@@ -67,9 +74,7 @@ class ModalFilmCard {
 const newModal = new ModalFilmCard();
 newModal.addEventListeners();
 
-// newModal.openModal();
-// newModal.closeModal();
-// newModal.modalCloseByEsc();
+export default ModalFilmCard;
 
 // const modalRef = document.querySelector('.modal');
 // const modalBackdropeRef = document.querySelector('.modal-backdrope');
@@ -99,7 +104,6 @@ newModal.addEventListeners();
 //     element => element.nodeName === 'LI',
 //   );
 //   const targetId = checkTargetElements.dataset.sourse;
-
 //   newApi.getResponseInfo(targetId).then(function (answer) {
 //     modalContentRef.insertAdjacentHTML(
 //       'afterbegin',
