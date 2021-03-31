@@ -164,3 +164,15 @@ renderAndPaginationPopularMovies();
 renderAndPaginationSearchMovies();
 //-----------------------------------------------------------
 //-----------------------------------------------------------
+//функция рендерит в My Library просмотренныефильмы и фильмы в очереди
+export const renderLibraryFilms = function(arrayOfId) {
+  let arr = [];  
+  arrayOfId.forEach(element => {
+        moviesApiService.getResponseInfo(element)
+          .then(({ data }) => {
+            arr.push(data);       
+        });
+  })
+  createCorectResult(arr).then(renderCard);
+}
+//-----------------------------------------------------------
