@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -74,7 +73,7 @@
         transform: rotate(360deg);
       }
     }
-
+    
     .loader-wrapper {
       display: flex;
       margin-left: 10px;
@@ -102,7 +101,6 @@
     .camera-body-label {
       margin: auto;
     }
-
     .camera-lens {
       margin-left: -40px;
       width: 0;
@@ -118,19 +116,19 @@
 
 <body>
   <div class="loader">
-    <div class="loader-container">
-      <div class="loader-wrapper">
-        <div class="loading-wheel"></div>
-        <div class="loading-wheel"></div>
-      </div>
-      <div class="camera">
-        <div class="camera-body">
-          <span class="camera-body-label">Loading...</span>
+      <div class="loader-container">
+        <div class="loader-wrapper">
+          <div class="loading-wheel"></div>
+          <div class="loading-wheel"></div>
         </div>
-        <div class="camera-lens"></div>
+        <div class="camera">
+          <div class="camera-body">
+            <span class="camera-body-label">Loading...</span>
+          </div>
+          <div class="camera-lens"></div>
+        </div>
       </div>
     </div>
-  </div>
   <header class="header">
     <div class="container">
       <!----------- switch-theme ----------->
@@ -300,6 +298,8 @@
         </div>
       </div>
     </div>
+
+    <div class="modal-overlay-trailer"></div>
 
     <button type="button" class="button-up">
       <span class="arrow material-icons"> keyboard_arrow_up </span>
