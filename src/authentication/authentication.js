@@ -2,42 +2,75 @@ const authenticationEmailRef = document.querySelector('.authentication-email');
 const authenticationPasswordRef = document.querySelector(
   '.authentication-password',
 );
-const authenticationFormNameRef = document.querySelector(
-  '.authentication-name',
-);
-const authenticationFormSubmitRef = document.querySelector(
-  '.authentication-form-submit',
-);
+const authenticationFormSignUpRef = document.querySelector('.sign-up'); // registration
+const authenticationFormSignInRef = document.querySelector('.sign-in'); // voiti
 
-const URL =
-  'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=[AIzaSyDaD14Fy0lYil3onN9h16tfWhnpCdPu6S0]';
+// voiti
+const requestSignIn = (email, password) => {
+  const data = {
+    email: email,
+    password: password,
+    returnSecureToken: true,
+  };
 
-// curl 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=[API_KEY]'
-// -H 'Content-Type: application/json'
-// --data - binary '{"token":"[CUSTOM_TOKEN]","returnSecureToken":true}'
+  return fetch(
+    'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDaD14Fy0lYil3onN9h16tfWhnpCdPu6S0',
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  ).then(response => response.json());
+};
 
-// const test = () => {
-//   return axios.POST(request);
-// };
+// registration
+const requestSignUp = (email, password) => {
+  const data = {
+    email: email,
+    password: password,
+    returnSecureToken: true,
+  };
 
-// const checkUser = event => {
-//   event.preventDefault();
-//   const name = event.path[1][0].value;
-//   const email = event.path[1][1].value;
-//   const password = event.path[1][2].value;
-//   console.log(email, password);
-//   firebase
-//     .auth()
-//     .createUserWithEmailAndPassword(email, password)
-//     .then(userCredential => {
-//       console.log(userCredential);
+  return fetch(
+    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDaD14Fy0lYil3onN9h16tfWhnpCdPu6S0',
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  )
+    .then(response => response.json())
+    .then(answer => {
+      console.log(answer);
+    });
+};
 
-//     })
-//     .catch(error => {
-//       var errorCode = error.code;
-//       var errorMessage = error.message;
-//       // ..
-//     });
-// };
+// requestSignUp('olol@gmail.com', '123456'); exist
+// requestSignIn('lena@gmail.com', '123456'); not found
 
-// authenticationFormSubmitRef.addEventListener('click', checkUser);
+const registrateUser = event => {
+  event.preventDefault();
+
+  const email = authenticationEmailRef.value;
+  const password = JSON.stringify(authenticationPasswordRef.value);
+  requestSignUp(email, password);
+  console.log(`email: ${email}, password: ${password}`);
+  console.log('zaregan!');
+};
+
+const signInUser = event => {
+  event.preventDefault();
+
+  const email = authenticationEmailRef.value;
+  const password = JSON.stringify(authenticationPasswordRef.value);
+  requestSignIn(email, password);
+  console.log(`email: ${email}, password: ${password}`);
+  console.log('voshli!');
+};
+
+authenticationFormSignUpRef.addEventListener('click', registrateUser);
+authenticationFormSignInRef.addEventListener('click', signInUser);
