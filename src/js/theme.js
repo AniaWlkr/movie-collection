@@ -2,19 +2,23 @@ const refs = {
   checkbox: document.querySelector('#checkbox'),
   sunIcon: document.querySelector('#sun'),
   moonIcon: document.querySelector('#moon'),
+  //селектор бокса пагінації
+  pagBox: document.querySelector('#pagination-box'),
 };
 
 function onChangeTheme() {
   document.body.classList.toggle('dark-theme');
 
   if (document.body.classList.contains('dark-theme')) {
-    localStorage.setItem('theme', 'dark-theme');
     setIconsDark();
     rememberTheme('dark-theme', 'moon');
+    //зміна теми для пагінації
+    addPagTheme();
   } else {
-    localStorage.setItem('theme', 'light-theme');
     setIconsLight();
     rememberTheme('light-theme', 'sun');
+    //зміна теми для пагінації
+    removePagTheme();
   }
 }
 
@@ -25,6 +29,8 @@ function currentTheme() {
   if (sevedTheme === 'dark-theme' && sevedColor === 'moon') {
     document.body.classList.add('dark-theme');
     setIconsDark();
+    //зміна теми для пагінації
+    addPagTheme();
   }
 }
 
@@ -43,5 +49,17 @@ function rememberTheme(theme, icon) {
   localStorage.setItem('currentIcon', icon);
 }
 
+//додаем тему на пагінації
+function addPagTheme() {
+  refs.pagBox.children.forEach(element => element.classList.add('dark-theme'));
+}
+//знімаєм тему на пагінації
+function removePagTheme() {
+  refs.pagBox.children.forEach(element =>
+    element.classList.remove('dark-theme'),
+  );
+}
+
 currentTheme();
 refs.checkbox.addEventListener('change', onChangeTheme);
+
