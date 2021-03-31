@@ -14,22 +14,21 @@ class LocalStorageService {
   }
 
   storageHandler (event) {
-
     const activeItem = event.target;
 
-    if (activeItem=== event.currentTarget) return;
+    if (activeItem === event.currentTarget) return;
 
-    if (activeItem.dataset.active === "watched") {
+    if (activeItem.dataset.active === 'watched') {
       this.addToWatched();
       activeItem.disabled = true;
     }
-    
-    if (activeItem.dataset.active === "queue") {
+
+    if (activeItem.dataset.active === 'queue') {
       this.addToQueue();
       activeItem.disabled = true;
     }
   }
-
+  
   saveToStorage (element) {
     // const moviesList = {
     //   wathed: this.watched,
@@ -42,20 +41,17 @@ class LocalStorageService {
   saveCurrentPageToStorage(page) {
     this._currentPage = page;
   }
-  
+
   //Метод для Лены Гоевой
   takeFromStorage() {
 
     try {
-
       const moviesList = localStorage.getItem(this._keyName);
 
       return moviesList === null ? undefined : JSON.parse(moviesList);
-
     } catch (error) {
       console.error(`Parse error: ${error}`);
     }
-
   }
 
   addToWatched() {
@@ -65,18 +61,17 @@ class LocalStorageService {
   }
 
   addToQueue() {
-    this._moviesList.inQueue.push(this.movieId);
-    // this.queue.push(this.movieId);
-    this.saveToStorage(this._moviesList);
+    this.queue.push(this.movieId);
+    this.saveToStorage();
   }
 
   //Метод для Лены Губаренко
-  addLocalStorageListener (selector) {
+  addLocalStorageListener(selector) {
     selector.addEventListener('click', this.storageHandler);
   }
 
   //Метод для Лены Губаренко
-  removeLocalStorageListener (selector) {
+  removeLocalStorageListener(selector) {
     selector.removeEventListener('click', this.storageHandler);
   }
 }
