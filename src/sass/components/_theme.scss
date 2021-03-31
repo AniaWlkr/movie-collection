@@ -5,7 +5,8 @@ body.light-theme {
 
 body.dark-theme,
 .footer.dark-theme,
-.modal-content.dark-theme {
+.modal-content.dark-theme,
+.hackers-modal.dark-theme {
   background-color: $dark-theme-color;
   color: $primary-text-color;
 }

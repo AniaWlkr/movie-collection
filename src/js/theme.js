@@ -3,7 +3,8 @@ const refs = {
   sunIcon: document.querySelector('#sun'),
   moonIcon: document.querySelector('#moon'),
   footer: document.querySelector('.footer'),
-  modalcontent: document.querySelector('.modal-content'),
+  modalContent: document.querySelector('.modal-content'),
+  hackersModal: document.querySelector('.hackers-modal'),
   //селектор бокса пагінації
   pagBox: document.querySelector('#pagination-box'),
 };
@@ -39,13 +40,15 @@ function currentTheme() {
 function addDarkTheme() {
   document.body.classList.add('dark-theme');
   refs.footer.classList.add('dark-theme');
-  refs.modalcontent.classList.add('dark-theme');
+  refs.modalContent.classList.add('dark-theme');
+  refs.hackersModal.classList.add('dark-theme');
 }
 
 function toggleDarkTheme() {
   document.body.classList.toggle('dark-theme');
   refs.footer.classList.toggle('dark-theme');
-  refs.modalcontent.classList.toggle('dark-theme');
+  refs.modalContent.classList.toggle('dark-theme');
+  refs.hackersModal.classList.toggle('dark-theme');
 }
 
 function setIconsDark() {
