@@ -3,9 +3,22 @@ body.light-theme {
   color: $dark-theme-color;
 }
 
-body.dark-theme {
+body.dark-theme,
+.footer.dark-theme {
   background-color: $dark-theme-color;
   color: $primary-text-color;
+}
+
+.footer.dark-theme {
+  border-top: 1px solid $primary-text-color;
+}
+.footer.dark-theme p,
+.footer.dark-theme a {
+  color: $primary-text-color;
+}
+.footer.dark-theme a:hover,
+.footer.dark-theme a:focus {
+  color: $accent-color;
 }
 
 .toolbar {
