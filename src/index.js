@@ -4,6 +4,7 @@ import './button-up/go-up';
 import './js/switch-page';
 import './js/insert_popular_films';
 import './js/theme';
+import './js/hackers-modal/hackers-modal'
 // import './authentication/authentication';
 
 //отображение лоадера при загрузке страницы
