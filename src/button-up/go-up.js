@@ -8,6 +8,8 @@ const goUp = () => {
   });
 };
 
+buttonUpRef.classList.add('visually-hidden');
+
 const watchScroll = () => {
   const scroll = window.pageYOffset;
   const coords = document.documentElement.clientHeight;
@@ -15,6 +17,7 @@ const watchScroll = () => {
   if (scroll < coords) {
     buttonUpRef.classList.add('visually-hidden');
   }
+
   if (scroll > coords) {
     buttonUpRef.classList.remove('visually-hidden');
   }

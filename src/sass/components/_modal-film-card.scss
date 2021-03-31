@@ -2,6 +2,17 @@
 //   outline: 1px solid salmon;
 // }
 
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: $primary-text-color;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: $accent-color;
+}
+
 .modal {
   opacity: 0;
   pointer-events: none;
@@ -138,10 +149,13 @@
   }
 
   &-card-about {
+    max-height: 150px;
     margin-bottom: 20px;
+    padding-right: 5px;
     @extend %standart-text-style;
     font-size: 12px;
     line-height: 20px;
+    overflow: auto;
     color: $secondary-text-color;
   }
 
@@ -221,6 +235,11 @@
       cursor: pointer;
       width: 396px;
       height: 477px;
+    }
+
+    &-card-about {
+      width: 396px;
+      max-height: 160px;
     }
 
     &-card-title {

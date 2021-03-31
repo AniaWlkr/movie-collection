@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luxplanjay/webpack-starter-kit.git"
+    "url": "git+https://github.com/AniaWlkr/movie-collection.git"
   },
   "keywords": [],
   "author": "team hacker-gang from course #27 based on webpack from Alexander Repeta <alexander.repeta@gmail.com>",
@@ -52,6 +52,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "curl": "^0.1.4",
     "handlebars": "^4.7.6",
     "node-gyp": "^3.8.0",
     "tui-pagination": "^3.4.0"
