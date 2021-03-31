@@ -4,23 +4,17 @@ const refs = {
   moonIcon: document.querySelector('#moon'),
 };
 
-refs.checkbox.addEventListener('change', onChangeTheme);
-
-currentTheme();
-
 function onChangeTheme() {
   document.body.classList.toggle('dark-theme');
 
   if (document.body.classList.contains('dark-theme')) {
     localStorage.setItem('theme', 'dark-theme');
-    refs.sunIcon.classList.remove('accent-icon');
-    refs.moonIcon.classList.add('accent-icon');
-    localStorage.setItem('currentIcon', 'moon');
+    setIconsDark();
+    rememberTheme('dark-theme', 'moon');
   } else {
     localStorage.setItem('theme', 'light-theme');
-    refs.moonIcon.classList.remove('accent-icon');
-    refs.sunIcon.classList.add('accent-icon');
-    localStorage.setItem('currentIcon', 'sun');
+    setIconsLight();
+    rememberTheme('light-theme', 'sun');
   }
 }
 
@@ -30,10 +24,24 @@ function currentTheme() {
 
   if (sevedTheme === 'dark-theme' && sevedColor === 'moon') {
     document.body.classList.add('dark-theme');
-    refs.moonIcon.classList.add('accent-icon');
-    refs.sunIcon.classList.remove('accent-icon');
-    refs.checkbox.checked = true;
-  } else {
-    refs.checkbox.checked = false;
+    setIconsDark();
   }
 }
+
+function setIconsDark() {
+  refs.moonIcon.classList.add('accent-icon');
+  refs.sunIcon.classList.remove('accent-icon');
+}
+
+function setIconsLight() {
+  refs.moonIcon.classList.remove('accent-icon');
+  refs.sunIcon.classList.add('accent-icon');
+}
+
+function rememberTheme(theme, icon) {
+  localStorage.setItem('theme', theme);
+  localStorage.setItem('currentIcon', icon);
+}
+
+currentTheme();
+refs.checkbox.addEventListener('change', onChangeTheme);
