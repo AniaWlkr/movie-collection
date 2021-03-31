@@ -17,34 +17,39 @@ function onOpenTrailer(event) {
     .then(({ data: { results } }) => {
       const trailerKey = results[0].key;
 
-      refs.modalTrailer.innerHTML = '';
       const markupModalTrailer = `<div class="modal-backdrop" >
-                    <div class="modal-container">
-                         <iframe src="https://www.youtube.com/embed/${trailerKey}" class="trailer" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                         allowfullscreen>
-                          </iframe>
-                   </div>
-                  </div >`;
+        <div class="modal-container">
+          <iframe src="https://www.youtube.com/embed/${trailerKey}" class="trailer" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+           allowfullscreen>
+          </iframe>
+        </div>
+      </div >`;
+
+      clearContainer();
       createHTML(markupModalTrailer);
     })
-    .catch(error => {
+    .catch(() => {
       const markupModalImage = `<div class="modal-backdrop" >
-      <div class="modal-container">
-      <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
-      </div>
+        <div class="modal-container">
+          <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
+        </div>
       </div >`;
 
       createHTML(markupModalImage);
-      console.log(error);
     });
 }
 
 function onCloseTrailer(event) {
   if (event.target) {
     document.body.classList.remove('show-trailer');
-    refs.modalTrailer.innerHTML = '';
+    clearContainer();
   }
 }
+
+function clearContainer() {
+  refs.modalTrailer.innerHTML = '';
+}
+
 function createHTML(murkup) {
   refs.modalTrailer.insertAdjacentHTML('beforeend', murkup);
   refs.modalTrailer.classList.add('show-trailer');
