@@ -1,0 +1,39 @@
+.spinner {
+  position: fixed;
+  z-index: 98;
+  top: 50%;
+  left: 50%;
+  border: 10px solid $footer-text-color;
+  border-radius: 50%;
+  border-top: 10px solid $accent-color;
+  border-bottom: 10px solid $accent-color;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden-spinner {
+  opacity: 0;
+  visibility: hidden;
+}
