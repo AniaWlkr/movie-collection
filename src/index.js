@@ -4,6 +4,7 @@ import './modal-film-card/modal-film-card';
 import './js/switch-page';
 import './js/insert_popular_films';
 import './js/theme';
+import './js/modal-trailer';
 
 //отображение лоадера при загрузке страницы
 window.addEventListener('load', pageLoading());
@@ -15,11 +16,6 @@ function pageLoading() {
 
 //--------------------------------------------------------
 //---------------------- Раскомментировать чтобы запустить проверку localStorage в тестовом режиме
-// import './js/test'; 
-//---------------------- Но перед этим закомментировать import './modal-film-card/modal-film-card'; 
+// import './js/test';
+//---------------------- Но перед этим закомментировать import './modal-film-card/modal-film-card';
 //---------------------- и всё что ниже констант!
-
-
-
-
-
