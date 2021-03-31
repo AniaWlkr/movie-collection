@@ -1,6 +1,6 @@
 import Pagination from 'tui-pagination';
 const options = {
-  totalItems: 500,
+  totalItems: 120,
   itemsPerPage: 20,
   visiblePages: 6,
 

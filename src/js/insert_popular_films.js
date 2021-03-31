@@ -9,6 +9,7 @@ const moviesApiService = new MoviesApiService();
 // константи
 const searchForm = document.querySelector('#search-form');
 const moviesRef = document.querySelector('.movies-list');
+const pagBox = document.querySelector('#pagination-box');
 //--------------------------------------------------------
 //---Рендер карточок на сторінці(можна передавати ще селектор і виносити в компоненти або утиліти)
 function renderCard(arr) {
@@ -18,6 +19,15 @@ function renderCard(arr) {
     arr.map(query => movieCard(query)).join(''),
   );
 }
+//---Cкрол на верх до хедера при зміні сторінки при пагінації-потім винести у утиліти
+const goUp = () => {
+  const heigthHeader = document.querySelector('header').clientHeight;
+  window.scrollTo({
+    top: heigthHeader,
+    right: 0,
+    behavior: 'smooth',
+  });
+};
 //--------------------------------------------------------
 //функція обробляє і формує коректний обєкт результатів повертає проміс є проблеми коли немає результатів багато помилок проблемні закинув в try catch ще є помилка відсутності картинки
 //function insertPopularFilms(results)
@@ -26,7 +36,7 @@ function createCorectResult(results) {
     //перебираем массив results
     for (let j = 0; j < results.length; j++) {
       let result = results[j]
-      //если нету release_date поставь first_air_date
+      //если нет release_date поставь first_air_date
       // let date = result.release.date;
       if (!result.release_date) {
         result.release_date = result.first_air_date;
@@ -44,7 +54,7 @@ function createCorectResult(results) {
       //   console.log(error);
       // }
       
-        //если нету original_title поставь original_name, если и его нет - поставь name
+        //если нет original_title поставь original_name, если и его нет - поставь name
       if (!result.original_title) {
         result.original_title = result.original_name;
         if (!result.original_name) {
@@ -90,27 +100,52 @@ function createCorectResult(results) {
         console.log(error);
       }
     }
+    //повертаем оброблений масив результатів
     return results;
+  });
+}
+//--------------------------------------------------------
+// функція для рендеру і пагінації
+function renderAndPagination(key) {
+  //повертаем проміс
+  function getAllMovie(page) {
+    return moviesApiService.getResponseAll(page);
+  }
+  //повертаем проміс
+  function getSearchWord(page) {
+    return moviesApiService.getResponseWord(page);
+  }
+  //берем ссилку на необхідну функцію
+  let promise = getAllMovie;
+  if (key === 'word') promise = getSearchWord;
+  //скидання пагінатора
+  PaginationPlugin.reset();
+  //перший рендер
+  promise().then(({ data }) => {
+    //деструктуризація
+    const { results, total_results } = data;
+    //створюєм коректний результт потім рендер
+    createCorectResult(results).then(renderCard);
+    PaginationPlugin.setTotalItems(total_results);
+    //рендери при зміні в пагінації
+    PaginationPlugin.on('afterMove', ({ page }) => {
+      //зміна теми
+      if (document.body.classList.contains('dark-theme')) {
+        pagBox.children.forEach(element => element.classList.add('dark-theme'));
+        // pagBox.classList.add('dark-theme');
+      }
+      promise(page).then(({ data: { results } }) => {
+        createCorectResult(results).then(renderCard);
+        //скрол після кліку на верх
+        setTimeout(goUp(), 100);
+      });
+    });
   });
 }
 //--------------------------------------------------------
 // функція популярних фільмів
 function renderAndPaginationPopularMovies() {
-  //скидання пагінатора
-  PaginationPlugin.reset();
-  //перший рендер
-  moviesApiService.getResponseAll().then(({ data }) => {
-    const { results, total_results } = data;
-    createCorectResult(results).then(renderCard);
-    PaginationPlugin.setTotalItems(total_results);
-    PaginationPlugin.on('afterMove', ({ page }) => {
-      moviesApiService
-        .getResponseAll(page)
-        .then(({ data: { results } }) =>
-          createCorectResult(results).then(renderCard),
-        );
-    });
-  });
+  renderAndPagination();
 }
 //--------------------------------------------------------
 // функція пошук по слову
@@ -120,29 +155,13 @@ function renderAndPaginationSearchMovies() {
 //--------------------------------------------------------
 function onSearch(event) {
   event.preventDefault();
-  //знімаем слушателя на інпут
-  //   searchForm.removeEventListener('submit', onSearch);
-  PaginationPlugin.reset();
-
-moviesApiService.query = event.currentTarget.elements.query.value;
-  moviesApiService.getResponseWord().then(({ data }) => {
-    const { results, total_results } = data;
-    createCorectResult(results).then(renderCard);
-    //добавляем після першого рендеру
-    // searchForm.addEventListener('submit', onSearch);
-    //------------
-    PaginationPlugin.setTotalItems(total_results);
-    PaginationPlugin.on('afterMove', ({ page }) => {
-      moviesApiService
-        .getResponseWord(page)
-        .then(({ data: { results } }) =>
-          createCorectResult(results).then(renderCard),
-        );
-    });
-  });
+  moviesApiService.query = event.currentTarget.elements.query.value;
+  renderAndPagination('word');
 }
 //--------------------------------------------------------
 // функція популярних фільмів
 renderAndPaginationPopularMovies();
 // функція пошук по слову
 renderAndPaginationSearchMovies();
+//-----------------------------------------------------------
+//-----------------------------------------------------------
