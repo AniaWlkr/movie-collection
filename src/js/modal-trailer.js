@@ -41,7 +41,7 @@ function onOpenTrailer(event) {
 
 function onCloseTrailer(event) {
   if (event.target) {
-    document.body.classList.remove('show-trailer');
+    refs.modalTrailer.classList.remove('show-trailer');
     clearContainer();
   }
 }
