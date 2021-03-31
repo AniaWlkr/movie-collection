@@ -19,17 +19,19 @@ const onChangeList = (event) => {
   const currentActiveItem = refs.tabs.querySelector('.is-active');
 
   if (currentActiveItem) {
-    currentActiveItem.classList.remove('.is-active');
+    currentActiveItem.classList.remove('is-active');
   }
 
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === "finished") {
+
     refs.movieList.innerHTML = "";
 
-    event.target.classList.add('.is-active');
+    event.target.classList.add('is-active');
 
     const movies = localStorageService.takeFromStorage();
-    const watchedMovies = movies.watched;
+    const watchedMovies = movies.watсhed;
+
     watchedMovies.forEach(element => {
       moviesApiService.getResponseInfo(element).then(({ data }) => {
         const markup = movieCard(data);
@@ -43,10 +45,12 @@ const onChangeList = (event) => {
   if (event.target.dataset.action === "waiting") {
     refs.movieList.innerHTML = "";
 
-    event.target.classList.add('.is-active');
-
+    event.target.classList.add('is-active');
+   
     const movies = localStorageService.takeFromStorage();
+     console.log(movies);
     const moviesInQueue = movies.inQueue;
+     console.log(moviesInQueue);
     moviesInQueue.forEach(element => {
       moviesApiService.getResponseInfo(element).then(({ data }) => {
         const markup = movieCard(data);
