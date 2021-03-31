@@ -3,13 +3,13 @@ const refs = {
   sunIcon: document.querySelector('#sun'),
   moonIcon: document.querySelector('#moon'),
   footer: document.querySelector('.footer'),
+  modalcontent: document.querySelector('.modal-content'),
   //селектор бокса пагінації
   pagBox: document.querySelector('#pagination-box'),
 };
 
 function onChangeTheme() {
-  document.body.classList.toggle('dark-theme');
-  refs.footer.classList.toggle('dark-theme');
+  toggleDarkTheme();
 
   if (document.body.classList.contains('dark-theme')) {
     setIconsDark();
@@ -29,12 +29,23 @@ function currentTheme() {
   const sevedColor = localStorage.getItem('currentIcon');
 
   if (sevedTheme === 'dark-theme' && sevedColor === 'moon') {
-    document.body.classList.add('dark-theme');
-    refs.footer.classList.add('dark-theme');
+    addDarkTheme();
     setIconsDark();
     //зміна теми для пагінації
     addPagTheme();
   }
+}
+
+function addDarkTheme() {
+  document.body.classList.add('dark-theme');
+  refs.footer.classList.add('dark-theme');
+  refs.modalcontent.classList.add('dark-theme');
+}
+
+function toggleDarkTheme() {
+  document.body.classList.toggle('dark-theme');
+  refs.footer.classList.toggle('dark-theme');
+  refs.modalcontent.classList.toggle('dark-theme');
 }
 
 function setIconsDark() {

@@ -102,7 +102,6 @@
     @extend %standart-text-style;
     font-size: 12px;
     line-height: 16px;
-    color: $secondary-text-color;
 
     &:not(:last-child) {
       margin-bottom: 10px;
@@ -116,6 +115,7 @@
   &-rate {
     text-align: center;
     background-color: $background-color;
+    color: $secondary-text-color;
     width: 36px;
     height: 16px;
     border-radius: 5px;
@@ -156,7 +156,6 @@
     font-size: 12px;
     line-height: 20px;
     overflow: auto;
-    color: $secondary-text-color;
   }
 
   &-button-div {
