@@ -36,7 +36,7 @@ function createCorectResult(results) {
     //перебираем массив results
     for (let j = 0; j < results.length; j++) {
       let result = results[j]
-      //если нет release_date поставь first_air_date
+      //если нету release_date поставь first_air_date
       // let date = result.release.date;
       if (!result.release_date) {
         result.release_date = result.first_air_date;
@@ -54,7 +54,7 @@ function createCorectResult(results) {
       //   console.log(error);
       // }
       
-        //если нет original_title поставь original_name, если и его нет - поставь name
+        //если нету original_title поставь original_name, если и его нет - поставь name
       if (!result.original_title) {
         result.original_title = result.original_name;
         if (!result.original_name) {
@@ -100,7 +100,6 @@ function createCorectResult(results) {
         console.log(error);
       }
     }
-    //повертаем оброблений масив результатів
     return results;
   });
 }
