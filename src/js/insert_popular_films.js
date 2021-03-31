@@ -116,26 +116,25 @@ function renderAndPagination(key) {
   //берем ссилку на необхідну функцію
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
-  //скидання пагінатора
-  PaginationPlugin.reset();
   //перший рендер
   promise().then(({ data }) => {
     //деструктуризація
     const { results, total_results } = data;
+    //формує коректний пагінатор
+    PaginationPlugin.setTotalItems(total_results);
+    PaginationPlugin.reset();
+    changePagTheme();
     //створюєм коректний результт потім рендер
     createCorectResult(results).then(renderCard);
-    PaginationPlugin.setTotalItems(total_results);
     //рендери при зміні в пагінації
     PaginationPlugin.on('afterMove', ({ page }) => {
       //зміна теми
-      if (document.body.classList.contains('dark-theme')) {
-        pagBox.children.forEach(element => element.classList.add('dark-theme'));
-        // pagBox.classList.add('dark-theme');
-      }
+      changePagTheme();
       promise(page).then(({ data: { results } }) => {
         createCorectResult(results).then(renderCard);
         //скрол після кліку на верх
         setTimeout(goUp(), 100);
+        // await goUp();
       });
     });
   });
@@ -153,8 +152,16 @@ function renderAndPaginationSearchMovies() {
 //--------------------------------------------------------
 function onSearch(event) {
   event.preventDefault();
+  // changePagTheme();
   moviesApiService.query = event.currentTarget.elements.query.value;
   renderAndPagination('word');
+}
+//--------------------------------------------------------
+//зміна теми для пагінації
+function changePagTheme() {
+  if (document.body.classList.contains('dark-theme')) {
+    pagBox.children.forEach(element => element.classList.add('dark-theme'));
+  }
 }
 //--------------------------------------------------------
 // функція популярних фільмів
