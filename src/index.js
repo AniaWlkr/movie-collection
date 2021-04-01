@@ -7,6 +7,7 @@ import './js/theme';
 import './js/modal-trailer';
 import './js/hackers-modal/hackers-modal';
 import './authentication/authentication';
+import './notifications/notifications';
 
 //отображение лоадера при загрузке страницы
 window.addEventListener('load', pageLoading());
