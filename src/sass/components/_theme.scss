@@ -6,7 +6,9 @@ body.light-theme {
 body.dark-theme,
 .footer.dark-theme,
 .modal-content.dark-theme,
-.hackers-modal.dark-theme {
+.modal-content.dark-theme .modal-close-button,
+.hackers-modal.dark-theme,
+.hackers-modal.dark-theme .hackers-modal-close-button {
   background-color: $dark-theme-color;
   color: $primary-text-color;
 }
@@ -18,6 +20,7 @@ body.dark-theme,
 .footer.dark-theme a {
   color: $primary-text-color;
 }
+
 .footer.dark-theme a:hover,
 .footer.dark-theme a:focus {
   color: $accent-color;

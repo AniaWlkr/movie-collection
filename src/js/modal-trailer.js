@@ -2,8 +2,9 @@ import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
 
 const refs = {
-  btnTrailer: document.querySelector('.modal-content'),
-  modalTrailer: document.querySelector('.modal-overlay-trailer'),
+  openTrailerBtn: document.querySelector('.modal-content'),
+  modalOverlayTrailer: document.querySelector('.modal-trailer'),
+  modalTrailer: document.querySelector('.modal-trailer-overlay'),
 };
 
 function onOpenTrailer(event) {
@@ -12,36 +13,47 @@ function onOpenTrailer(event) {
   if (event.target.className !== 'modal-card-button trailer-btn') {
     return;
   }
+
   moviesApiService
     .getTrailer(movieId)
     .then(({ data: { results } }) => {
       const trailerKey = results[0].key;
 
-      const markupModalTrailer = `<div class="modal-backdrop" >
-        <div class="modal-container">
+      const markupModalTrailer = `<div class="modal-trailer-backdrop">
+        <div class="modal-trailer-container">
+          <button
+            type="button"
+            class="close-trailer-btn material-icons"
+            data-action="close-trailer">
+            close
+          </button>
           <iframe src="https://www.youtube.com/embed/${trailerKey}" class="trailer" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-           allowfullscreen>
+            allowfullscreen>
           </iframe>
         </div>
       </div >`;
-
       clearContainer();
       createHTML(markupModalTrailer);
     })
     .catch(() => {
-      const markupModalImage = `<div class="modal-backdrop" >
-        <div class="modal-container">
-          <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
-        </div>
+      const markupModalImage = `<div class="modal-trailer-backdrop">
+        <div class="modal-trailer-container">
+            <button
+            type="button"
+            class="close-trailer-btn material-icons"
+            data-action="close-trailer">
+            close
+          </button>
+            <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
+        </div >
       </div >`;
-
       createHTML(markupModalImage);
     });
 }
 
 function onCloseTrailer(event) {
   if (event.target) {
-    refs.modalTrailer.classList.remove('show-trailer');
+    removeClassList();
     clearContainer();
   }
 }
@@ -52,8 +64,19 @@ function clearContainer() {
 
 function createHTML(murkup) {
   refs.modalTrailer.insertAdjacentHTML('beforeend', murkup);
-  refs.modalTrailer.classList.add('show-trailer');
+  addClassList();
 }
 
-refs.btnTrailer.addEventListener('click', onOpenTrailer);
+function removeClassList() {
+  refs.modalTrailer.classList.remove('show-trailer');
+  document.body.classList.remove('no-scroll');
+}
+
+function addClassList() {
+  refs.modalTrailer.classList.add('show-trailer');
+  document.body.classList.add('no-scroll');
+}
+
+refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
 refs.modalTrailer.addEventListener('click', onCloseTrailer);
+refs.modalOverlayTrailer.addEventListener('click', onCloseTrailer);
