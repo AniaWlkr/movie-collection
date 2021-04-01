@@ -69,6 +69,8 @@ const registrateUser = event => {
       removeInvalidClass();
       addValidClass();
       newNotification.rigistrateUser();
+      authenticationFormRef.reset();
+      setTimeout(newNotification.preposeToSignIn, 4000);
     }
     if (answer.error && answer.error.message === 'INVALID_EMAIL') {
       addInvalidClass();
@@ -89,7 +91,6 @@ const registrateUser = event => {
       newNotification.weakPassword();
       setTimeout(removeInvalidClass, 2000);
     }
-    // console.log(`email: ${email}, password: ${password}`);
   });
 };
 
@@ -104,19 +105,19 @@ const signInUser = event => {
       removeInvalidClass();
       addValidClass();
       newNotification.enterUser();
+      setTimeout(closeAuthModal, 2000);
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
       addInvalidClass();
       newNotification.wrongPassword();
-      etTimeout(removeInvalidClass, 2000);
+      setTimeout(removeInvalidClass, 2000);
     }
 
     if (answer.error && answer.error.message === 'EMAIL_NOT_FOUND') {
       addInvalidClass();
       newNotification.wrongLogin();
-      etTimeout(removeInvalidClass, 2000);
+      setTimeout(removeInvalidClass, 2000);
     }
-    // console.log(`email: ${email}, password: ${password}`);
   });
 };
 
@@ -139,6 +140,8 @@ const removeInvalidClass = () => {
 };
 
 const openAuthModal = event => {
+  removeValidClass();
+  removeInvalidClass();
   modalAuthRef.classList.add('is-open');
   window.addEventListener('keyup', modalAuthCloseByEsc);
 };

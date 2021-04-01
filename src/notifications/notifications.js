@@ -47,7 +47,7 @@ export default class AuthNotifications {
       text: 'Welcome to Filmoteka!',
       icon: false,
       sticker: false,
-      delay: 5000,
+      delay: 3000,
     });
   }
 
@@ -57,11 +57,20 @@ export default class AuthNotifications {
       text: 'You are registered!',
       icon: false,
       sticker: false,
-      delay: 5000,
+      delay: 2000,
     });
   }
 
-  //malo simvolov
+  preposeToSignIn() {
+    PNotify.info({
+      title: 'SIGN IN!',
+      title: 'And now you can sign in!',
+      icon: false,
+      sticker: false,
+      delay: 3000,
+    });
+  }
+
   wrongEmail() {
     PNotify.info({
       title: 'INVALID EMAIL',
