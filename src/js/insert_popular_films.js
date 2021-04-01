@@ -1,7 +1,7 @@
 import movieCard from '../templates/movie-card.hbs';
 import MoviesApiService from './api-service/apiService';
 import PaginationPlugin from './pagination/pagination';
-// import noImage from '../images/movies-card/noimage.jpg'; для заглушки
+// import noImage from '../images/movies-card/noimage.jpg';// для заглушки
 
 // екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
 const moviesApiService = new MoviesApiService();
@@ -10,6 +10,7 @@ const moviesApiService = new MoviesApiService();
 const searchForm = document.querySelector('#search-form');
 const moviesRef = document.querySelector('.movies-list');
 const pagBox = document.querySelector('#pagination-box');
+const errorRef = document.querySelector('.search-error');
 //--------------------------------------------------------
 //---Рендер карточок на сторінці(можна передавати ще селектор і виносити в компоненти або утиліти)
 function renderCard(arr) {
@@ -61,7 +62,6 @@ function createCorectResult(results) {
           result.original_title = result.name;
         }
       }
-
       //создаем пустой массив жанров в объекте массива results
       result.genres = [];
       let genres_exist = false;
@@ -117,14 +117,30 @@ function renderAndPagination(key) {
   if (key === 'word') promise = getSearchWord;
   //перший рендер
   promise().then(({ data }) => {
+    errorRef.classList.add('is-hidden');
     //деструктуризація
     const { results, total_results } = data;
+    if (results.length === 0) {
+      errorRef.classList.remove('is-hidden');
+      return;
+  }
     //формує коректний пагінатор
     PaginationPlugin.setTotalItems(total_results);
     PaginationPlugin.reset();
     changePagTheme();
-    //створюєм коректний результт потім рендер
-    createCorectResult(results).then(renderCard);
+    
+    //створюєм коректний результат потім рендер
+    createCorectResult(results)
+      .then(data => {
+        renderCard(data);
+      })
+      .catch(error => {
+        if (error) {
+        console.log(error);
+        }
+      })
+    PaginationPlugin.setTotalItems(total_results);
+
     //рендери при зміні в пагінації
     PaginationPlugin.on('afterMove', ({ page }) => {
       //зміна теми
@@ -151,8 +167,15 @@ function renderAndPaginationSearchMovies() {
 //--------------------------------------------------------
 function onSearch(event) {
   event.preventDefault();
-  // changePagTheme();
-  moviesApiService.query = event.currentTarget.elements.query.value;
+  
+  //получаем строку и удаляем пробели
+  let query = event.currentTarget.elements.query.value.trim();
+  if (!query) {
+    errorRef.classList.remove('is-hidden');
+    return;
+  }
+  moviesApiService.query = query;
+
   renderAndPagination('word');
 }
 //--------------------------------------------------------
