@@ -1,0 +1,41 @@
+.modal-overlay-trailer.show-trailer .modal-container {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: initial;
+}
+
+.modal-overlay-trailer.show-trailer .modal-trailer {
+  transform: scale(1);
+}
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+}
+
+.trailer {
+  display: flex;
+  align-items: center;
+  width: 280px;
+  height: 156px;
+
+  @media screen and (min-width: $tablet) {
+    width: 620px;
+    height: 496px;
+  }
+  @media screen and (min-width: $desktop) {
+    width: 882px;
+    height: 570px;
+  }
+}

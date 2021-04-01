@@ -7,7 +7,7 @@ export default class MoviesApiService {
     this.searchQuery = '';
     this.page = 1;
   }
-//відповідь фільми в тренді
+  //відповідь фільми в тренді
   getResponseAll(newPage) {
     // по замовчуванню 1 сторінка дальше передаем № сторінки
     let page = this.page;
@@ -40,7 +40,13 @@ export default class MoviesApiService {
     );
   }
   genresApi() {
-    return axios.get(`${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`
+    return axios.get(
+      `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
+    );
+  }
+  getTrailer(movie_id) {
+    return axios.get(
+      `${BASE_URL}3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`,
     );
   }
   get query() {
