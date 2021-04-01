@@ -3,8 +3,8 @@ const moviesApiService = new MoviesApiService();
 
 const refs = {
   openTrailerBtn: document.querySelector('.modal-content'),
-  modalOverlayTrailer: document.querySelector('.modal-trailer'),
-  modalTrailer: document.querySelector('.modal-trailer-overlay'),
+  modalTrailer: document.querySelector('.modal-trailer'),
+  modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
 };
 
 function onOpenTrailer(event) {
@@ -59,24 +59,24 @@ function onCloseTrailer(event) {
 }
 
 function clearContainer() {
-  refs.modalTrailer.innerHTML = '';
+  refs.modalOverlayTrailer.innerHTML = '';
 }
 
 function createHTML(murkup) {
-  refs.modalTrailer.insertAdjacentHTML('beforeend', murkup);
+  refs.modalOverlayTrailer.insertAdjacentHTML('beforeend', murkup);
   addClassList();
 }
 
 function removeClassList() {
-  refs.modalTrailer.classList.remove('show-trailer');
+  refs.modalOverlayTrailer.classList.remove('show-trailer');
   document.body.classList.remove('no-scroll');
 }
 
 function addClassList() {
-  refs.modalTrailer.classList.add('show-trailer');
+  refs.modalOverlayTrailer.classList.add('show-trailer');
   document.body.classList.add('no-scroll');
 }
 
 refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
-refs.modalTrailer.addEventListener('click', onCloseTrailer);
 refs.modalOverlayTrailer.addEventListener('click', onCloseTrailer);
+refs.modalTrailer.addEventListener('click', onCloseTrailer);
