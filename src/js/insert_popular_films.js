@@ -36,30 +36,30 @@ function createCorectResult(results) {
   return moviesApiService.getGenresMovies().then(function (genres) {
     //перебираем массив results
     for (let j = 0; j < results.length; j++) {
-      let result = results[j]
+      let result = results[j];
       //если нет release_date поставь first_air_date
       // let date = result.release.date;
       if (!result.release_date) {
         result.release_date = result.first_air_date;
       }
       if (!result.release_date && !result.first_air_date) {
-        result.release_date = "not defined";
+        result.release_date = 'not defined';
       }
       // обрежь дату, оставь год
       // ошибка коли нічого немає ['release_date']
       //try {
-      if (result.release_date != "not defined") {
-        result.release_date = result.release_date.slice(0, 4)
-      };
+      if (result.release_date != 'not defined') {
+        result.release_date = result.release_date.slice(0, 4);
+      }
       // } catch (error) {
       //   console.log(error);
       // }
-      
-        //если нет original_title поставь original_name, если и его нет - поставь name
+
+      //если нет original_title поставь original_name, если и его нет - поставь name
       if (!result.original_title) {
         result.original_title = result.original_name;
         if (!result.original_name) {
-          result.original_title = result.name
+          result.original_title = result.name;
         }
       }
       //создаем пустой массив жанров в объекте массива results
@@ -70,24 +70,22 @@ function createCorectResult(results) {
       try {
         for (let i = 0; i < result.genre_ids.length; i++) {
           //найди в массиве жанров id который есть, и если есть - запиши его name в массив жанров фильма
-          
-            let genre = genres.find(
-              genre => genre.id === result.genre_ids[i],
-            );
-            if (genre) {
-              result.genres.push(" " + genre['name']);
-              genres_exist = true;
-            }
+
+          let genre = genres.find(genre => genre.id === result.genre_ids[i]);
+          if (genre) {
+            result.genres.push(' ' + genre['name']);
+            genres_exist = true;
           }
-          if (!genres_exist){
-            result.genres.push("not defined")
-          }
-          //обрезает массив жанров до двух первых
-          if (result.genres.length > 2) {
-            result.genres = result.genres.slice(0, 2);
-            result.genres.push(" Other")
-          };
-        
+        }
+        if (!genres_exist) {
+          result.genres.push('not defined');
+        }
+        //обрезает массив жанров до двух первых
+        if (result.genres.length > 2) {
+          result.genres = result.genres.slice(0, 2);
+          result.genres.push(' Other');
+        }
+
         //для реализации заглушки
         // if (!result.poster_path) {
         //   result.poster_path = noImage;
@@ -96,11 +94,10 @@ function createCorectResult(results) {
         //   result.poster_path = "https://image.tmdb.org/t/p/w500" + result.poster_path
         // }
       } catch (error) {
-        result.genres.push("not defined")
+        result.genres.push('not defined');
         console.log(error);
       }
     }
-    //повертаем оброблений масив результатів
     return results;
   });
 }
@@ -118,8 +115,6 @@ function renderAndPagination(key) {
   //берем ссилку на необхідну функцію
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
-  //скидання пагінатора
-  PaginationPlugin.reset();
   //перший рендер
   promise().then(({ data }) => {
     errorRef.classList.add('is-hidden');
@@ -129,6 +124,11 @@ function renderAndPagination(key) {
       errorRef.classList.remove('is-hidden');
       return;
   }
+    //формує коректний пагінатор
+    PaginationPlugin.setTotalItems(total_results);
+    PaginationPlugin.reset();
+    changePagTheme();
+    
     //створюєм коректний результат потім рендер
     createCorectResult(results)
       .then(data => {
@@ -140,17 +140,16 @@ function renderAndPagination(key) {
         }
       })
     PaginationPlugin.setTotalItems(total_results);
+
     //рендери при зміні в пагінації
     PaginationPlugin.on('afterMove', ({ page }) => {
       //зміна теми
-      if (document.body.classList.contains('dark-theme')) {
-        pagBox.children.forEach(element => element.classList.add('dark-theme'));
-        // pagBox.classList.add('dark-theme');
-      }
+      changePagTheme();
       promise(page).then(({ data: { results } }) => {
         createCorectResult(results).then(renderCard);
         //скрол після кліку на верх
         setTimeout(goUp(), 100);
+        // await goUp();
       });
     });
   });
@@ -168,6 +167,7 @@ function renderAndPaginationSearchMovies() {
 //--------------------------------------------------------
 function onSearch(event) {
   event.preventDefault();
+  
   //получаем строку и удаляем пробели
   let query = event.currentTarget.elements.query.value.trim();
   if (!query) {
@@ -175,7 +175,15 @@ function onSearch(event) {
     return;
   }
   moviesApiService.query = query;
+
   renderAndPagination('word');
+}
+//--------------------------------------------------------
+//зміна теми для пагінації
+function changePagTheme() {
+  if (document.body.classList.contains('dark-theme')) {
+    pagBox.children.forEach(element => element.classList.add('dark-theme'));
+  }
 }
 //--------------------------------------------------------
 // функція популярних фільмів
@@ -183,4 +191,16 @@ renderAndPaginationPopularMovies();
 // функція пошук по слову
 renderAndPaginationSearchMovies();
 //-----------------------------------------------------------
+//-----------------------------------------------------------
+//функция рендерит в My Library просмотренныефильмы и фильмы в очереди
+export const renderLibraryFilms = function(arrayOfId) {
+  let arr = [];  
+  arrayOfId.forEach(element => {
+        moviesApiService.getResponseInfo(element)
+          .then(({ data }) => {
+            arr.push(data);       
+        });
+  })
+  createCorectResult(arr).then(renderCard);
+}
 //-----------------------------------------------------------

@@ -1,10 +1,10 @@
-body.show-trailer .modal-container {
+.modal-overlay-trailer.show-trailer .modal-container {
   opacity: 1;
   visibility: visible;
   pointer-events: initial;
 }
 
-body.show-trailer .modal-trailer {
+.modal-overlay-trailer.show-trailer .modal-trailer {
   transform: scale(1);
 }
 
@@ -28,13 +28,14 @@ body.show-trailer .modal-trailer {
   display: flex;
   align-items: center;
   width: 280px;
-  height: 170px;
+  height: 156px;
+
   @media screen and (min-width: $tablet) {
     width: 620px;
-    height: 470px;
+    height: 496px;
   }
   @media screen and (min-width: $desktop) {
-    width: 856px;
+    width: 882px;
     height: 570px;
   }
 }

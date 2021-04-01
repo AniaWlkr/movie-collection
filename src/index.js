@@ -5,9 +5,8 @@ import './js/switch-page';
 import './js/insert_popular_films';
 import './js/theme';
 import './js/modal-trailer';
-import './js/hackers-modal/hackers-modal'
-// import './authentication/authentication';
-
+import './js/hackers-modal/hackers-modal';
+import './authentication/authentication';
 
 //отображение лоадера при загрузке страницы
 window.addEventListener('load', pageLoading());
