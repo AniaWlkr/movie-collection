@@ -2,12 +2,15 @@ const refs = {
   checkbox: document.querySelector('#checkbox'),
   sunIcon: document.querySelector('#sun'),
   moonIcon: document.querySelector('#moon'),
+  footer: document.querySelector('.footer'),
+  modalContent: document.querySelector('.modal-content'),
+  hackersModal: document.querySelector('.hackers-modal'),
   //селектор бокса пагінації
   pagBox: document.querySelector('#pagination-box'),
 };
 
 function onChangeTheme() {
-  document.body.classList.toggle('dark-theme');
+  toggleDarkTheme();
 
   if (document.body.classList.contains('dark-theme')) {
     setIconsDark();
@@ -27,11 +30,25 @@ function currentTheme() {
   const sevedColor = localStorage.getItem('currentIcon');
 
   if (sevedTheme === 'dark-theme' && sevedColor === 'moon') {
-    document.body.classList.add('dark-theme');
+    addDarkTheme();
     setIconsDark();
     //зміна теми для пагінації
     addPagTheme();
   }
+}
+
+function addDarkTheme() {
+  document.body.classList.add('dark-theme');
+  refs.footer.classList.add('dark-theme');
+  refs.modalContent.classList.add('dark-theme');
+  refs.hackersModal.classList.add('dark-theme');
+}
+
+function toggleDarkTheme() {
+  document.body.classList.toggle('dark-theme');
+  refs.footer.classList.toggle('dark-theme');
+  refs.modalContent.classList.toggle('dark-theme');
+  refs.hackersModal.classList.toggle('dark-theme');
 }
 
 function setIconsDark() {
@@ -62,4 +79,3 @@ function removePagTheme() {
 
 currentTheme();
 refs.checkbox.addEventListener('change', onChangeTheme);
-

@@ -3,9 +3,27 @@ body.light-theme {
   color: $dark-theme-color;
 }
 
-body.dark-theme {
+body.dark-theme,
+.footer.dark-theme,
+.modal-content.dark-theme,
+.modal-content.dark-theme .modal-close-button,
+.hackers-modal.dark-theme,
+.hackers-modal.dark-theme .hackers-modal-close-button {
   background-color: $dark-theme-color;
   color: $primary-text-color;
+}
+
+.footer.dark-theme {
+  border-top: 1px solid $primary-text-color;
+}
+
+.footer.dark-theme a {
+  color: $primary-text-color;
+}
+
+.footer.dark-theme a:hover,
+.footer.dark-theme a:focus {
+  color: $accent-color;
 }
 
 .toolbar {
