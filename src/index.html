@@ -133,7 +133,6 @@
   </div>
   <div class="spinner hidden-spinner"></div>
   <header class="header">
-
     <div class="container">
       <button type="button" class="auth-open-modal-button">SIGN-IN / SIGN-UP</button>
       <!----------- switch-theme ----------->
@@ -179,6 +178,9 @@
           </svg>
         </button>
       </form>
+      <div class="search-error-container">
+        <p class="search-error is-hidden">Search result not successful. Enter the correct movie name</p>
+      </div>
       <div class="tabs is-hidden">
         <button class="tabs-button" data-action="finished" type="button">
           WATCHED
@@ -194,13 +196,6 @@
       <div class="container">
         <h2 class="visually-hidden">Movies Roll</h2>
         <ul class="movies-list">
-          <!-- <li class="movies-item">
-              <img src="./images/movies-card/Rectangle 5.jpg" alt="" class="movie-img">
-              <div class="movie-wrapper">
-                <h3 class="movie-title">TITLE</h3>
-                <p class="movie-info"><span class="movie-genres">genres</span> | <span class="movie-date">2020</p>
-              </div>
-            </li> -->
         </ul>
         <!-- переніс пагінацію після списку -->
         <div id="pagination-box" class="tui-pagination"></div>
