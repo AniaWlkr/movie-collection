@@ -1,4 +1,4 @@
-<li class="movie-item" id={{id}}>
+<li class="movie-item" id={{id}} data-sourse={{id}}>
   {{!-- вариант для заглушки --}}
   {{!-- <img src="{{poster_path}}" alt="{{original_title}}" class="movie-img" id={{id}}> --}}
   <img src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{original_title}}" class="movie-img" id={{id}}>
@@ -7,4 +7,3 @@
     <p class="movie-info"><span class="movie-genres">{{genres}}</span> | <span class="movie-date">{{release_date}}</p>
   </div>
 </li>
-

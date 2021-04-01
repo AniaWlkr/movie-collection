@@ -1,6 +1,7 @@
 import movieCard from '../templates/movie-card.hbs';
 import MoviesApiService from './api-service/apiService';
 import LocalStorageService from './local-storage/local-storage';
+import { renderLibraryFilms } from './insert_popular_films';
 
 const localStorageService = new LocalStorageService();
 const moviesApiService = new MoviesApiService();
@@ -24,39 +25,19 @@ const onChangeList = (event) => {
 
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === "finished") {
-
-    refs.movieList.innerHTML = "";
-
     event.target.classList.add('is-active');
-
     const movies = localStorageService.takeFromStorage();
     const watchedMovies = movies.watсhed;
-
-    watchedMovies.forEach(element => {
-      moviesApiService.getResponseInfo(element).then(({ data }) => {
-        const markup = movieCard(data);
-        return refs.movieList.insertAdjacentHTML('beforeend', markup);
-      }); 
-    }); 
+    renderLibraryFilms(watchedMovies);
   }
 
   
   //Отрисовывает если нажата кнопка "QUEUE"
   if (event.target.dataset.action === "waiting") {
-    refs.movieList.innerHTML = "";
-
     event.target.classList.add('is-active');
-   
     const movies = localStorageService.takeFromStorage();
-     console.log(movies);
     const moviesInQueue = movies.inQueue;
-     console.log(moviesInQueue);
-    moviesInQueue.forEach(element => {
-      moviesApiService.getResponseInfo(element).then(({ data }) => {
-        const markup = movieCard(data);
-        return refs.movieList.insertAdjacentHTML('beforeend', markup);
-      }); 
-    }); 
+    renderLibraryFilms(moviesInQueue);
   }
 }
 

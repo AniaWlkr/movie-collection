@@ -141,6 +141,14 @@
   color: $primary-text-color;
 }
 
+.search-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  margin-top: 10px;
+}
+
 //================= tabs =============
 
 .tabs {
