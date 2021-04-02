@@ -1,7 +1,7 @@
 import movieCard from '../templates/movie-card.hbs';
 import MoviesApiService from './api-service/apiService';
 import PaginationPlugin from './pagination/pagination';
-// import noImage from '../images/movies-card/noimage.jpg';// для заглушки
+import noImage from '../images/movies-card/noimage.jpg';
 
 // екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
 const moviesApiService = new MoviesApiService();
@@ -87,12 +87,12 @@ function createCorectResult(results) {
         }
 
         //для реализации заглушки
-        // if (!result.poster_path) {
-        //   result.poster_path = noImage;
-        // }
-        // else {
-        //   result.poster_path = "https://image.tmdb.org/t/p/w500" + result.poster_path
-        // }
+        if (!result.poster_path) {
+          result.poster_path = noImage;
+        }
+        else {
+          result.poster_path = "https://image.tmdb.org/t/p/w500" + result.poster_path
+        }
       } catch (error) {
         result.genres.push('not defined');
         console.log(error);
