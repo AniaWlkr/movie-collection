@@ -2,9 +2,11 @@ import movieCard from '../templates/movie-card.hbs';
 import MoviesApiService from './api-service/apiService';
 import PaginationPlugin from './pagination/pagination';
 import noImage from '../images/movies-card/noimage.jpg';
+import Spinner from './spinner';
 
 // екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
 const moviesApiService = new MoviesApiService();
+const spinner = new Spinner();
 //--------------------------------------------------------
 // константи
 const searchForm = document.querySelector('#search-form');
@@ -122,6 +124,7 @@ function renderAndPagination(key) {
     const { results, total_results } = data;
     if (results.length === 0) {
       errorRef.classList.remove('is-hidden');
+      spinner.hideSpinner();
       return;
   }
     //формує коректний пагінатор
@@ -140,7 +143,7 @@ function renderAndPagination(key) {
         }
       })
     PaginationPlugin.setTotalItems(total_results);
-
+spinner.hideSpinner();
     //рендери при зміні в пагінації
     PaginationPlugin.on('afterMove', ({ page }) => {
       //зміна теми
@@ -167,11 +170,12 @@ function renderAndPaginationSearchMovies() {
 //--------------------------------------------------------
 function onSearch(event) {
   event.preventDefault();
-  
+  spinner.showSpinner();
   //получаем строку и удаляем пробели
   let query = event.currentTarget.elements.query.value.trim();
   if (!query) {
     errorRef.classList.remove('is-hidden');
+    spinner.hideSpinner();
     return;
   }
   moviesApiService.query = query;

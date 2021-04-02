@@ -1,17 +1,15 @@
 const element = document.querySelector('.spinner');
 
-class Spinner {
-  constructor(ref) {
-    this.ref = ref;
+export default class Spinner {
+  constructor(element) {
+    this.element = element;
   }
   showSpinner() {
-    this.ref.classList.remove('hidden-spinner');
+    element.classList.remove('hidden-spinner');
   }
 
   hideSpinner() {
-    this.ref.classList.add('hidden-spinner');
+    element.classList.add('hidden-spinner');
   }
 }
 const spinner = new Spinner(element);
-
-export default spinner;
