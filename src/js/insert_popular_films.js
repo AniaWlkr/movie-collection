@@ -86,17 +86,17 @@ function createCorectResult(results) {
           result.genres.push(' Other');
         }
 
-        //для реализации заглушки
+      } catch (error) {
+        result.genres.push('not defined');
+        console.log(error);
+      }
+      //для реализации заглушки
         if (!result.poster_path) {
           result.poster_path = noImage;
         }
         else {
           result.poster_path = "https://image.tmdb.org/t/p/w500" + result.poster_path
         }
-      } catch (error) {
-        result.genres.push('not defined');
-        console.log(error);
-      }
     }
     return results;
   });
