@@ -1,8 +1,10 @@
+import templateTrailer from '../templates/modal-trailer.hbs';
 import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
-import Spinner from './spinner';
 
+import Spinner from './spinner';
 const spinner = new Spinner();
+
 const refs = {
   openTrailerBtn: document.querySelector('.modal-content'),
   modalTrailer: document.querySelector('.modal-trailer'),
@@ -15,45 +17,17 @@ function onOpenTrailer(event) {
   if (event.target.className !== 'modal-card-button trailer-btn') {
     return;
   }
- // здесь можно поставить спиннер
+  // здесь можно поставить спиннер
   spinner.showSpinner();
-  moviesApiService
-    .getTrailer(movieId)
-    .then(({ data: { results } }) => {
-      const trailerKey = results[0].key;
-
-      const markupModalTrailer = `<div class="modal-trailer-backdrop">
-        <div class="modal-trailer-container">
-          <button
-            type="button"
-            class="close-trailer-btn material-icons"
-            data-action="close-trailer">
-            close
-          </button>
-          <iframe src="https://www.youtube.com/embed/${trailerKey}" class="trailer" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div >`;
-      spinner.hideSpinner();
-      clearContainer();
-      createHTML(markupModalTrailer);
-    })
-    .catch(() => {
-      const markupModalImage = `<div class="modal-trailer-backdrop">
-      <div class="modal-trailer-container">
-      <button
-      type="button"
-      class="close-trailer-btn material-icons"
-      data-action="close-trailer">
-      close
-      </button>
-      <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
-      </div >
-      </div >`;
-      spinner.hideSpinner();
-      createHTML(markupModalImage);
-    });
+  moviesApiService.getTrailer(movieId).then(({ data: { results } }) => {
+    spinner.hideSpinner();
+    clearContainer();
+    refs.modalOverlayTrailer.insertAdjacentHTML(
+      'beforeend',
+      templateTrailer(results[0]),
+    );
+    addClassList();
+  });
 }
 
 function onCloseTrailer(event) {
@@ -65,11 +39,6 @@ function onCloseTrailer(event) {
 
 function clearContainer() {
   refs.modalOverlayTrailer.innerHTML = '';
-}
-
-function createHTML(murkup) {
-  refs.modalOverlayTrailer.insertAdjacentHTML('beforeend', murkup);
-  addClassList();
 }
 
 function removeClassList() {
