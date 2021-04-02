@@ -159,7 +159,7 @@ spinner.hideSpinner();
 }
 //--------------------------------------------------------
 // функція популярних фільмів
-function renderAndPaginationPopularMovies() {
+export function renderAndPaginationPopularMovies() {
   renderAndPagination();
 }
 //--------------------------------------------------------

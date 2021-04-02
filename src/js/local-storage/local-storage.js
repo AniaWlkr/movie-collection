@@ -1,19 +1,68 @@
 class LocalStorageService {
   constructor() {
-    // this.watched = [];
-    // this.queue = [];
     this.movieId = '';
-    this._moviesList = { watсhed: [], inQueue: [] };
-    this._keyName = 'movies';
-    this._currentPage = 0;
+    this._moviesList = {watсhed: [], inQueue: []};
+    this._moviesListKeyName = 'movie';
+    this._currentPageKeyName = 'currentPage';
     this.storageHandler = this.storageHandler.bind(this);
+    // this.addToWatched = this.addToWatched.bind(this);
+    // this.addToQueue = this.addToQueue.bind(this);
   }
 
-  set addMovieId(newId) {
-    this.movieId = newId;
+  set addMovieId (newId) {
+   this.movieId = newId;
   }
 
-  storageHandler(event) {
+  newMoviesList() {
+   const newMovieList = this.takeFromStorage(this._moviesListKey);
+   if (!newMovieList) return;
+   return (this._moviesList = newMovieList);
+  }
+
+  saveToStorage (key, element) {
+    localStorage.setItem(key, JSON.stringify(element));
+  }
+
+  addToWatched() {
+    this.newMoviesList();
+    if (this._moviesList.watсhed.includes(this.movieId)) return;
+    this._moviesList.watсhed.push(this.movieId);
+    this.saveToStorage(this._moviesListKey, this._moviesList);
+  }
+
+  addToQueue() {
+    this.newMoviesList();
+    if (this._moviesList.inQueue.includes(this.movieId)) return;
+    this._moviesList.inQueue.push(this.movieId);
+    this.saveToStorage(this._moviesListKey, this._moviesList);
+  }
+
+  saveCurrentPageToStorage(page) {
+    this.saveToStorage(this._currentPageKey, page);
+  }
+
+  takeFromStorage(key) {
+    try {
+      const storageItem = localStorage.getItem(key);
+      return storageItem === null ? undefined : JSON.parse(storageItem);
+    } catch (error) {
+      console.error(`Parse error: ${error}`);
+    }
+  }
+
+  getMoviesFromStorage() {
+    return this.takeFromStorage(this._moviesListKey);
+  }
+
+  getСurrentPageFromStorage() {
+     return this.takeFromStorage(this._currentPageKey);
+  }
+
+  // getСurrentThemeFromStorage() {
+  //   this.takeFromStorage(this._currentPageKeyName);
+  // }
+
+  storageHandler (event) {
     const activeItem = event.target;
 
     if (activeItem === event.currentTarget) return;
@@ -27,41 +76,6 @@ class LocalStorageService {
       this.addToQueue();
       activeItem.disabled = true;
     }
-  }
-
-  saveToStorage(element) {
-    // const moviesList = {
-    //   wathed: this.watched,
-    //   inQueue: this.queue
-    // }
-
-    localStorage.setItem(this._keyName, JSON.stringify(element));
-  }
-
-  saveCurrentPageToStorage(page) {
-    this._currentPage = page;
-  }
-
-  //Метод для Лены Гоевой
-  takeFromStorage() {
-    try {
-      const moviesList = localStorage.getItem(this._keyName);
-
-      return moviesList === null ? undefined : JSON.parse(moviesList);
-    } catch (error) {
-      console.error(`Parse error: ${error}`);
-    }
-  }
-
-  addToWatched() {
-    this._moviesList.watсhed.push(this.movieId);
-    // this.watched.push(this.movieId);
-    this.saveToStorage(this._moviesList);
-  }
-
-  addToQueue() {
-    this.queue.push(this.movieId);
-    this.saveToStorage();
   }
 
   //Метод для Лены Губаренко
