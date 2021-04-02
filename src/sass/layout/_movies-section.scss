@@ -11,7 +11,10 @@
   margin-bottom: 30px;
 }
 .movie-img {
-  width: 100%;
+  width: 280px;
+  height: 398px;
+  display: block;
+  background-color: #b8b8b8;
   margin-bottom: 10px;
   border-radius: 5px;
 }
@@ -48,6 +51,9 @@
   .movie-item {
     max-width: 294px;
   }
+  .movie-img {
+    width: 294px;
+  }
 }
 @media screen and (min-width: $tablet) and (max-width: 1023px) {
   .movies-list {
@@ -67,5 +73,8 @@
   }
   .movie-item:not(:nth-child(3n + 3)) {
     margin-right: 30px;
+  }
+  .movie-img {
+    width: 274px;
   }
 }
