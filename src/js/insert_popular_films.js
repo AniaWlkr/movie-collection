@@ -156,7 +156,7 @@ function renderAndPagination(key) {
 }
 //--------------------------------------------------------
 // функція популярних фільмів
-function renderAndPaginationPopularMovies() {
+export function renderAndPaginationPopularMovies() {
   renderAndPagination();
 }
 //--------------------------------------------------------
