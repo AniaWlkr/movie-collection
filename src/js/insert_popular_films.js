@@ -15,10 +15,10 @@ const moviesApiService = new MoviesApiService();
 const spinner = new Spinner();
 //--------------------------------------------------------
 // константи
-// const searchForm = document.querySelector('#search-form');
-// const moviesRef = document.querySelector('.movies-list');
-// const pagBox = document.querySelector('#pagination-box');
-// const errorRef = document.querySelector('.search-error');
+const searchForm = document.querySelector('#search-form');
+const moviesRef = document.querySelector('.movies-list');
+const pagBox = document.querySelector('#pagination-box');
+const errorRef = document.querySelector('.search-error');
 //--------------------------------------------------------
 // функція для рендеру і пагінації
 async function renderAndPagination(key) {
