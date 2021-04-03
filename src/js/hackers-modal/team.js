@@ -1,13 +1,13 @@
 export default team = [
   {
     name: 'Anna Skorokhod (Ania Walker)',
-    position: 'Team Lead',
+    position: 'Team Lead/Front-End Developer',
     city: 'Dnipro',
     country: 'Ukraine',
     github: 'https://github.com/AniaWlkr',
     email: 'ania.wlkr@gmail.com',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Anna_Skorokhod_round.png',
+    originalPhoto: './images/students-modal-pics/Anna_Skorokhod_original.jpg',
   },
 
   {
@@ -17,8 +17,8 @@ export default team = [
     country: 'Slovakia',
     github: 'https://github.com/OlhaDolzhenko',
     email: 'olyasorokolat@gmail.com',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Olha_Dolzhenko_round.png',
+    originalPhoto: './images/students-modal-pics/Olha_Dolzhenko_original.jpg',
   },
 
   {
@@ -28,8 +28,8 @@ export default team = [
     country: 'Ukraine',
     github: 'github.com/GolovinaElia',
     email: 'eliagolovina@ukr.net',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Olha_Dolzhenko_round.png',
+    originalPhoto: './images/students-modal-pics/Olha_Dolzhenko_original.jpg',
   },
 
   {
@@ -39,19 +39,19 @@ export default team = [
     country: 'Estonia',
     github: 'https://github.com/DenisK0s',
     email: 'kostenkoden89@gmail.com',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Olha_Dolzhenko_round.png',
+    originalPhoto: './images/students-modal-pics/Olha_Dolzhenko_original.jpg',
   },
 
   {
-    name: 'Roman Didukh',
+    name: 'Roma Didukh',
     position: 'Front-End Developer',
-    city: 'City',
-    country: 'Country',
-    github: 'Page',
-    email: 'Email',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    city: 'Brody',
+    country: 'Ukraine',
+    github: 'https://github.com/didukhroma',
+    email: 'didukhroma@gmail.com',
+    smallPhoto: './images/students-modal-pics/Roma_Didukh_round.png',
+    originalPhoto: './images/students-modal-pics/Roma_Didukh_original.jpg',
   },
 
   {
@@ -61,8 +61,8 @@ export default team = [
     country: 'Poland',
     github: 'https://github.com/IgorO-projects',
     email: 'Travis789lee@gmail.com',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Igor_Oliynik_round.png',
+    originalPhoto: './images/students-modal-pics/Igor_Oliynik_original.jpg',
   },
 
   {
@@ -72,8 +72,8 @@ export default team = [
     country: 'Ukraine',
     github: 'https://github.com/LenaGo1',
     email: 'lena.goyeva@gmail.com',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Anna_Skorokhod_round.png',
+    originalPhoto: './images/students-modal-pics/Anna_Skorokhod_original.jpg',
   },
 
   {
@@ -83,8 +83,8 @@ export default team = [
     country: 'Belarus',
     github: 'https://github.com/ElenaGubarenko',
     email: 'N/I',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Elena_Gubarenko_round.png',
+    originalPhoto: './images/students-modal-pics/Elena_Gubarenko_original.jpg',
   },
 
   {
@@ -94,7 +94,7 @@ export default team = [
     country: 'Ukraine',
     github: 'https://github.com/tetrud',
     email: 'rudenkotatyana19@gmail.com',
-    /*     smallPhoto: '',
-    originalPhoto: '', */
+    smallPhoto: './images/students-modal-pics/Tatyana _Rudenko_round.png',
+    originalPhoto: './images/students-modal-pics/Tatyana _Rudenko_original.jpg',
   },
 ];
