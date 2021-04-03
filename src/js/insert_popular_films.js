@@ -3,21 +3,22 @@ import MoviesApiService from './api-service/apiService';
 import PaginationPlugin from './pagination/pagination';
 import noImage from '../images/movies-card/noimage.jpg';
 import Spinner from './spinner';
+import refs from './refs/refs';
 
 // екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
 const moviesApiService = new MoviesApiService();
 const spinner = new Spinner();
 //--------------------------------------------------------
 // константи
-const searchForm = document.querySelector('#search-form');
-const moviesRef = document.querySelector('.movies-list');
-const pagBox = document.querySelector('#pagination-box');
-const errorRef = document.querySelector('.search-error');
+// const searchForm = document.querySelector('#search-form');
+// const moviesRef = document.querySelector('.movies-list');
+// const pagBox = document.querySelector('#pagination-box');
+// const errorRef = document.querySelector('.search-error');
 //--------------------------------------------------------
 //---Рендер карточок на сторінці(можна передавати ще селектор і виносити в компоненти або утиліти)
 function renderCard(arr) {
-  moviesRef.innerHTML = '';
-  moviesRef.insertAdjacentHTML(
+  refs.moviesRef.innerHTML = '';
+  refs.moviesRef.insertAdjacentHTML(
     'beforeend',
     arr.map(query => movieCard(query)).join(''),
   );
@@ -119,11 +120,11 @@ function renderAndPagination(key) {
   if (key === 'word') promise = getSearchWord;
   //перший рендер
   promise().then(({ data }) => {
-    errorRef.classList.add('is-hidden');
     //деструктуризація
     const { results, total_results } = data;
     if (results.length === 0) {
-      errorRef.classList.remove('is-hidden');
+      refs.errorRef.classList.remove('is-hidden');
+       setTimeout(errorSearchMovie, 2000);
       spinner.hideSpinner();
       return;
   }
@@ -136,11 +137,6 @@ function renderAndPagination(key) {
     createCorectResult(results)
       .then(data => {
         renderCard(data);
-      })
-      .catch(error => {
-        if (error) {
-        console.log(error);
-        }
       })
     PaginationPlugin.setTotalItems(total_results);
 spinner.hideSpinner();
@@ -165,7 +161,7 @@ function renderAndPaginationPopularMovies() {
 //--------------------------------------------------------
 // функція пошук по слову
 function renderAndPaginationSearchMovies() {
-  searchForm.addEventListener('submit', onSearch);
+  refs.searchForm.addEventListener('submit', onSearch);
 }
 //--------------------------------------------------------
 function onSearch(event) {
@@ -174,19 +170,20 @@ function onSearch(event) {
   //получаем строку и удаляем пробели
   let query = event.currentTarget.elements.query.value.trim();
   if (!query) {
-    errorRef.classList.remove('is-hidden');
+    refs.errorRef.classList.remove('is-hidden');
+    setTimeout(errorSearchMovie, 2000);
     spinner.hideSpinner();
     return;
   }
   moviesApiService.query = query;
-
   renderAndPagination('word');
+  refs.searchForm.reset();
 }
 //--------------------------------------------------------
 //зміна теми для пагінації
 function changePagTheme() {
   if (document.body.classList.contains('dark-theme')) {
-    pagBox.children.forEach(element => element.classList.add('dark-theme'));
+    refs.pagBox.children.forEach(element => element.classList.add('dark-theme'));
   }
 }
 //--------------------------------------------------------
@@ -208,3 +205,6 @@ export const renderLibraryFilms = function(arrayOfId) {
   createCorectResult(arr).then(renderCard);
 }
 //-----------------------------------------------------------
+function errorSearchMovie() {
+  refs.errorRef.classList.add('is-hidden'); 
+};
