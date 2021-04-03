@@ -1,331 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.css" />
-  <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIADXAAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAQDAAAA7d3iUgAA
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.0.0/modern-normalize.css"
+    />
+    <link
+      rel="shortcut icon"
+      href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIADXAAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAQDAAAA7d3iUgAA
       AAFzUkdCAdnJLH8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAYUExURQAAAP9rAf9rAf9rAf9rAf9r
       Af9rAf9rAQQIk2cAAAAIdFJOUwA5VeP/carGFPKhGwAAAERJREFUeJxjYFQCAwEGYRcwMGRQCXBi
       YFBhdWJQYQAxgISKC4gBJFSUQAwlZKk097S0kjRkBlwKrhiuHS4FswJuKcwZAO3WFR/F3hDRAAAA
-      AElFTkSuQmCC" type="images/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    .loader {
-      position: fixed;
-      z-index: 99;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f7f7f7;
-    }
-
-    .hidden-loader {
-      animation: fadeOut 1500ms;
-      animation-fill-mode: forwards;
-    }
-
-    @keyframes fadeOut {
-      100% {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    .loader-container {
-      display: block;
-    }
-
-    .loading-wheel {
-      margin-right: 10px;
-      border: 10px solid #2c2c2c;
-      border-radius: 50%;
-      border-top: 10px solid #ff6b08;
-      border-bottom: 10px solid #ff6b08;
-      width: 40px;
-      height: 40px;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 2s linear infinite;
-    }
-
-    @-webkit-keyframes spin {
-      0% {
-        -webkit-transform: rotate(0deg);
+      AElFTkSuQmCC"
+      type="images/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f7f7f7;
       }
 
-      100% {
-        -webkit-transform: rotate(360deg);
-      }
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
+      .hidden-loader {
+        animation: fadeOut 1500ms;
+        animation-fill-mode: forwards;
       }
 
-      100% {
-        transform: rotate(360deg);
+      @keyframes fadeOut {
+        100% {
+          opacity: 0;
+          visibility: hidden;
+        }
       }
-    }
 
-    .loader-wrapper {
-      display: flex;
-      margin-left: 10px;
-    }
+      .loader-container {
+        display: block;
+      }
 
-    .camera {
-      display: flex;
-      align-items: center;
-    }
+      .loading-wheel {
+        margin-right: 10px;
+        border: 10px solid #2c2c2c;
+        border-radius: 50%;
+        border-top: 10px solid #ff6b08;
+        border-bottom: 10px solid #ff6b08;
+        width: 40px;
+        height: 40px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+      }
 
-    .camera-body {
-      display: flex;
-      border: 5px solid #2c2c2c;
-      border-radius: 20px;
-      height: 60px;
-      width: 120px;
-      background-color: #d1d0d0;
-      z-index: 20;
-      text-align: center;
-      padding-top: 1%;
-      font-size: 15px;
-      color: #2c2c2c;
-    }
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
 
-    .camera-body-label {
-      margin: auto;
-    }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
 
-    .camera-lens {
-      margin-left: -40px;
-      width: 0;
-      height: 0;
-      border-radius: 20px;
-      border-top: 30px solid transparent;
-      border-right: 80px solid #2c2c2c;
-      border-bottom: 30px solid transparent;
-    }
-  </style>
-  <title>Filmoteka</title>
-</head>
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
 
-<body>
-  <div class="loader">
-    <div class="loader-container">
-      <div class="loader-wrapper">
-        <div class="loading-wheel"></div>
-        <div class="loading-wheel"></div>
-      </div>
-      <div class="camera">
-        <div class="camera-body">
-          <span class="camera-body-label">Loading...</span>
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loader-wrapper {
+        display: flex;
+        margin-left: 10px;
+      }
+
+      .camera {
+        display: flex;
+        align-items: center;
+      }
+
+      .camera-body {
+        display: flex;
+        border: 5px solid #2c2c2c;
+        border-radius: 20px;
+        height: 60px;
+        width: 120px;
+        background-color: #d1d0d0;
+        z-index: 20;
+        text-align: center;
+        padding-top: 1%;
+        font-size: 15px;
+        color: #2c2c2c;
+      }
+
+      .camera-body-label {
+        margin: auto;
+      }
+
+      .camera-lens {
+        margin-left: -40px;
+        width: 0;
+        height: 0;
+        border-radius: 20px;
+        border-top: 30px solid transparent;
+        border-right: 80px solid #2c2c2c;
+        border-bottom: 30px solid transparent;
+      }
+    </style>
+    <title>Filmoteka</title>
+  </head>
+
+  <body>
+    <div class="loader">
+      <div class="loader-container">
+        <div class="loader-wrapper">
+          <div class="loading-wheel"></div>
+          <div class="loading-wheel"></div>
         </div>
-        <div class="camera-lens"></div>
+        <div class="camera">
+          <div class="camera-body">
+            <span class="camera-body-label">Loading...</span>
+          </div>
+          <div class="camera-lens"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="spinner hidden-spinner"></div>
-  <header class="header">
-    <div class="container">
-      <button type="button" class="auth-open-modal-button">SIGN-IN / SIGN-UP</button>
-      <!----------- switch-theme ----------->
-      <div class="toolbar">
-        <div class="switch-theme">
-          <div class="switch-theme-control">
-            <input class="switch-theme-checkbox" type="checkbox" name="theme" id="checkbox"
-              aria-label="Переключить между тёмной и светлой темой" />
-            <label aria-hidden="true" class="switch-theme-track" for="checkbox">
-            </label>
-            <svg id="sun" class="switch-theme-icon accent-icon" role="img" aria-label="Иконка солнца">
-              <use href="./images/sprite.svg#sun"></use>
-            </svg>
-            <svg id="moon" class="switch-theme-icon" aria-label="Иконка луны">
-              <use href="./images/sprite.svg#moon"></use>
-            </svg>
+    <div class="spinner hidden-spinner"></div>
+    <header class="header">
+      <div class="container">
+        <button type="button" class="auth-open-modal-button">
+          SIGN-IN / SIGN-UP
+        </button>
+        <!----------- switch-theme ----------->
+        <div class="toolbar">
+          <div class="switch-theme">
+            <div class="switch-theme-control">
+              <input
+                class="switch-theme-checkbox"
+                type="checkbox"
+                name="theme"
+                id="checkbox"
+                aria-label="Переключить между тёмной и светлой темой"
+              />
+              <label
+                aria-hidden="true"
+                class="switch-theme-track"
+                for="checkbox"
+              >
+              </label>
+              <svg
+                id="sun"
+                class="switch-theme-icon accent-icon"
+                role="img"
+                aria-label="Иконка солнца"
+              >
+                <use href="./images/sprite.svg#sun"></use>
+              </svg>
+              <svg id="moon" class="switch-theme-icon" aria-label="Иконка луны">
+                <use href="./images/sprite.svg#moon"></use>
+              </svg>
+            </div>
           </div>
         </div>
+        <div class="header-container">
+          <a href="" class="header-logo link">
+            <svg class="logo-icon" width="24" height="24">
+              <use href="./images/sprite.svg#icon-film"></use>
+            </svg>
+            <span class="logo-txt">Filmoteka</span>
+          </a>
+          <nav class="navigation">
+            <ul class="navigation-list">
+              <li class="navigation-item">
+                <a
+                  href=""
+                  class="navigation-link link current"
+                  data-state="home"
+                  >HOME</a
+                >
+              </li>
+              <li class="navigation-item">
+                <a href="" class="navigation-link link" data-state="library"
+                  >MY LIBRARY</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <form class="search-form" id="search-form">
+          <input
+            class="search-input"
+            type="text"
+            name="query"
+            autocomplete="off"
+            placeholder="Search film"
+          />
+          <button class="btn-submit" type="submit">
+            <svg class="search-icon" width="12" height="12">
+              <use href="./images/sprite.svg#icon-search"></use>
+            </svg>
+          </button>
+        </form>
+        <div class="search-error-container">
+          <p class="search-error is-hidden">
+            Search result not successful. Enter the correct movie name
+          </p>
+        </div>
+        <div class="tabs is-hidden">
+          <button class="tabs-button" data-action="finished" type="button">
+            WATCHED
+          </button>
+          <button class="tabs-button" data-action="waiting" type="button">
+            QUEUE
+          </button>
+        </div>
       </div>
-      <div class="header-container">
-        <a href="" class="header-logo link">
-          <svg class="logo-icon" width="24" height="24">
-            <use href="./images/sprite.svg#icon-film"></use>
+    </header>
+    <main>
+      <section class="movies">
+        <div class="container">
+          <h2 class="visually-hidden">Movies Roll</h2>
+          <ul class="movies-list"></ul>
+          <!-- переніс пагінацію після списку -->
+          <div class="pagination-wrapper">
+            <div id="pagination-box" class="tui-pagination"></div>
+          </div>
+        </div>
+      </section>
+      <!-- все що нижче і до закриття main дублювання -->
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-container">
+        <p class="copyright">&#169; 2021 | All Rights Reserved |</p>
+        <p class="developers">
+          Developed with
+          <svg class="heart-icon" width="14" height="13">
+            <use href="./images/sprite.svg#icon-heart"></use>
           </svg>
-          <span class="logo-txt">Filmoteka</span>
-        </a>
-        <nav class="navigation">
-          <ul class="navigation-list">
-            <li class="navigation-item">
-              <a href="" class="navigation-link link current" data-state="home">HOME</a>
+          by&nbsp;
+          <a href="" class="developers-link">GoIT Students</a>
+        </p>
+      </div>
+    </footer>
+
+    <div class="modal">
+      <div class="modal-backdrope"></div>
+      <div class="modal-content"></div>
+      <!-- <button type="button" class="modal-close-button material-icons">close</button> -->
+    </div>
+    <!-- модалка группы -->
+    <div class="students-modal">
+      <div class="hackers-backdrop hide-hackers" data-hackers-backdrop>
+        <div class="hackers-modal">
+          <button
+            type="button"
+            class="hackers-modal-close-button material-icons"
+            data-action="hackers-cls-btn"
+          >
+            close
+          </button>
+          <h2 class="hackers-title">
+            Hackers-<span class="hackers-accent">Gang</span>
+          </h2>
+          <ul class="hackers-list">
+            <!-- <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
             </li>
-            <li class="navigation-item">
-              <a href="" class="navigation-link link" data-state="library">MY LIBRARY</a>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
             </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li>
+            <li class="hackers-list-item">
+              <div class="hackers-wrapper">
+                <img
+                  class="hackers-img"
+                  src="./images/students-modal-pics/IMG_5569.PNG"
+                  alt="student"
+                />
+                <h3 class="hackers-name">Igor Oliynik</h3>
+                <p class="hackers-developer">Developer</p>
+              </div>
+            </li> -->
           </ul>
-        </nav>
+        </div>
       </div>
-      <form class="search-form" id="search-form">
-        <input class="search-input" type="text" name="query" autocomplete="off" placeholder="Search film" />
-        <button class="btn-submit" type="submit">
-          <svg class="search-icon" width="12" height="12">
-            <use href="./images/sprite.svg#icon-search"></use>
-          </svg>
-        </button>
-      </form>
-      <div class="search-error-container">
-        <p class="search-error is-hidden">Search result not successful. Enter the correct movie name</p>
+      <!-- <div class="hacker-modal-backdrop hide-hacker">
+      <div class="hacker-modal-in-modal">
+        <img class="hacker-pic" src="./images/students-modal-pics/my-big-pic.PNG" alt="student big pic">
+        <h3 class="hacker-name">Igor Oliynik</h3>
+        <p class="hacker-location">Location: Poland,Warsaw</p>
+        <a href="">e-mail me</a>
+        <a href="">GitHub pages</a>
       </div>
-      <div class="tabs is-hidden">
-        <button class="tabs-button" data-action="finished" type="button">
-          WATCHED
-        </button>
-        <button class="tabs-button" data-action="waiting" type="button">
-          QUEUE
-        </button>
-      </div>
+    </div> -->
     </div>
-  </header>
-  <main>
-    <section class="movies">
-      <div class="container">
-        <h2 class="visually-hidden">Movies Roll</h2>
-        <ul class="movies-list">
-        </ul>
-        <!-- переніс пагінацію після списку -->
-        <div id="pagination-box" class="tui-pagination"></div>
+    <button type="button" class="button-up">
+      <span class="arrow material-icons"> keyboard_arrow_up </span>
+    </button>
+    <div class="modal-auth">
+      <div class="modal-auth-backdrope"></div>
+      <div class="modal-auth-content">
+        <form class="authentication-form">
+          <label class="authentication-form-label email-label" for="email"
+            >Email:
+            <input
+              id="email"
+              class="authentication-form-input authentication-email"
+              type="email"
+              name="email"
+              placeholder="Enter email..."
+            />
+          </label>
+          <label class="authentication-form-label password-label" for="password"
+            >Password:
+            <input
+              id="password"
+              class="authentication-form-input authentication-password"
+              type="password"
+              name="password"
+              placeholder="Enter password..."
+              required
+              minlength="6"
+              maxlength="20"
+            />
+          </label>
+          <div class="authentication-form-buttons-div">
+            <button class="authentication-form-submit sign-up" type="submit">
+              Sign UP
+            </button>
+            <button class="authentication-form-submit sign-in" type="submit">
+              Sign IN
+            </button>
+          </div>
+          <button type="button" class="modal-auth-close-button material-icons">
+            close
+          </button>
+        </form>
       </div>
-    </section>
-    <!-- все що нижче і до закриття main дублювання -->
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-container">
-      <p class="copyright">&#169; 2021 | All Rights Reserved |</p>
-      <p class="developers">
-        Developed with
-        <svg class="heart-icon" width="14" height="13">
-          <use href="./images/sprite.svg#icon-heart"></use>
-        </svg>
-        by&nbsp;
-        <a href="" class="developers-link">GoIT Students</a>
-      </p>
-    </div>
-  </footer>
-
-  <div class="modal">
-    <div class="modal-backdrope"></div>
-    <div class="modal-content"></div>
-    <!-- <button type="button" class="modal-close-button material-icons">close</button> -->
-  </div>
-  <!-- модалка группы -->
-  <div class="students-modal">
-    <div class="hackers-backdrop hide-hackers" data-hackers-backdrop>
-      <div class="hackers-modal">
-        <button type="button" class="hackers-modal-close-button material-icons" data-action="hackers-cls-btn">
-          close
-        </button>
-        <h2 class="hackers-title">
-          Hackers-<span class="hackers-accent">Gang</span>
-        </h2>
-        <ul class="hackers-list">
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-          <li class="hackers-list-item">
-            <div class="hackers-wrapper">
-              <img class="hackers-img" src="./images/students-modal-pics/IMG_5569.PNG" alt="student" />
-              <h3 class="hackers-name">Igor Oliynik</h3>
-              <p class="hackers-dev">Developer</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <button type="button" class="button-up">
-    <span class="arrow material-icons"> keyboard_arrow_up </span>
-  </button>
-  <div class="modal-auth">
-    <div class="modal-auth-backdrope"></div>
-    <div class="modal-auth-content">
-      <form class="authentication-form">
-        <label class="authentication-form-label email-label" for="email">Email:
-          <input id="email" class="authentication-form-input authentication-email" type="email" name="email"
-            placeholder="Enter email..." />
-        </label>
-        <label class="authentication-form-label password-label" for="password">Password:
-          <input id="password" class="authentication-form-input authentication-password" type="password" name="password"
-            placeholder="Enter password..." required minlength="6" maxlength="20" />
-        </label>
-        <div class="authentication-form-buttons-div"> <button class="authentication-form-submit sign-up"
-            type="submit">Sign
-            UP</button>
-          <button class="authentication-form-submit sign-in" type="submit">Sign IN</button></div>
-        <button type="button" class="modal-auth-close-button material-icons">close</button>
-      </form>
     </div>
     <div class="modal-trailer">
       <div class="modal-trailer-overlay"></div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

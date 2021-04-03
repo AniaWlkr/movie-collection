@@ -5,6 +5,12 @@
 .tui-ico-prev {
   overflow: hidden;
 }
+.pagination-wrapper {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .tui-pagination {
   height: 28px;

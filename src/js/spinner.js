@@ -1,17 +1,17 @@
-const element = document.querySelector('.spinner');
+const spinnerElement = document.querySelector('.spinner');
 
 class Spinner {
-  constructor(ref) {
-    this.ref = ref;
+  constructor(element) {
+    this.element = element;
   }
   showSpinner() {
-    this.ref.classList.remove('hidden-spinner');
+    this.element.classList.remove('hidden-spinner');
   }
 
   hideSpinner() {
-    this.ref.classList.add('hidden-spinner');
+    this.element.classList.add('hidden-spinner');
   }
 }
-const spinner = new Spinner(element);
+const spinner = new Spinner(spinnerElement);
 
 export default spinner;
