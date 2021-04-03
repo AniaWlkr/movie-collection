@@ -1,6 +1,8 @@
 import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
+import Spinner from './spinner';
 
+const spinner = new Spinner();
 const refs = {
   openTrailerBtn: document.querySelector('.modal-content'),
   modalTrailer: document.querySelector('.modal-trailer'),
@@ -13,7 +15,8 @@ function onOpenTrailer(event) {
   if (event.target.className !== 'modal-card-button trailer-btn') {
     return;
   }
-
+ // здесь можно поставить спиннер
+  spinner.showSpinner();
   moviesApiService
     .getTrailer(movieId)
     .then(({ data: { results } }) => {
@@ -32,21 +35,23 @@ function onOpenTrailer(event) {
           </iframe>
         </div>
       </div >`;
+      spinner.hideSpinner();
       clearContainer();
       createHTML(markupModalTrailer);
     })
     .catch(() => {
       const markupModalImage = `<div class="modal-trailer-backdrop">
-        <div class="modal-trailer-container">
-            <button
-            type="button"
-            class="close-trailer-btn material-icons"
-            data-action="close-trailer">
-            close
-          </button>
-            <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
-        </div >
+      <div class="modal-trailer-container">
+      <button
+      type="button"
+      class="close-trailer-btn material-icons"
+      data-action="close-trailer">
+      close
+      </button>
+      <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
+      </div >
       </div >`;
+      spinner.hideSpinner();
       createHTML(markupModalImage);
     });
 }
