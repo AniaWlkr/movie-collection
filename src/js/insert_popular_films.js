@@ -2,7 +2,7 @@ import MoviesApiService from './api-service/apiService';
 // import noImage from '../images/movies-card/noimage.jpg';
 import defOptions from './pagination/paginationOptions';
 const { options } = defOptions;
-import Spinner from './spinner';
+import spinner from './spinner';
 import refs from './refs/refs';
 import goUp from './utils/goUp';
 import renderCard from './utils/renderCard';
@@ -12,7 +12,6 @@ import { newApi } from './api-service/apiService';
 
 // екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
 const moviesApiService = new MoviesApiService();
-const spinner = new Spinner();
 //--------------------------------------------------------
 // константи
 

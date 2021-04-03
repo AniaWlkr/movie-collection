@@ -1,8 +1,7 @@
 import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
-import Spinner from './spinner';
+import spinner from './spinner';
 
-const spinner = new Spinner();
 const refs = {
   openTrailerBtn: document.querySelector('.modal-content'),
   modalTrailer: document.querySelector('.modal-trailer'),
