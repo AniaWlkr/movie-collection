@@ -21,17 +21,29 @@ function onOpenTrailer(event) {
   spinner.showSpinner();
   moviesApiService.getTrailer(movieId).then(({ data: { results } }) => {
     spinner.hideSpinner();
-    clearContainer();
     refs.modalOverlayTrailer.insertAdjacentHTML(
       'beforeend',
       templateTrailer(results[0]),
     );
     addClassList();
+    window.addEventListener('keydown', onPressEsc);
   });
 }
 
-function onCloseTrailer(event) {
+function onCloseTrailer() {
+  removeClassList();
+  clearContainer();
+}
+
+function onCloseOverlay(event) {
   if (event.target) {
+    removeClassList();
+    clearContainer();
+  }
+}
+
+function onPressEsc(event) {
+  if (event.code === 'Escape') {
     removeClassList();
     clearContainer();
   }
@@ -42,6 +54,8 @@ function clearContainer() {
 }
 
 function removeClassList() {
+  window.removeEventListener('keydown', onPressEsc);
+
   refs.modalOverlayTrailer.classList.remove('show-trailer');
   document.body.classList.remove('no-scroll');
 }
@@ -52,5 +66,5 @@ function addClassList() {
 }
 
 refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
-refs.modalOverlayTrailer.addEventListener('click', onCloseTrailer);
+refs.modalOverlayTrailer.addEventListener('click', onCloseOverlay);
 refs.modalTrailer.addEventListener('click', onCloseTrailer);
