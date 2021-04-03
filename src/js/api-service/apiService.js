@@ -1,6 +1,7 @@
 import axios from 'axios';
-const BASE_URL = 'https://api.themoviedb.org/';
-const API_KEY = 'be8c1fddab60d3ca36450ce7d48f58dd';
+import refs from '../refs/refs';
+// const BASE_URL = 'https://api.themoviedb.org/';
+// const API_KEY = 'be8c1fddab60d3ca36450ce7d48f58dd';
 
 export default class MoviesApiService {
   constructor() {
@@ -13,7 +14,7 @@ export default class MoviesApiService {
     let page = this.page;
     if (newPage) page = newPage;
     return axios.get(
-      `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${page}`,
+      `${refs.BASE_URL}3/trending/all/day?api_key=${refs.API_KEY}&page=${page}`,
     );
   }
 
@@ -23,30 +24,24 @@ export default class MoviesApiService {
     let page = this.page;
     if (newPage) page = newPage;
     return axios.get(
-      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${page}&query=${this.searchQuery}&include_adult=false&language=en`,
+      `${refs.BASE_URL}3/search/movie?api_key=${refs.API_KEY}&page=${page}&query=${this.searchQuery}&include_adult=false&language=en`,
     );
   }
-
   //відповідь жанри фільміву відповіді масив
   getGenresMovies() {
     return axios
-      .get(`${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+      .get(`${refs.BASE_URL}3/genre/movie/list?api_key=${refs.API_KEY}&language=en-US`)
       .then(({ data: genres }) => genres.genres);
   }
   // получаем id фільма віддаем інфу після кліка по карточці
   getResponseInfo(id) {
     return axios.get(
-      `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
-    );
-  }
-  genresApi() {
-    return axios.get(
-      `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
+      `${refs.BASE_URL}3/movie/${id}?api_key=${refs.API_KEY}&language=en-US`,
     );
   }
   getTrailer(movie_id) {
     return axios.get(
-      `${BASE_URL}3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`,
+      `${refs.BASE_URL}3/movie/${movie_id}/videos?api_key=${refs.API_KEY}&language=en-US`,
     );
   }
   get query() {
