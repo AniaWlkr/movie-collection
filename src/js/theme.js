@@ -5,8 +5,6 @@ const refs = {
   footer: document.querySelector('.footer'),
   modalContent: document.querySelector('.modal-content'),
   hackersModal: document.querySelector('.hackers-modal'),
-  //селектор бокса пагінації
-  pagBox: document.querySelector('#pagination-box'),
 };
 
 function onChangeTheme() {
@@ -68,13 +66,14 @@ function rememberTheme(theme, icon) {
 
 //додаем тему на пагінації
 function addPagTheme() {
-  refs.pagBox.children.forEach(element => element.classList.add('dark-theme'));
+  const pagBox = document.querySelector('#pagination-box');
+  pagBox.children.forEach(element => element.classList.add('dark-theme'));
 }
 //знімаєм тему на пагінації
 function removePagTheme() {
-  refs.pagBox.children.forEach(element =>
-    element.classList.remove('dark-theme'),
-  );
+  //селектор бокса пагінації
+  const pagBox = document.querySelector('#pagination-box');
+  pagBox.children.forEach(element => element.classList.remove('dark-theme'));
 }
 
 currentTheme();
