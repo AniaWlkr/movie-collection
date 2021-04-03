@@ -15,7 +15,7 @@ function onOpenTrailer(event) {
   if (event.target.className !== 'modal-card-button trailer-btn') {
     return;
   }
- // здесь можно поставить спиннер
+  // здесь можно поставить спиннер
   spinner.showSpinner();
   moviesApiService
     .getTrailer(movieId)
