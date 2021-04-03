@@ -43,7 +43,7 @@ const team = [
 
   {
     name: 'Elnara Golovina',
-    position: 'Front-End Developer',
+    position: 'Developer',
     city: 'Kiev',
     country: 'Ukraine',
     github: 'github.com/GolovinaElia',
