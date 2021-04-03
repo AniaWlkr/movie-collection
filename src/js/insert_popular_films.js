@@ -25,7 +25,6 @@ const headerRef = document.querySelector('header');
 // const moviesRef = document.querySelector('.movies-list');
 // const pagBox = document.querySelector('#pagination-box');
 // const errorRef = document.querySelector('.search-error');
-
 //--------------------------------------------------------
 // функція для рендеру і пагінації
 async function renderAndPagination(key) {

@@ -20,8 +20,8 @@ import photoTatyana from '../../images/students-modal-pics/Tatyana_Rudenko_origi
 
 const team = [
   {
-    name: 'Anna Skorokhod (Ania Walker)',
-    position: 'Team Lead/Front-End Developer',
+    name: 'Anna Skorokhod',
+    position: 'Team Lead/ Front-End Developer',
     city: 'Dnipro',
     country: 'Ukraine',
     github: 'https://github.com/AniaWlkr',
@@ -32,7 +32,7 @@ const team = [
 
   {
     name: 'Olha Dolzhenko',
-    position: 'Scrum Master/Front-End Developer',
+    position: 'Scrum Master/ Front-End Developer',
     city: 'Bratislava',
     country: 'Slovakia',
     github: 'https://github.com/OlhaDolzhenko',
