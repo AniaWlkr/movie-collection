@@ -1,6 +1,7 @@
 import movieCard from '../templates/movie-card.hbs';
 import LocalStorageService from './local-storage/local-storage';
-import { renderLibraryFilms, renderAndPaginationPopularMovies } from './insert_popular_films';
+// import { renderLibraryFilms, renderAndPaginationPopularMovies } from './insert_popular_films';
+import './insert_popular_films';
 
 const localStorageService = new LocalStorageService();
 

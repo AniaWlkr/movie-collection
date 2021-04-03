@@ -14,7 +14,7 @@ class LocalStorageService {
   }
 
   newMoviesList() {
-   const newMovieList = this.takeFromStorage(this._moviesListKey);
+   const newMovieList = this.takeFromStorage(this._moviesListKeyName);
    if (!newMovieList) return;
    return (this._moviesList = newMovieList);
   }
@@ -27,14 +27,14 @@ class LocalStorageService {
     this.newMoviesList();
     if (this._moviesList.watсhed.includes(this.movieId)) return;
     this._moviesList.watсhed.push(this.movieId);
-    this.saveToStorage(this._moviesListKey, this._moviesList);
+    this.saveToStorage(this._moviesListKeyName, this._moviesList);
   }
 
   addToQueue() {
     this.newMoviesList();
     if (this._moviesList.inQueue.includes(this.movieId)) return;
     this._moviesList.inQueue.push(this.movieId);
-    this.saveToStorage(this._moviesListKey, this._moviesList);
+    this.saveToStorage(this._moviesListKeyName, this._moviesList);
   }
 
   saveCurrentPageToStorage(page) {
@@ -51,7 +51,7 @@ class LocalStorageService {
   }
 
   getMoviesFromStorage() {
-    return this.takeFromStorage(this._moviesListKey);
+    return this.takeFromStorage(this._moviesListKeyName);
   }
 
   getСurrentPageFromStorage() {
