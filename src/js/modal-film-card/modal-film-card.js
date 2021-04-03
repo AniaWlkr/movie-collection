@@ -1,7 +1,6 @@
-import modalCardTemplate from '../templates/modal-film-card.hbs';
-import MoviesApiService from '../js/api-service/apiService';
-import LocalStorageService from '../js/local-storage/local-storage';
-
+import modalCardTemplate from '../../templates/modal-film-card.hbs';
+import MoviesApiService from '../api-service/apiService';
+import newStorage from '../local-storage/local-storage';
 class ModalFilmCard {
   constructor() {
     this.modalRef = document.querySelector('.modal');
@@ -11,45 +10,52 @@ class ModalFilmCard {
     this.drawSelectedFilm = this.drawSelectedFilm.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.storageHandler = this.storageHandler.bind(this);
     this.modalCloseByEsc = this.modalCloseByEsc.bind(this);
   }
-
   openModal(even) {
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
-
   closeModal(event) {
+    this.modalRef.classList.remove('is-open');
+    this.modalContentRef.innerHTML = '';
+  }
+  modalCloseByEsc(event) {
+    if (event.code !== 'Escape') return;
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
     window.removeEventListener('keyup', this.modalCloseByEsc);
   }
-
-  modalCloseByEsc(event) {
-    if (event.code !== 'Escape') return;
-    closeModal();
+  storageHandler(event) {
+    const activeItem = event.target;
+    console.log(event);
+    if (activeItem === event.currentTarget) return;
+    if (activeItem.dataset.active === 'watched') {
+      newStorage.addToWatched();
+      activeItem.disabled = true;
+    }
+    if (activeItem.dataset.active === 'queue') {
+      newStorage.addToQueue();
+      activeItem.disabled = true;
+    }
   }
-
   drawSelectedFilm(event) {
     if (event.target.nodeName === 'UL') {
       return;
     }
-
+    if (!event.target === 'IMG') {
+      return;
+    }
     const newApi = new MoviesApiService();
-    const newStorage = new LocalStorageService();
-
-    const checkTargetElements = event.path.find(
-      element => element.nodeName === 'LI',
-    );
-    const targetId = checkTargetElements.dataset.sourse;
-
+    const targetId = event.target.id;
     const contentRef = this.modalContentRef;
     const openModalInPromice = this.openModal();
     const closeModalInPromice = this.closeModal;
+    const storageHandler = this.storageHandler;
     newStorage.addMovieId = targetId;
     const modalButtonsDivRefPromice = this.modalButtonsDivRef;
     this.modalContentRef.innerHTML = '';
-
     newApi.getResponseInfo(targetId).then(function (answer) {
       contentRef.insertAdjacentHTML(
         'afterbegin',
@@ -60,59 +66,14 @@ class ModalFilmCard {
       const modalButtonsDivRef = document.querySelector('.modal-button-div');
       modalCloseButtonRef.addEventListener('click', closeModalInPromice);
       // openModalInPromice;
-      newStorage.addLocalStorageListener(modalButtonsDivRef);
+      modalButtonsDivRef.addEventListener('click', storageHandler);
     });
   }
-
   addEventListeners() {
     this.modalBackdropeRef.addEventListener('click', this.closeModal);
     this.moviesListRef.addEventListener('click', this.drawSelectedFilm);
   }
 }
-
 const newModal = new ModalFilmCard();
 newModal.addEventListeners();
-
 export default ModalFilmCard;
-
-// const modalRef = document.querySelector('.modal');
-// const modalBackdropeRef = document.querySelector('.modal-backdrope');
-// const modalContentRef = document.querySelector('.modal-content');
-// const moviesListRef = document.querySelector('.movies-list');
-
-// const newApi = new MoviesApiService();
-
-// const openModal = event => {
-//   modalRef.classList.add('is-open');
-//   window.addEventListener('keyup', modalCloseByEsc);
-// };
-
-// const closeModal = event => {
-//   modalRef.classList.remove('is-open');
-//   modalContentRef.innerHTML = '';
-// };
-
-// const modalCloseByEsc = event => {
-//   if (event.code !== 'Escape') return;
-//   modalRef.classList.remove('is-open');
-//   window.removeEventListener('keyup', modalCloseByEsc);
-// };
-
-// const drawSelectedFilm = event => {
-//   const checkTargetElements = event.path.find(
-//     element => element.nodeName === 'LI',
-//   );
-//   const targetId = checkTargetElements.dataset.sourse;
-//   newApi.getResponseInfo(targetId).then(function (answer) {
-//     modalContentRef.insertAdjacentHTML(
-//       'afterbegin',
-//       modalCardTemplate(answer.data),
-//     );
-//     const modalCloseButtonRef = document.querySelector('.modal-close-button');
-//     modalCloseButtonRef.addEventListener('click', closeModal);
-//     openModal();
-//   });
-// };
-
-// modalBackdropeRef.addEventListener('click', closeModal);
-// moviesListRef.addEventListener('click', drawSelectedFilm);
