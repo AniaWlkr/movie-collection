@@ -22,13 +22,12 @@ class ModalFilmCard {
   closeModal(event) {
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
+    window.removeEventListener('keyup', this.modalCloseByEsc);
   }
 
   modalCloseByEsc(event) {
     if (event.code !== 'Escape') return;
-    this.modalRef.classList.remove('is-open');
-    this.modalContentRef.innerHTML = '';
-    window.removeEventListener('keyup', this.modalCloseByEsc);
+    closeModal();
   }
 
   drawSelectedFilm(event) {

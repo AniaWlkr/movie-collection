@@ -148,12 +148,12 @@ const openAuthModal = event => {
 
 const closeAuthModal = event => {
   modalAuthRef.classList.remove('is-open');
+  window.removeEventListener('keyup', modalAuthCloseByEsc);
 };
 
 const modalAuthCloseByEsc = event => {
   if (event.code !== 'Escape') return;
-  modalAuthRef.classList.remove('is-open');
-  window.removeEventListener('keyup', modalAuthCloseByEsc);
+  closeAuthModal();
 };
 
 authenticationFormSignUpRef.addEventListener('click', registrateUser);
