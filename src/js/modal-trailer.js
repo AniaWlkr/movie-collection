@@ -1,9 +1,7 @@
 import templateTrailer from '../templates/modal-trailer.hbs';
 import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
-
-import Spinner from './spinner';
-const spinner = new Spinner();
+import spinner from './spinner';
 
 const refs = {
   openTrailerBtn: document.querySelector('.modal-content'),
