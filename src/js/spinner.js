@@ -1,6 +1,6 @@
-const element = document.querySelector('.spinner');
+const spinnerElement = document.querySelector('.spinner');
 
-export default class Spinner {
+class Spinner {
   constructor(element) {
     this.element = element;
   }
@@ -12,4 +12,6 @@ export default class Spinner {
     element.classList.add('hidden-spinner');
   }
 }
-const spinner = new Spinner(element);
+const spinner = new Spinner(spinnerElement);
+
+export default spinner;
