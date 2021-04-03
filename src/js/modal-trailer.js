@@ -1,3 +1,4 @@
+import templateTrailer from '../templates/modal-trailer.hbs';
 import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
 import spinner from './spinner';
@@ -16,47 +17,31 @@ function onOpenTrailer(event) {
   }
   // здесь можно поставить спиннер
   spinner.showSpinner();
-  moviesApiService
-    .getTrailer(movieId)
-    .then(({ data: { results } }) => {
-      const trailerKey = results[0].key;
-
-      const markupModalTrailer = `<div class="modal-trailer-backdrop">
-        <div class="modal-trailer-container">
-          <button
-            type="button"
-            class="close-trailer-btn material-icons"
-            data-action="close-trailer">
-            close
-          </button>
-          <iframe src="https://www.youtube.com/embed/${trailerKey}" class="trailer" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div >`;
-      spinner.hideSpinner();
-      clearContainer();
-      createHTML(markupModalTrailer);
-    })
-    .catch(() => {
-      const markupModalImage = `<div class="modal-trailer-backdrop">
-      <div class="modal-trailer-container">
-      <button
-      type="button"
-      class="close-trailer-btn material-icons"
-      data-action="close-trailer">
-      close
-      </button>
-      <img src="https://linuxliaison.org/wp-content/uploads/2017/10/Screenshot-from-2017-10-16-23-05-56.png" class="trailer" />
-      </div >
-      </div >`;
-      spinner.hideSpinner();
-      createHTML(markupModalImage);
-    });
+  moviesApiService.getTrailer(movieId).then(({ data: { results } }) => {
+    spinner.hideSpinner();
+    refs.modalOverlayTrailer.insertAdjacentHTML(
+      'beforeend',
+      templateTrailer(results[0]),
+    );
+    addClassList();
+    window.addEventListener('keydown', onPressEsc);
+  });
 }
 
-function onCloseTrailer(event) {
+function onCloseTrailer() {
+  removeClassList();
+  clearContainer();
+}
+
+function onCloseOverlay(event) {
   if (event.target) {
+    removeClassList();
+    clearContainer();
+  }
+}
+
+function onPressEsc(event) {
+  if (event.code === 'Escape') {
     removeClassList();
     clearContainer();
   }
@@ -66,12 +51,9 @@ function clearContainer() {
   refs.modalOverlayTrailer.innerHTML = '';
 }
 
-function createHTML(murkup) {
-  refs.modalOverlayTrailer.insertAdjacentHTML('beforeend', murkup);
-  addClassList();
-}
-
 function removeClassList() {
+  window.removeEventListener('keydown', onPressEsc);
+
   refs.modalOverlayTrailer.classList.remove('show-trailer');
   document.body.classList.remove('no-scroll');
 }
@@ -82,5 +64,5 @@ function addClassList() {
 }
 
 refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
-refs.modalOverlayTrailer.addEventListener('click', onCloseTrailer);
+refs.modalOverlayTrailer.addEventListener('click', onCloseOverlay);
 refs.modalTrailer.addEventListener('click', onCloseTrailer);
