@@ -8,6 +8,7 @@ import './js/modal-trailer';
 import './js/hackers-modal/hackers-modal';
 import './authentication/authentication';
 import './notifications/notifications';
+import './js/firebase';
 
 //отображение лоадера при загрузке страницы
 window.addEventListener('load', pageLoading());

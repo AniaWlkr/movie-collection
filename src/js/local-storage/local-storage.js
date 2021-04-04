@@ -1,12 +1,15 @@
 class LocalStorageService {
   constructor() {
     this.movieId = '';
-    this._moviesList = {watсhed: [], inQueue: []};
-    this._moviesListKeyName = 'movie';
-    this._currentPageKeyName = 'currentPage';
-    this.storageHandler = this.storageHandler.bind(this);
-    // this.addToWatched = this.addToWatched.bind(this);
-    // this.addToQueue = this.addToQueue.bind(this);
+    this._moviesList = { watсhed: [], inQueue: [] };
+    this._watchedMovies = [];
+    this._moviesInQueue = [];
+    this._moviesListKey = 'movie';
+    this._currentPageKey = 'currentPage';
+    this.addToQueue = this.addToQueue.bind(this);
+    this.addToWatched = this.addToWatched.bind(this);
+    this.getMoviesFromStorage = this.getMoviesFromStorage.bind(this);
+    this.saveCurrentPageToStorage = this.saveCurrentPageToStorage.bind(this);
   }
 
   set addMovieId (newId) {
@@ -14,12 +17,23 @@ class LocalStorageService {
   }
 
   newMoviesList() {
-   const newMovieList = this.takeFromStorage(this._moviesListKeyName);
+   const newMovieList = this.takeFromStorage(this._moviesListKey);
    if (!newMovieList) return;
    return (this._moviesList = newMovieList);
   }
 
-  saveToStorage (key, element) {
+  createMovieCardObj(element) {
+    this.getRefs(element);
+    let movieObj = {};
+    // movieObj.posterPath = ;
+  }
+
+  getRefs(ref) {
+    const arr = ref.children;
+    console.dir(arr);
+  }
+
+  saveToStorage(key, element) {
     localStorage.setItem(key, JSON.stringify(element));
   }
 
@@ -27,14 +41,14 @@ class LocalStorageService {
     this.newMoviesList();
     if (this._moviesList.watсhed.includes(this.movieId)) return;
     this._moviesList.watсhed.push(this.movieId);
-    this.saveToStorage(this._moviesListKeyName, this._moviesList);
+    this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
   addToQueue() {
     this.newMoviesList();
     if (this._moviesList.inQueue.includes(this.movieId)) return;
     this._moviesList.inQueue.push(this.movieId);
-    this.saveToStorage(this._moviesListKeyName, this._moviesList);
+    this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
   saveCurrentPageToStorage(page) {
@@ -51,7 +65,7 @@ class LocalStorageService {
   }
 
   getMoviesFromStorage() {
-    return this.takeFromStorage(this._moviesListKeyName);
+    return this.takeFromStorage(this._moviesListKey);
   }
 
   getСurrentPageFromStorage() {
@@ -62,31 +76,46 @@ class LocalStorageService {
   //   this.takeFromStorage(this._currentPageKeyName);
   // }
 
-  storageHandler (event) {
-    const activeItem = event.target;
-
-    if (activeItem === event.currentTarget) return;
-
-    if (activeItem.dataset.active === 'watched') {
-      this.addToWatched();
-      activeItem.disabled = true;
-    }
-
-    if (activeItem.dataset.active === 'queue') {
-      this.addToQueue();
-      activeItem.disabled = true;
-    }
-  }
-
-  //Метод для Лены Губаренко
-  addLocalStorageListener(selector) {
-    selector.addEventListener('click', this.storageHandler);
-  }
-
-  //Метод для Лены Губаренко
-  removeLocalStorageListener(selector) {
-    selector.removeEventListener('click', this.storageHandler);
-  }
+ 
 }
 
-export default LocalStorageService;
+const newlocalStorage = new LocalStorageService();
+
+export default newlocalStorage;
+
+
+
+
+
+
+
+
+
+
+
+
+ // storageHandler (event) {
+  //   const activeItem = event.target;
+
+  //   if (activeItem === event.currentTarget) return;
+
+  //   if (activeItem.dataset.active === 'watched') {
+  //     this.addToWatched();
+  //     activeItem.disabled = true;
+  //   }
+
+  //   if (activeItem.dataset.active === 'queue') {
+  //     this.addToQueue();
+  //     activeItem.disabled = true;
+  //   }
+  // }
+
+  //Метод для Лены Губаренко
+  // addLocalStorageListener(selector) {
+  //   selector.addEventListener('click', this.storageHandler);
+  // }
+
+  // //Метод для Лены Губаренко
+  // removeLocalStorageListener(selector) {
+  //   selector.removeEventListener('click', this.storageHandler);
+  // }
