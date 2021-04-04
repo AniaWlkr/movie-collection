@@ -9,7 +9,7 @@ import { getMoviesLibraryList } from '../js/firebase';
 import testArr from './testArrOfFilm'; //для тестировки пагинации
 // import renderLibrary from './insert_popular_films';
 
-const localStorageService = new LocalStorageService();
+// const localStorageService = new LocalStorageService();
 
 const refs = {
   header: document.querySelector('.header'),

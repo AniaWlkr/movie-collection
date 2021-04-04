@@ -6,8 +6,8 @@ import './js/insert_popular_films';
 import './js/theme';
 import './js/modal-trailer';
 import './js/hackers-modal/hackers-modal';
-import './authentication/authentication';
-import './notifications/notifications';
+import './js/authentication/authentication';
+import './js/notifications/notifications';
 import './js/firebase';
 import './js/hackers-modal/render-hackers-modal';
 /* import './js/filter/filter-by-genre-list'; */

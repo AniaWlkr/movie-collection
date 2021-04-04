@@ -1,7 +1,8 @@
-import modalCardTemplate from '../templates/modal-film-card.hbs';
-import MoviesApiService from '../js/api-service/apiService';
-import newStorage from '../js/local-storage/local-storage';
-import { updateWatched, updateQueue } from '../js/firebase';
+import modalCardTemplate from '../../templates/modal-film-card.hbs';
+import MoviesApiService from '../api-service/apiService';
+
+import newStorage from '../local-storage/local-storage';
+import { updateWatched, updateQueue } from '../firebase';
 
 class ModalFilmCard {
   constructor() {
