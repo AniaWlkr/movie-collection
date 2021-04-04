@@ -1,5 +1,6 @@
 import modalCardTemplate from '../../templates/modal-film-card.hbs';
-import MoviesApiService from '../api-service/apiService';
+// import MoviesApiService from '../api-service/apiService';
+import { newApi } from '../api-service/apiService';
 
 import newStorage from '../local-storage/local-storage';
 import { updateWatched, updateQueue } from '../firebase';
@@ -70,7 +71,7 @@ class ModalFilmCard {
     if (!event.target === 'IMG') {
       return;
     }
-    const newApi = new MoviesApiService();
+    // const newApi = new MoviesApiService();
 
     const checkTargetElements = event.path.find(
       element => element.nodeName === 'LI',
