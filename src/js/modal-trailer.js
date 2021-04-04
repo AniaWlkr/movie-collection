@@ -15,6 +15,7 @@ function onOpenTrailer(event) {
   if (event.target.className !== 'modal-card-button trailer-btn') {
     return;
   }
+
   // здесь можно поставить спиннер
   spinner.showSpinner();
   moviesApiService.getTrailer(movieId).then(({ data: { results } }) => {
@@ -66,3 +67,5 @@ function addClassList() {
 refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
 refs.modalOverlayTrailer.addEventListener('click', onCloseOverlay);
 refs.modalTrailer.addEventListener('click', onCloseTrailer);
+
+export { onCloseTrailer };

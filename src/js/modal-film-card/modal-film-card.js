@@ -1,8 +1,13 @@
 import modalCardTemplate from '../../templates/modal-film-card.hbs';
-import MoviesApiService from '../api-service/apiService';
-
+import { newApi } from '../api-service/apiService';
 import newStorage from '../local-storage/local-storage';
+import spinner from '../spinner';
+import noImage from '../../images/movies-card/noimage.jpg';
+import { onCloseTrailer } from '../modal-trailer'; 
 import { updateWatched, updateQueue } from '../firebase';
+
+const requestError = document.querySelector('.request-error');
+const boxModalTrailer = document.querySelector('.modal-trailer-overlay'); //ссылка на бокс
 
 class ModalFilmCard {
   constructor() {
@@ -10,6 +15,8 @@ class ModalFilmCard {
     this.modalBackdropeRef = document.querySelector('.modal-backdrope');
     this.modalContentRef = document.querySelector('.modal-content');
     this.moviesListRef = document.querySelector('.movies-list');
+    this.openTrailerBtn = document.querySelector('.modal-content'),
+
     this.drawSelectedFilm = this.drawSelectedFilm.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -18,19 +25,26 @@ class ModalFilmCard {
     this.createObjForStoring = this.createObjForStoring.bind(this);
     this.cardInToObj = {};
   }
-  openModal(even) {
+  openModal() {
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
-  closeModal(event) {
-    this.modalRef.classList.remove('is-open');
-    this.modalContentRef.innerHTML = '';
-  }
-  modalCloseByEsc(event) {
-    if (event.code !== 'Escape') return;
+  closeModal() {
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
     window.removeEventListener('keyup', this.modalCloseByEsc);
+  }
+
+  modalCloseByEsc(event) {
+    if (event.code !== 'Escape') return;
+        //--------------------------------------закриття трейлера
+    console.log(boxModalTrailer);
+    if (boxModalTrailer.classList.contains('show-trailer')) {
+      onCloseTrailer();
+    }
+    else {
+      this.closeModal();
+    }
   }
 
   storageHandler(event) {
@@ -39,15 +53,15 @@ class ModalFilmCard {
     if (activeItem === event.currentTarget) return;
 
     if (activeItem.dataset.active === 'watched') {
-      updateWatched(this.cardInToObj);
-      // newStorage.addToWatched();
-      activeItem.disabled = true;
+      // updateWatched(this.cardInToObj);
+      newStorage.addToWatched();
+      activeItem.disabled = true; //обработка кнопки (смена текста)
     }
 
     if (activeItem.dataset.active === 'queue') {
-      updateQueue(this.cardInToObj);
-      // newStorage.addToQueue();
-      activeItem.disabled = true;
+      // updateQueue(this.cardInToObj);
+      newStorage.addToQueue();
+      activeItem.disabled = true; //обработка кнопки (смена текста)
     }
   }
 
@@ -62,43 +76,69 @@ class ModalFilmCard {
     this.cardInToObj.genres = data.genres;
     this.cardInToObj.name = data.name;
   }
-
-  drawSelectedFilm(event) {
-    if (event.target.nodeName === 'UL') {
-      return;
+  
+  async getData(id) {
+    try {
+      const resolve = await newApi.getResponseInfo(id);
+      return resolve;
     }
+    catch (error) {
+      return 'error';
+    }
+  }
+
+  async drawSelectedFilm(event) {
     if (!event.target === 'IMG') {
       return;
     }
-    const newApi = new MoviesApiService();
+    spinner.showSpinner();
 
-    const checkTargetElements = event.path.find(
-      element => element.nodeName === 'LI',
-    );
-
-    const targetId = checkTargetElements.dataset.sourse;
-
+    const targetId = event.target.dataset.sourse;
     const contentRef = this.modalContentRef;
+    
+    newStorage.addMovieId = targetId;
+    
+    this.modalContentRef.innerHTML = '';
+    
+    const answer = await this.getData(targetId);
+
+    if (answer === 'error') { 
+      spinner.hideSpinner();
+      requestError.classList.remove('visually-hidden');
+      console.log(requestError);
+      setTimeout(() => {
+        requestError.classList.add('visually-hidden')
+      }, 2700);
+      return;
+    }
+    
+    if (!answer.data.poster_path) {
+      answer.data.poster_path = `${noImage}`;
+    } else {
+      answer.data.poster_path =
+      'https://image.tmdb.org/t/p/w500' + answer.data.poster_path;
+    }
+    console.log(answer.data);
+    
     const openModalInPromice = this.openModal();
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
+    
     const newObj = this.createObjForStoring;
-    newStorage.addMovieId = targetId;
-    const modalButtonsDivRefPromice = this.modalButtonsDivRef;
-    this.modalContentRef.innerHTML = '';
-    newApi.getResponseInfo(targetId).then(function (answer) {
-     newObj(answer.data);
-      contentRef.insertAdjacentHTML(
-        'afterbegin',
-        modalCardTemplate(answer.data),
-      );
-      openModalInPromice;
-      const modalCloseButtonRef = document.querySelector('.modal-close-button');
-      const modalButtonsDivRef = document.querySelector('.modal-button-div');
-      modalCloseButtonRef.addEventListener('click', closeModalInPromice);
-      // openModalInPromice;
-      modalButtonsDivRef.addEventListener('click',storageHandler);
-    });
+    newObj(answer.data);
+      
+    spinner.hideSpinner();
+
+    contentRef.insertAdjacentHTML(
+      'afterbegin',
+      modalCardTemplate(answer.data),
+    )
+      
+    openModalInPromice;
+    const modalCloseButtonRef = document.querySelector('.modal-close-button');
+    const modalButtonsDivRef = document.querySelector('.modal-button-div');
+    modalCloseButtonRef.addEventListener('click', closeModalInPromice);
+    modalButtonsDivRef.addEventListener('click',storageHandler);
   }
   addEventListeners() {
     this.modalBackdropeRef.addEventListener('click', this.closeModal);
@@ -107,4 +147,4 @@ class ModalFilmCard {
 }
 const newModal = new ModalFilmCard();
 newModal.addEventListeners();
-export default ModalFilmCard;
+// export default ModalFilmCard;
