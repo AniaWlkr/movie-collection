@@ -91,6 +91,7 @@ class ModalFilmCard {
     if (!event.target === 'IMG') {
       return;
     }
+
     spinner.showSpinner();
 
     const targetId = event.target.dataset.sourse;

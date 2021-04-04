@@ -1,9 +1,8 @@
-import MoviesApiService from './api-service/apiService';
 // import noImage from '../images/movies-card/noimage.jpg';
 import defOptions from './pagination/paginationOptions';
 const { options } = defOptions;
 import spinner from './spinner';
-import refs from './refs/refs';
+// import refs from './refs/refs';
 import goUp from './utils/goUp';
 import renderCard from './utils/renderCard';
 import createCorectResult from './utils/createCorectResults';
@@ -55,22 +54,27 @@ async function renderAndPagination(key) {
   PaginationPlugin.setTotalItems(total_results);
   // якщо пустий масив в результатах <------ коли нічого не знайдено а відповідь приходить
   if (total_results === 0) {
+    errorRef.classList.remove('is-hidden');
+    setTimeout(errorSearchMovie, 2000);
     console.log('нічого не знайдено'); // <-------------------------------- все на pnotify
     return;
   }
   const correctResult = await createCorectResult(results);
-  // spinner.hideSpinner();
   renderCard(correctResult);
   // spinner.hideSpinner();
   PaginationPlugin.on('beforeMove', e => {
     removeAndChangePagTheme(pagBox);
   });
+
   PaginationPlugin.on('afterMove', async ({ page }) => {
     spinner.showSpinner();
     removeAndChangePagTheme(pagBox);
     const {
       data: { results },
     } = await promise(page);
+
+    //PaginationPlugin.setTotalItems(total_results);
+
     const correctResult = await createCorectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
@@ -85,7 +89,7 @@ function renderAndPaginationPopularMovies() {
 //--------------------------------------------------------
 // функція пошук по слову
 function renderAndPaginationSearchMovies() {
-  refs.searchForm.addEventListener('submit', onSearch);
+  searchForm.addEventListener('submit', onSearch);
 }
 //--------------------------------------------------------
 function onSearch(event) {
@@ -94,13 +98,14 @@ function onSearch(event) {
   //получаем строку и удаляем пробели
   let query = event.currentTarget.elements.query.value.trim();
   if (!query) {
-    refs.errorRef.classList.remove('is-hidden');
+    errorRef.classList.remove('is-hidden');
+    setTimeout(errorSearchMovie, 2000);
     spinner.hideSpinner();
     return;
   }
-  // moviesApiService.query = query;
   newApi.searchQuery = query;
   renderAndPagination('word');
+  searchForm.reset();
 }
 //--------------------------------------------------------
 //зміна теми для пагінації
@@ -222,6 +227,7 @@ function renderLibraryById(arrayMovieId) {
   options.totalItems = arrayMovieId.length;
   const { PaginationPlugin } = createNewPagination();
   const pagBox = document.querySelector('#pagination-box');
+
   removeAndChangePagTheme(pagBox);
   const firstMovieId = arrayMovieId.filter(
     (_, index) => index < maxCardPerPage,
@@ -240,6 +246,10 @@ function renderLibraryById(arrayMovieId) {
     requestHandler(nextMovieId);
     goUp(headerRef);
   });
+
   PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
 }
 // renderLibraryById(testArrId);
+function errorSearchMovie() {
+  errorRef.classList.add('is-hidden'); 
+};
