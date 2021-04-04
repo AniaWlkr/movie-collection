@@ -70,17 +70,19 @@ class MoviesApiServiceVersion2 {
     this.page = 1;
     //масив жанрів
     this.genresArr = [];
+    //сюди записуєм фільм на якому користувач зробить клік записуєм після отримання коректної відповіді  
+    this.currentMovie = [];
     //робим один запит за жанрами при створенні конструктора і записуєм жанри в масив вище
     this.getGenresMovies();
   }
   //відповідь фільми в тренді
   getResponseAll(newPage) {
     // по замовчуванню 1 сторінка дальше передаем № сторінки
-    // console.log(document.documentElement.clientWidth > 1024);
     let page = this.page;
     if (newPage) page = newPage;
     const results = this.manyRequest(page);
     return results;
+    //варіант на 20 відповідей
     // return axios.get(
     //   `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${page}`,
     // );
@@ -135,17 +137,30 @@ class MoviesApiServiceVersion2 {
       });
   }
   // получаем id фільма віддаем інфу після кліка по карточці
+  //фактично непотрібно проганяти через функцію корекції лиш поправити жанри і все
+  //старий варіант
   getResponseInfo(id) {
-    return axios.get(
-      `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
-    );
+    // return axios.get(
+    //   `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
+    // );
   }
-  //дубляж метода getGenresMovies()
-  // genresApi() {
-  //   return axios.get(
-  //     `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
-  //   );
-  // }
+  //нове версія з записом обєкта в конструктор при кліку
+  async getResponseInfo(id) {
+    try {
+      const { data } = await axios.get(
+        `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
+      );
+      const { genres } = data;
+      // const newGenresID = genres.map(({ id }) => id); // перезаписуєм по нормальному ID жанрів
+      // data.genre_ids = [...newGenresID];
+      const newGenres = genres.map(({ name }) => name); // перезаписуєм по нормальному жанри
+      data.genres = [...newGenres];
+      return data;
+    } catch (error) {
+      console.log('Такого обєкта немає в базі даних,попробуй наступнй фільм'); //клік по картинці якої немає в бд можна виносити в pnotify
+      console.log('Упс, щось пішло не так');
+    }
+  }
   getTrailer(movie_id) {
     return axios.get(
       `${BASE_URL}3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`,
