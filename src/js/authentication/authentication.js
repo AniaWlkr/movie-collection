@@ -25,7 +25,7 @@ const requestSignIn = (email, password) => {
   };
 
   return fetch(
-    'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDaD14Fy0lYil3onN9h16tfWhnpCdPu6S0',
+    'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
     {
       method: 'POST',
       body: JSON.stringify(data),
@@ -46,7 +46,7 @@ const requestSignUp = (email, password) => {
   };
 
   return fetch(
-    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDaD14Fy0lYil3onN9h16tfWhnpCdPu6S0',
+    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
     {
       method: 'POST',
       body: JSON.stringify(data),
