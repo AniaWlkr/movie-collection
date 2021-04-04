@@ -5,6 +5,7 @@ import {
   renderAndPaginationPopularMovies,
   renderLibrary,
 } from './insert_popular_films';
+import { getMoviesLibraryList } from '../js/firebase';
 import testArr from './testArrOfFilm'; //для тестировки пагинации
 // import renderLibrary from './insert_popular_films';
 
@@ -25,9 +26,13 @@ const setMoviesLibraryListHeight = () => {
   const paddings = 110;
   const margins = 26;
   const headerHeight = refs.header.clientHeight;
+  console.log(headerHeight);
   const footerHeight = refs.footer.clientHeight;
+  console.log(footerHeight);
   const paginationHeight = refs.paginationBox.clientHeight;
+  console.log(paginationHeight);
   const windowHeight = document.documentElement.clientHeight;
+  console.log(windowHeight);
   let scrollHeight = Math.max(
     document.body.scrollHeight,
     document.documentElement.scrollHeight,
@@ -36,15 +41,12 @@ const setMoviesLibraryListHeight = () => {
     document.body.clientHeight,
     document.documentElement.clientHeight,
   );
-  const moviesListCurrentHeight =
-    scrollHeight -
-    (headerHeight + footerHeight + paginationHeight + paddings + margins);
+  console.log(scrollHeight);
+  const moviesListCurrentHeight = scrollHeight - (headerHeight + footerHeight + paginationHeight + paddings + margins);
   console.log(moviesListCurrentHeight);
   if (scrollHeight <= windowHeight) {
     refs.movieList.style.height = moviesListCurrentHeight + 'px';
-  } else {
-    refs.movieList.removeAttribute('style');
-  }
+  } else { refs.movieList.removeAttribute('style') }
 };
 
 //Функция для работы с Библиотекой
@@ -71,24 +73,25 @@ const onChangeList = event => {
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === 'finished') {
     event.target.classList.add('is-active');
-    const movies = localStorageService.getMoviesFromStorage();
-    const watchedMovies = movies.watсhed;
-    // renderLibraryFilms(watchedMovies);
-    renderLibrary(testArr);
+    // const movies = LocalStorageService.getMoviesFromStorage();
+    getMoviesLibraryList().then(item => {
+     const watchedMovies = item.watсhed;
+     renderLibrary(watchedMovies);
+    });
   }
 
   //Отрисовывает если нажата кнопка "QUEUE"
   if (event.target.dataset.action === 'waiting') {
     event.target.classList.add('is-active');
-    const movies = localStorageService.getMoviesFromStorage();
-    const moviesInQueue = movies.inQueue;
-    // renderLibraryFilms(moviesInQueue);
-    renderLibrary(testArr);
+    const movies = getMoviesLibraryList();
+    const queueMovies = movies.queue;
+    renderLibrary(queueMovies);
   }
 };
 
 //Перерисовка разметки
-const changeMarkup = page => {
+const changeMarkup = (page) => {
+
   const activePageState = page.dataset.state;
 
   if (activePageState === 'home') {

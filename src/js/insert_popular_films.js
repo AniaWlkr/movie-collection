@@ -9,7 +9,6 @@ import renderCard from './utils/renderCard';
 import createCorectResult from './utils/createCorectResults';
 import createNewPagination from './utils/createNewPagination';
 import { newApi } from './api-service/apiService';
-
 // екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
 const moviesApiService = new MoviesApiService();
 //--------------------------------------------------------
@@ -19,11 +18,6 @@ const searchForm = document.querySelector('#search-form');
 // const pagBox = document.querySelector('#pagination-box');
 const errorRef = document.querySelector('.search-error');
 const headerRef = document.querySelector('header');
-
-// const searchForm = document.querySelector('#search-form');
-// const moviesRef = document.querySelector('.movies-list');
-// const pagBox = document.querySelector('#pagination-box');
-// const errorRef = document.querySelector('.search-error');
 //--------------------------------------------------------
 // функція для рендеру і пагінації
 async function renderAndPagination(key) {
@@ -39,14 +33,12 @@ async function renderAndPagination(key) {
   //берем ссилку на необхідну функцію
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
-
   //заготовка під скрол до потрібної сторінки
   //якщо у нас записалась якась сторінка на локал сторадж
   let page = 1;
   // let storadgePage = 2; //Для перевірки наступну строку заоментувати і навпаки
   let storadgePage = 0;
   if (storadgePage !== 1 && storadgePage) page = storadgePage;
-
   // spinner.showSpinner();
   const {
     data: { results, total_results },
@@ -67,21 +59,19 @@ async function renderAndPagination(key) {
   // spinner.hideSpinner();
   renderCard(correctResult);
   // spinner.hideSpinner();
-
   PaginationPlugin.on('afterMove', async ({ page }) => {
     spinner.showSpinner();
     changePagTheme(pagBox);
     const {
       data: { results, total_results },
     } = await promise(page);
-    PaginationPlugin.setTotalItems(total_results);
+    // PaginationPlugin.setTotalItems(total_results);
     const correctResult = await createCorectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
     spinner.hideSpinner();
   });
 }
-
 //--------------------------------------------------------
 // функція популярних фільмів
 function renderAndPaginationPopularMovies() {
@@ -104,7 +94,6 @@ function onSearch(event) {
     return;
   }
   // moviesApiService.query = query;
-
   newApi.searchQuery = query;
   renderAndPagination('word');
 }
@@ -124,6 +113,7 @@ renderAndPaginationSearchMovies();
 //функція для рендеру і пагінації для бібліотеки
 // отримуєм масив готових коректних обєктів
 function renderLibrary(arrayFilm) {
+  console.log(arrayFilm.length);
   const maxCardPerPage = 12;
   options.itemsPerPage = maxCardPerPage;
   options.totalItems = arrayFilm.length;
@@ -201,6 +191,7 @@ spinner.hideSpinner();
       });
     });
   });
+  PaginationPlugin.on('afterMove', e => changePagTheme(pagBox));
 }
 //--------------------------------------------------------
 // функція популярних фільмів
