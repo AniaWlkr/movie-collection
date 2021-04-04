@@ -5,7 +5,7 @@ import spinner from './spinner';
 // import refs from './refs/refs';
 import goUp from './utils/goUp';
 import renderCard from './utils/renderCard';
-import createCorectResult from './utils/createCorectResults';
+import createCorrectResult from './utils/createCorrectResults';
 import createNewPagination from './utils/createNewPagination';
 import { newApi } from './api-service/apiService';
 //--------------------------------------------------------
@@ -59,7 +59,7 @@ async function renderAndPagination(key) {
     console.log('нічого не знайдено'); // <-------------------------------- все на pnotify
     return;
   }
-  const correctResult = await createCorectResult(results);
+  const correctResult = await createCorrectResult(results);
   renderCard(correctResult);
   // spinner.hideSpinner();
   PaginationPlugin.on('beforeMove', e => {
@@ -75,7 +75,7 @@ async function renderAndPagination(key) {
 
     //PaginationPlugin.setTotalItems(total_results);
 
-    const correctResult = await createCorectResult(results);
+    const correctResult = await createCorrectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
     spinner.hideSpinner();
@@ -218,7 +218,7 @@ async function requestHandler(arr) {
     }
   });
   const results = await Promise.all(promises);
-  const correctResult = await createCorectResult(results);
+  const correctResult = await createCorrectResult(results);
   renderCard(correctResult);
 }
 function renderLibraryById(arrayMovieId) {
@@ -251,5 +251,5 @@ function renderLibraryById(arrayMovieId) {
 }
 // renderLibraryById(testArrId);
 function errorSearchMovie() {
-  errorRef.classList.add('is-hidden'); 
-};
+  errorRef.classList.add('is-hidden');
+}
