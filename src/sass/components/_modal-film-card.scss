@@ -56,11 +56,13 @@
     border: none;
     background-color: $primary-text-color;
     transition: color $transition-duration $transition-timing-function;
+    outline: none;
 
     &:hover,
     &:focus {
       cursor: pointer;
       color: $accent-color;
+      outline: none;
     }
   }
 

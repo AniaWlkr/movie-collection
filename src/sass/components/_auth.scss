@@ -1,7 +1,7 @@
 .authentication-form {
   display: flex;
   flex-direction: column;
-  padding: 80px;
+  padding: 30px;
   border: 2px solid $background-auth-form;
   border-radius: 10px;
   background-color: $background-auth-form;
@@ -21,7 +21,7 @@
     margin-left: 15px;
     padding: 3px 3px 3px 7px;
     border-radius: 5px;
-    width: 250px;
+    width: 100px;
   }
 
   &-buttons-div {
@@ -32,7 +32,7 @@
 
   &-submit {
     width: 80px;
-    height: 44px;
+    height: 30px;
     background-color: $primary-text-color;
     border-radius: 5px;
     font-size: 16px;
@@ -65,8 +65,8 @@
 
 .modal-auth-close-button {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 10px;
+  right: 10px;
   background-color: initial;
   border: none;
   outline: none;
@@ -135,5 +135,25 @@
     cursor: pointer;
     background-color: $accent-color;
     outline: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .authentication-form {
+    padding: 80px;
+
+    &-input {
+      width: 250px;
+    }
+
+    &-submit {
+      width: 80px;
+      height: 44px;
+    }
+  }
+
+  .modal-auth-close-button {
+    top: 20px;
+    right: 30px;
   }
 }
