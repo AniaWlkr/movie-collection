@@ -131,13 +131,20 @@
         // text-align: center;
     
         z-index: 10000;
+        // max-width: 280px;
+        // min-width: 280px;
+        // max-height: 600px;
+        
+        // padding: 48px 20px 41px 20px;
+        background-color: $primary-text-color;
+        transition: transform $transition-duration $transition-timing-function;
+    }
+    &-modal-card {
         max-width: 280px;
         min-width: 280px;
         max-height: 600px;
         
         padding: 48px 20px 41px 20px;
-        background-color: $primary-text-color;
-        transition: transform $transition-duration $transition-timing-function;
     }
     &-modal-close-button {
         position: absolute;
@@ -219,38 +226,40 @@
 }
 
 @media screen and (min-width: $tablet) {
-    .hacker-modal-in-modal {
-        max-width: 458px;
-        min-width: 458px;
-        display: flex;
-    }
-    .hacker-pic {
-        margin: 0;
-        margin-right: 20px;
-    }
-    .hacker-wrapper {
-        margin-left: 0;
-    }
-    .hacker-name {
-        margin-bottom: 8;
-        font-size: 19px;
-    }
-    .hacker-position {
-        margin-bottom: 15px;
-        font-size: 15px;
-    }
-    .hacker-location {
-        margin-bottom: 15px;
-        font-size: 16px;
-    }
-    .hacker-accent {
-        font-size: 16px;
-    }
-    .hacker-tools-list {
-        margin-bottom: 15px;
-    }
-    .hacker-tools-img {
-        width: 30px;
-        height: 30px;
+    .hacker {
+        &-modal-card {
+            max-width: 458px;
+            min-width: 458px;
+            display: flex;
+        }
+        &-pic {
+            margin: 0;
+            margin-right: 20px;
+        }
+        &-wrapper {
+            margin-left: 0;
+        }
+        &-name {
+            margin-bottom: 8;
+            font-size: 19px;
+        }
+        &-position {
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        &-location {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        &-accent {
+            font-size: 16px;
+        }
+        &-tools-list {
+            margin-bottom: 15px;
+        }
+        &-tools-img {
+            width: 30px;
+            height: 30px;
+        }
     }
 }
