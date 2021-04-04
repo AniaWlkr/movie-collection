@@ -84,6 +84,10 @@ const onChangeList = event => {
   if (event.target.dataset.action === 'waiting') {
     event.target.classList.add('is-active');
     const movies = getMoviesLibraryList();
+    if (!movies.queue) {
+      console.log('Nothing in queue');
+      return;
+    }
     const queueMovies = movies.queue;
     renderLibrary(queueMovies);
   }
@@ -109,6 +113,8 @@ const changeMarkup = (page) => {
     refs.header.classList.remove('header');
     refs.searchFofm.classList.add('is-hidden');
     refs.tabs.classList.remove('is-hidden');
+    document.querySelector('button[data-action="waiting"]').classList.add('is-active', 'current');
+    //нужно добавить отрисовку
     refs.tabs.addEventListener('click', onChangeList);
     setMoviesLibraryListHeight();
   }

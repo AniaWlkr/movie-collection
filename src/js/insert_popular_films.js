@@ -8,10 +8,9 @@ import renderCard from './utils/renderCard';
 import createCorectResult from './utils/createCorectResults';
 import createNewPagination from './utils/createNewPagination';
 import { newApi } from './api-service/apiService';
-
+//--------------------------------------------------------
 // константи
 const searchForm = document.querySelector('#search-form');
-// const pagBox = document.querySelector('#pagination-box');
 const errorRef = document.querySelector('.search-error');
 const headerRef = document.querySelector('header');
 //--------------------------------------------------------
@@ -29,12 +28,15 @@ async function renderAndPagination(key) {
   //берем ссилку на необхідну функцію
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
+  //------------------------------------------------------------------ <------ не реалізовано
   //заготовка під скрол до потрібної сторінки
   //якщо у нас записалась якась сторінка на локал сторадж
   let page = 1;
   // let storadgePage = 2; //Для перевірки наступну строку заоментувати і навпаки
   let storadgePage = 0;
   if (storadgePage !== 1 && storadgePage) page = storadgePage;
+  //------------------------------------------------------------------ <------ не реалізовано
+  // spinner.showSpinner();
   const {
     data: { results, total_results },
   } = await promise(page);
@@ -48,22 +50,31 @@ async function renderAndPagination(key) {
   const pagBox = document.querySelector('#pagination-box');
   PaginationPlugin.movePageTo(page);
   //-------------------------------
-   changePagTheme(pagBox);
+  removeAndChangePagTheme(pagBox);
   PaginationPlugin.setTotalItems(total_results);
+  // якщо пустий масив в результатах <------ коли нічого не знайдено а відповідь приходить
   if (total_results === 0) {
-  errorRef.classList.remove('is-hidden');
-  setTimeout(errorSearchMovie, 2000);
+    errorRef.classList.remove('is-hidden');
+    setTimeout(errorSearchMovie, 2000);
+    console.log('нічого не знайдено'); // <-------------------------------- все на pnotify
     return;
   }
   const correctResult = await createCorectResult(results);
   renderCard(correctResult);
+  // spinner.hideSpinner();
+  PaginationPlugin.on('beforeMove', e => {
+    removeAndChangePagTheme(pagBox);
+  });
+
   PaginationPlugin.on('afterMove', async ({ page }) => {
     spinner.showSpinner();
-    changePagTheme(pagBox);
+    removeAndChangePagTheme(pagBox);
     const {
-      data: { results, total_results },
+      data: { results },
     } = await promise(page);
-    PaginationPlugin.setTotalItems(total_results);
+
+    //PaginationPlugin.setTotalItems(total_results);
+
     const correctResult = await createCorectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
@@ -98,7 +109,8 @@ function onSearch(event) {
 }
 //--------------------------------------------------------
 //зміна теми для пагінації
-function changePagTheme(selector) {
+function removeAndChangePagTheme(selector) {
+  selector.children.forEach(element => element.classList.remove('dark-theme'));
   if (document.body.classList.contains('dark-theme')) {
     selector.children.forEach(element => element.classList.add('dark-theme'));
   }
@@ -118,7 +130,7 @@ function renderLibrary(arrayFilm) {
   options.totalItems = arrayFilm.length;
   const { PaginationPlugin } = createNewPagination();
   const pagBox = document.querySelector('#pagination-box');
-  changePagTheme(pagBox);
+  removeAndChangePagTheme(pagBox);
   const firstMovie = arrayFilm.filter((_, index) => index < maxCardPerPage);
   renderCard(firstMovie);
   PaginationPlugin.on('beforeMove', ({ page }) => {
@@ -128,20 +140,20 @@ function renderLibrary(arrayFilm) {
     } else {
       nextMovie = arrayFilm.filter(
         (_, index) =>
-          index > maxCardPerPage * page - maxCardPerPage - 2 &&
-          index < maxCardPerPage * page - 1,
+          index >= maxCardPerPage * (page - 1) && index < maxCardPerPage * page,
       );
     }
-    changePagTheme(pagBox);
+    removeAndChangePagTheme(pagBox);
     renderCard(nextMovie);
     goUp(headerRef);
   });
-  PaginationPlugin.on('afterMove', e => changePagTheme(pagBox));
+  PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
 }
 
 export { renderAndPaginationPopularMovies, renderLibrary };
+//----------------------------------------------------------------------------------------------------------------
 //варіанти для Бібліотеки
-//отримуєм масив id без 404
+//отримуєм масив коректних id без 404
 const testArrId = [
   399566,
   412656,
@@ -215,7 +227,8 @@ function renderLibraryById(arrayMovieId) {
   options.totalItems = arrayMovieId.length;
   const { PaginationPlugin } = createNewPagination();
   const pagBox = document.querySelector('#pagination-box');
-  changePagTheme(pagBox);
+
+  removeAndChangePagTheme(pagBox);
   const firstMovieId = arrayMovieId.filter(
     (_, index) => index < maxCardPerPage,
   );
@@ -233,10 +246,10 @@ function renderLibraryById(arrayMovieId) {
     requestHandler(nextMovieId);
     goUp(headerRef);
   });
-  PaginationPlugin.on('afterMove', e => changePagTheme(pagBox));
+
+  PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
 }
 // renderLibraryById(testArrId);
-
- function errorSearchMovie() {
+function errorSearchMovie() {
   errorRef.classList.add('is-hidden'); 
 };

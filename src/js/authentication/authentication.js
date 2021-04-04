@@ -1,4 +1,4 @@
-import * as PNotify from '@pnotify/core';
+// import * as PNotify from '@pnotify/core';
 import AuthNotifications from '../notifications/notifications';
 
 const newNotification = new AuthNotifications();
