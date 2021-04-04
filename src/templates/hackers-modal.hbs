@@ -1,9 +1,9 @@
 {{#each this}}
 <li class="hackers-list-item">
     <div class="hackers-wrapper">
-        <img class="hackers-img" src="{{smallPhoto}}" alt="{{name}}" />
+        <img class="hackers-img" src="{{smallPhoto}}" alt="{{name}}" data-id="{{id}}"/>
         <h3 class="hackers-name">{{name}}</h3>
-        <p class="hackers-developer">{{position}}</p>
+        <p class="hackers-position">{{position}}</p>
     </div>
 </li>
 {{/each}}
