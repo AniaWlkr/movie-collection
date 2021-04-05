@@ -7,5 +7,19 @@ export default {
   moviesRef: document.querySelector('.movies-list'),
   pagBox: document.querySelector('#pagination-box'),
   errorRef: document.querySelector('.search-error'),
+
+  //theme
+  checkbox: document.querySelector('#checkbox'),
+  sunIcon: document.querySelector('#sun'),
+  moonIcon: document.querySelector('#moon'),
+  footer: document.querySelector('.footer'),
+  modalContent: document.querySelector('.modal-content'),
+  hackersModal: document.querySelector('.hackers-modal'),
+
+  //modal-trailer
+  openTrailerBtn: document.querySelector('.modal-content'),
+  modalTrailer: document.querySelector('.modal-trailer'),
+  modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
+
   genreSelector: document.querySelector('#genres'),
 };

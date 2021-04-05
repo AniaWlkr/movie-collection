@@ -62,7 +62,7 @@
     &:focus {
       cursor: pointer;
       color: $accent-color;
-      outline: none;
+      outline: none !important;
     }
   }
 
@@ -261,4 +261,8 @@
       justify-content: flex-start;
     }
   }
+}
+
+.trailer-btn {
+  outline: none !important;
 }

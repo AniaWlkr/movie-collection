@@ -2,13 +2,8 @@ import templateTrailer from '../templates/modal-trailer.hbs';
 // import MoviesApiService from './api-service/apiService';
 // const moviesApiService = new MoviesApiService();
 import spinner from './spinner';
+import refs from './refs/refs';
 import { newApi } from './api-service/apiService';
-
-const refs = {
-  openTrailerBtn: document.querySelector('.modal-content'),
-  modalTrailer: document.querySelector('.modal-trailer'),
-  modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
-};
 
 function onOpenTrailer(event) {
   const movieId = event.target.dataset.sourse;
@@ -25,8 +20,8 @@ function onOpenTrailer(event) {
       'beforeend',
       templateTrailer(results[0]),
     );
+
     addClassList();
-    window.addEventListener('keydown', onPressEsc);
   });
 }
 
@@ -42,20 +37,11 @@ function onCloseOverlay(event) {
   }
 }
 
-function onPressEsc(event) {
-  if (event.code === 'Escape') {
-    removeClassList();
-    clearContainer();
-  }
-}
-
 function clearContainer() {
   refs.modalOverlayTrailer.innerHTML = '';
 }
 
 function removeClassList() {
-  window.removeEventListener('keydown', onPressEsc);
-
   refs.modalOverlayTrailer.classList.remove('show-trailer');
   document.body.classList.remove('no-scroll');
 }
@@ -69,4 +55,4 @@ refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
 refs.modalOverlayTrailer.addEventListener('click', onCloseOverlay);
 refs.modalTrailer.addEventListener('click', onCloseTrailer);
 
-export { onCloseTrailer };
+export default onCloseTrailer;

@@ -15,8 +15,8 @@ class ModalFilmCard {
     this.modalBackdropeRef = document.querySelector('.modal-backdrope');
     this.modalContentRef = document.querySelector('.modal-content');
     this.moviesListRef = document.querySelector('.movies-list');
-    (this.openTrailerBtn = document.querySelector('.modal-content')),
-      (this.drawSelectedFilm = this.drawSelectedFilm.bind(this));
+    this.modalOverlayTrailer = document.querySelector('.modal-trailer-overlay');
+    this.drawSelectedFilm = this.drawSelectedFilm.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.storageHandler = this.storageHandler.bind(this);
@@ -28,6 +28,7 @@ class ModalFilmCard {
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
+
   closeModal() {
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
@@ -36,13 +37,11 @@ class ModalFilmCard {
 
   modalCloseByEsc(event) {
     if (event.code !== 'Escape') return;
-    //--------------------------------------закриття трейлера
-    console.log(boxModalTrailer);
-    if (boxModalTrailer.classList.contains('show-trailer')) {
+    if (this.modalOverlayTrailer.classList.contains('show-trailer')) {
       onCloseTrailer();
-    } else {
-      this.closeModal();
+      return;
     }
+    this.closeModal();
   }
 
   storageHandler(event) {

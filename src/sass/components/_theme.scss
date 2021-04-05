@@ -38,7 +38,7 @@ body.dark-theme,
 
   &-icon {
     position: relative;
-    z-index: 2;
+    //z-index: 2;
     pointer-events: none;
     color: $primary-text-color;
     height: 15px;
@@ -80,7 +80,7 @@ body.dark-theme,
     user-select: none;
     background-color: $dark-theme-color;
     border-radius: inherit;
-    z-index: 1;
+    //z-index: 1;
     cursor: pointer;
   }
 

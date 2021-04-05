@@ -69,6 +69,10 @@
     font-size: 30px;
     line-height: 1.167;
     color: $primary-text-color;
+    background: url(https://i.ibb.co/RDTnNrT/animated-text-fill.png) repeat-y;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: overflow 60s linear infinite;
   }
 }
 
@@ -155,6 +159,10 @@
   line-height: 16px;
   color: red;
   transition: all 0.3s;
+}
+
+.btn-submit:focus {
+  outline: none;
 }
 
 //================= tabs =============
