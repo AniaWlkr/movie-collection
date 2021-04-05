@@ -182,8 +182,9 @@
     transition: color, background-color,
       $transition-duration $transition-timing-function;
 
-    &:hover,
-    &:focus {
+    // &:hover,
+    // &:focus {
+    &:hover {
       cursor: pointer;
       background-color: $accent-color;
       color: $primary-text-color;
