@@ -117,21 +117,26 @@
 }
 
 .auth-open-modal-button {
-  position: absolute;
-  top: 2%;
-  left: 50%;
-  transform: translate(-50%);
+  // position: absolute;
+  // top: 2%;
+  // left: 50%;
+  // transform: translate(-50%);
+
+  margin-right: 20px;
   color: $primary-text-color;
-  width: 200px;
-  height: 30px;
+  text-decoration: none;
+  padding: 5px;
+  // width: 200px;
+  // height: 30px;
+
   background-color: $button-auth-open;
   border-radius: 5px;
   font-size: 12px;
   outline: none;
 
-  border: none;
-  transition: color, background-color,
-    $transition-duration $transition-timing-function;
+  // border: none;
+  // transition: color, background-color,
+  //   $transition-duration $transition-timing-function;
   outline: none;
 
   &:hover,
