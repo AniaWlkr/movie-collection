@@ -1,6 +1,13 @@
 .footer {
   padding: 30px 0px 28px 0px;
   background-color: $background-color;
+  &--fixed {
+    // фіксація футера якщо немає контента
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .footer-container {

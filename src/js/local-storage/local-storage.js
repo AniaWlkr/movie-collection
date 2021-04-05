@@ -9,6 +9,8 @@ class LocalStorageService {
     this.getMoviesFromStorage = this.getMoviesFromStorage.bind(this);
     this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(this);
     this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(this);
+    this.removeMovieFromQueue = this.removeMovieFromQueue.bind(this);
+    this.removeMovieFromWatched = this.removeMovieFromWatched.bind(this);
   }
 
   set addMovieObj(newObj) {
@@ -24,7 +26,6 @@ class LocalStorageService {
   checkCurrentMovieInQueueList(id) {
     this.newMoviesList();
     const currentInQueueMovieList = this._moviesList.inQueue;
-    console.log(currentInQueueMovieList);
     const isIdExist = currentInQueueMovieList.find(obj => obj.id === Number(id));
     return isIdExist ? true : false;
   }
@@ -32,7 +33,6 @@ class LocalStorageService {
   checkCurrentMovieInWatchedList(id) {
     this.newMoviesList();
     const currentInWatchedMovieList = this._moviesList.watсhed;
-    console.log(currentInWatchedMovieList);
     const isIdExist = currentInWatchedMovieList.find(obj => obj.id === Number(id));
     return isIdExist ? true : false;
   }
@@ -85,12 +85,22 @@ class LocalStorageService {
     const genres = data.genres;
     return {id, homepege,  poster_path,  original_title, vote_average, vote_count, popularity, genres};
   }
+  
+  removeMovieFromQueue(id) {
+    this.newMoviesList();
+    const currentInQueueMoviesList = this._moviesList.inQueue;
+    const newArreyOfMoviesinQueue = currentInQueueMoviesList.filter(obj => obj.id !== Number(id));
+    this._moviesList.inQueue = newArreyOfMoviesinQueue;
+    this.saveToStorage(this._moviesListKey, this._moviesList);
+  }
 
-  // getСurrentThemeFromStorage() {
-  //   this.takeFromStorage(this._currentPageKeyName);
-  // }
-
- 
+  removeMovieFromWatched(id) {
+    this.newMoviesList();
+    const currentWatchedMoviesList = this._moviesList.watсhed;
+    const newArreyOfWatchedMovies = currentWatchedMoviesList.filter(obj => obj.id !== Number(id));
+    this._moviesList.watсhed = newArreyOfWatchedMovies;
+    this.saveToStorage(this._moviesListKey, this._moviesList);
+  }
 }
 
 const newlocalStorage = new LocalStorageService();

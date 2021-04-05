@@ -3,7 +3,6 @@ import {
   renderAndPaginationPopularMovies,
   renderLibrary,
 } from './insert_popular_films';
-// import { getMoviesLibraryList } from '../js/firebase';
 
 const refs = {
   header: document.querySelector('.header'),
@@ -15,60 +14,56 @@ const refs = {
   paginationBox: document.querySelector('.pagination-wrapper'),
 };
 
-// const setMoviesLibraryListHeight = () => {
-//   const paddings = 110;
-//   const headerHeight = refs.header.clientHeight;
-//   const footerHeight = refs.footer.clientHeight;
-//   const paginationHeight = refs.paginationBox.clientHeight;
-//   const windowHeight = document.documentElement.clientHeight;
-//   let scrollHeight = Math.max(
-//     document.body.scrollHeight,
-//     document.documentElement.scrollHeight,
-//     document.body.offsetHeight,
-//     document.documentElement.offsetHeight,
-//     document.body.clientHeight,
-//     document.documentElement.clientHeight,
-//   );
-//   console.log(scrollHeight);
-//   const moviesListCurrentHeight = scrollHeight - (headerHeight + footerHeight + paginationHeight + paddings + margins);
-//   console.log(moviesListCurrentHeight);
-//   if (scrollHeight <= windowHeight) {
-//     refs.movieList.style.height = moviesListCurrentHeight + 'px';
-//   } else { refs.movieList.removeAttribute('style') }
-// };
+const renderQueue = () => {
+  const movies = LocalStorageService.getMoviesFromStorage();
+  const queueMovies = movies.inQueue;
+  renderLibrary(queueMovies);
+}
 
-//Функция для работы с Библиотекой
-const onChangeList = event => {
-  const currentActiveItem = refs.tabs.querySelector('.is-active');
+const renderWatched = () => {
+  const movies = LocalStorageService.getMoviesFromStorage();
+  const watchedMovies = movies.watсhed;
+  renderLibrary(watchedMovies);
+}
+
+const checkActive = (selector) => {
+  const currentActiveItem = selector.querySelector('.is-active');
 
   if (currentActiveItem) {
     currentActiveItem.classList.remove('is-active');
   }
+}
+
+//Функция для работы с Библиотекой
+const onChangeList = event => {
+
+  checkActive(refs.tabs);
 
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === 'finished') {
+    fixedFooterAndPaginationBox();
     event.target.classList.add('is-active');
-    const movies = LocalStorageService.getMoviesFromStorage();
-    if (!movies.watсhed) {
-      console.log('Nothing in watched');
-      return;
-    }
-    const watchedMovies = movies.watсhed;
-    renderLibrary(watchedMovies);
+    renderWatched();
   }
 
   //Отрисовывает если нажата кнопка "QUEUE"
   if (event.target.dataset.action === 'waiting') {
+    fixedFooterAndPaginationBox();
     event.target.classList.add('is-active');
-    const movies = LocalStorageService.getMoviesFromStorage();
-    if (!movies.inQueue) {
-      console.log('Nothing in queue');
-      return;
-    }
-    const queueMovies = movies.inQueue;
-    renderLibrary(queueMovies);
+    renderQueue();
   }
 };
+
+function fixedFooterAndPaginationBox() {
+
+  if (refs.movieList.clientHeight === 0) {
+    refs.footer.classList.add('footer--fixed');
+    refs.paginationBox.classList.add('pagination-wrapper--fixed');
+  } else {
+    refs.footer.classList.remove('footer--fixed');
+    refs.paginationBox.classList.remove('pagination-wrapper--fixed');
+  }
+}
 
 //Перерисовка разметки
 const changeMarkup = (page) => {
@@ -76,24 +71,29 @@ const changeMarkup = (page) => {
   const activePageState = page.dataset.state;
 
   if (activePageState === 'home') {
-    refs.movieList.removeAttribute('style');
     refs.movieList.innerHTML = '';
     refs.header.classList.add('header');
     refs.header.classList.remove('header-library');
     refs.searchFofm.classList.remove('is-hidden');
     refs.tabs.classList.add('is-hidden');
     renderAndPaginationPopularMovies();
+    
   }
+
   if (activePageState === 'library') {
     refs.movieList.innerHTML = '';
+    checkActive(refs.tabs);
     refs.header.classList.add('header-library');
     refs.header.classList.remove('header');
     refs.searchFofm.classList.add('is-hidden');
     refs.tabs.classList.remove('is-hidden');
     document.querySelector('button[data-action="waiting"]').classList.add('is-active');
-    //нужно добавить отрисовку
+    try {
+      renderQueue();
+    } catch {
+      fixedFooterAndPaginationBox();
+    }
     refs.tabs.addEventListener('click', onChangeList);
-    // setMoviesLibraryListHeight();
   }
 };
 

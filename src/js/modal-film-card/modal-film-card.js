@@ -75,8 +75,11 @@ class ModalFilmCard {
     spinner.showSpinner();
 
     const targetId = event.target.dataset.sourse;
-    newStorage.checkCurrentMovieInQueueList(targetId);
-    newStorage.checkCurrentMovieInWatchedList(targetId);
+    // console.log(newStorage.checkCurrentMovieInQueueList(targetId));
+    // console.log(newStorage.checkCurrentMovieInWatchedList(targetId));
+    // newStorage.removeMovieFromQueue(targetId);
+    // newStorage.removeMovieFromWatched(targetId); 
+ 
     const contentRef = this.modalContentRef;
 
     this.modalContentRef.innerHTML = '';
