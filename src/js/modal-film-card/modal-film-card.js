@@ -3,7 +3,7 @@ import { newApi } from '../api-service/apiService';
 import newStorage from '../local-storage/local-storage';
 import spinner from '../spinner';
 import noImage from '../../images/movies-card/noimage.jpg';
-import { onCloseTrailer } from '../modal-trailer'; 
+import { onCloseTrailer } from '../modal-trailer';
 import { updateWatched, updateQueue } from '../firebase';
 
 const requestError = document.querySelector('.request-error');
@@ -15,9 +15,8 @@ class ModalFilmCard {
     this.modalBackdropeRef = document.querySelector('.modal-backdrope');
     this.modalContentRef = document.querySelector('.modal-content');
     this.moviesListRef = document.querySelector('.movies-list');
-    this.openTrailerBtn = document.querySelector('.modal-content'),
-
-    this.drawSelectedFilm = this.drawSelectedFilm.bind(this);
+    (this.openTrailerBtn = document.querySelector('.modal-content')),
+      (this.drawSelectedFilm = this.drawSelectedFilm.bind(this));
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.storageHandler = this.storageHandler.bind(this);
@@ -37,12 +36,11 @@ class ModalFilmCard {
 
   modalCloseByEsc(event) {
     if (event.code !== 'Escape') return;
-        //--------------------------------------закриття трейлера
+    //--------------------------------------закриття трейлера
     console.log(boxModalTrailer);
     if (boxModalTrailer.classList.contains('show-trailer')) {
       onCloseTrailer();
-    }
-    else {
+    } else {
       this.closeModal();
     }
   }
@@ -76,13 +74,12 @@ class ModalFilmCard {
     this.cardInToObj.genres = data.genres;
     this.cardInToObj.name = data.name;
   }
-  
+
   async getData(id) {
     try {
       const resolve = await newApi.getResponseInfo(id);
       return resolve;
-    }
-    catch (error) {
+    } catch (error) {
       return 'error';
     }
   }
@@ -96,50 +93,49 @@ class ModalFilmCard {
 
     const targetId = event.target.dataset.sourse;
     const contentRef = this.modalContentRef;
-    
+
     newStorage.addMovieId = targetId;
-    
+
     this.modalContentRef.innerHTML = '';
-    
+
     const answer = await this.getData(targetId);
 
-    if (answer === 'error') { 
+    if (answer === 'error') {
       spinner.hideSpinner();
       requestError.classList.remove('visually-hidden');
       console.log(requestError);
       setTimeout(() => {
-        requestError.classList.add('visually-hidden')
+        requestError.classList.add('visually-hidden');
       }, 2700);
       return;
     }
-    
-    if (!answer.data.poster_path) {
-      answer.data.poster_path = `${noImage}`;
+
+    if (!answer.poster_path) {
+      answer.poster_path = `${noImage}`;
+    } else if (answer.poster_path.length > 32) {
+      answer.poster_path = answer.poster_path;
     } else {
-      answer.data.poster_path =
-      'https://image.tmdb.org/t/p/w500' + answer.data.poster_path;
+      answer.poster_path =
+        'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
-    console.log(answer.data);
-    
+    console.log(answer);
+
     const openModalInPromice = this.openModal();
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
-    
+
     const newObj = this.createObjForStoring;
-    newObj(answer.data);
-      
+    newObj(answer);
+
     spinner.hideSpinner();
 
-    contentRef.insertAdjacentHTML(
-      'afterbegin',
-      modalCardTemplate(answer.data),
-    )
-      
+    contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
+
     openModalInPromice;
     const modalCloseButtonRef = document.querySelector('.modal-close-button');
     const modalButtonsDivRef = document.querySelector('.modal-button-div');
     modalCloseButtonRef.addEventListener('click', closeModalInPromice);
-    modalButtonsDivRef.addEventListener('click',storageHandler);
+    modalButtonsDivRef.addEventListener('click', storageHandler);
   }
   addEventListeners() {
     this.modalBackdropeRef.addEventListener('click', this.closeModal);
