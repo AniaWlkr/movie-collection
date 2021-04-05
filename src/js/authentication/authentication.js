@@ -12,7 +12,7 @@ const authenticationFormRef = document.querySelector('.authentication-form');
 
 const modalAuthRef = document.querySelector('.modal-auth');
 const modalAuthBackdropeRef = document.querySelector('.modal-auth-backdrope');
-const modalAuthContentRef = document.querySelector('.modal-auth-content');
+// const modalAuthContentRef = document.querySelector('.modal-auth-content');
 const modalAuthCloseRef = document.querySelector('.modal-auth-close-button');
 const authOpenButtonRef = document.querySelector('.auth-open-modal-button');
 

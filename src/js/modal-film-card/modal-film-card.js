@@ -21,8 +21,6 @@ class ModalFilmCard {
     this.openModal = this.openModal.bind(this);
     this.storageHandler = this.storageHandler.bind(this);
     this.modalCloseByEsc = this.modalCloseByEsc.bind(this);
-    this.createObjForStoring = this.createObjForStoring.bind(this);
-    this.cardInToObj = {};
   }
   openModal() {
     this.modalRef.classList.add('is-open');
@@ -50,7 +48,6 @@ class ModalFilmCard {
     if (activeItem === event.currentTarget) return;
 
     if (activeItem.dataset.active === 'watched') {
-      // updateWatched(this.cardInToObj);
       newStorage.addToWatched();
       // activeItem.disabled = true; //обработка кнопки (смена текста)
       activeItem.outerHTML = `<button class="modal-card-button remove-from-watched"data-active="remove-from-watched">REMOVE FROM WATCHED</button>`;
@@ -61,7 +58,6 @@ class ModalFilmCard {
     }
 
     if (activeItem.dataset.active === 'queue') {
-      // updateQueue(this.cardInToObj);
       newStorage.addToQueue();
       // activeItem.disabled = true; //обработка кнопки (смена текста)
       activeItem.outerHTML = `<button class="modal-card-button remove-from-queue"data-active="remove-from-queue">REMOVE FROM QUEUE</button>`;
@@ -69,18 +65,6 @@ class ModalFilmCard {
         '.remove-from-queue',
       );
     }
-  }
-
-  createObjForStoring(data) {
-    this.cardInToObj.homepege = data.homepage;
-    this.cardInToObj.poster_path = data.poster_path;
-    this.cardInToObj.original_title = data.original_title;
-    this.cardInToObj.vote_average = data.vote_average;
-    this.cardInToObj.vote_count = data.vote_count;
-    this.cardInToObj.vote_count = data.vote_count;
-    this.cardInToObj.popularity = data.popularity;
-    this.cardInToObj.genres = data.genres;
-    this.cardInToObj.name = data.name;
   }
 
   async getData(id) {
@@ -100,13 +84,14 @@ class ModalFilmCard {
     spinner.showSpinner();
 
     const targetId = event.target.dataset.sourse;
+    newStorage.checkCurrentMovieInQueueList(targetId);
+    newStorage.checkCurrentMovieInWatchedList(targetId);
     const contentRef = this.modalContentRef;
-
-    newStorage.addMovieId = targetId;
 
     this.modalContentRef.innerHTML = '';
 
     const answer = await this.getData(targetId);
+    newStorage.addMovieObj = newApi.movie;
 
     if (answer === 'error') {
       spinner.hideSpinner();
@@ -126,14 +111,10 @@ class ModalFilmCard {
       answer.poster_path =
         'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
-    console.log(answer);
 
     const openModalInPromice = this.openModal();
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
-
-    const newObj = this.createObjForStoring;
-    newObj(answer);
 
     spinner.hideSpinner();
 

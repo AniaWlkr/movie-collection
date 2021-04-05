@@ -1,15 +1,9 @@
-// import movieCard from '../templates/movie-card.hbs';
 import LocalStorageService from './local-storage/local-storage';
-// import { renderLibraryFilms, renderAndPaginationPopularMovies } from './insert_popular_films';
 import {
   renderAndPaginationPopularMovies,
   renderLibrary,
 } from './insert_popular_films';
-import { getMoviesLibraryList } from '../js/firebase';
-import testArr from './testArrOfFilm'; //для тестировки пагинации
-// import renderLibrary from './insert_popular_films';
-
-// const localStorageService = new LocalStorageService();
+// import { getMoviesLibraryList } from '../js/firebase';
 
 const refs = {
   header: document.querySelector('.header'),
@@ -18,36 +12,30 @@ const refs = {
   searchFofm: document.querySelector('.search-form'),
   tabs: document.querySelector('.tabs'),
   movieList: document.querySelector('.movies-list'),
-  // paginationBox: document.querySelector('#pagination-box'), там постійно перестворюється не получиш коректну ссилку
   paginationBox: document.querySelector('.pagination-wrapper'),
 };
 
-const setMoviesLibraryListHeight = () => {
-  const paddings = 110;
-  const margins = 26;
-  const headerHeight = refs.header.clientHeight;
-  console.log(headerHeight);
-  const footerHeight = refs.footer.clientHeight;
-  console.log(footerHeight);
-  const paginationHeight = refs.paginationBox.clientHeight;
-  console.log(paginationHeight);
-  const windowHeight = document.documentElement.clientHeight;
-  console.log(windowHeight);
-  let scrollHeight = Math.max(
-    document.body.scrollHeight,
-    document.documentElement.scrollHeight,
-    document.body.offsetHeight,
-    document.documentElement.offsetHeight,
-    document.body.clientHeight,
-    document.documentElement.clientHeight,
-  );
-  console.log(scrollHeight);
-  const moviesListCurrentHeight = scrollHeight - (headerHeight + footerHeight + paginationHeight + paddings + margins);
-  console.log(moviesListCurrentHeight);
-  if (scrollHeight <= windowHeight) {
-    refs.movieList.style.height = moviesListCurrentHeight + 'px';
-  } else { refs.movieList.removeAttribute('style') }
-};
+// const setMoviesLibraryListHeight = () => {
+//   const paddings = 110;
+//   const headerHeight = refs.header.clientHeight;
+//   const footerHeight = refs.footer.clientHeight;
+//   const paginationHeight = refs.paginationBox.clientHeight;
+//   const windowHeight = document.documentElement.clientHeight;
+//   let scrollHeight = Math.max(
+//     document.body.scrollHeight,
+//     document.documentElement.scrollHeight,
+//     document.body.offsetHeight,
+//     document.documentElement.offsetHeight,
+//     document.body.clientHeight,
+//     document.documentElement.clientHeight,
+//   );
+//   console.log(scrollHeight);
+//   const moviesListCurrentHeight = scrollHeight - (headerHeight + footerHeight + paginationHeight + paddings + margins);
+//   console.log(moviesListCurrentHeight);
+//   if (scrollHeight <= windowHeight) {
+//     refs.movieList.style.height = moviesListCurrentHeight + 'px';
+//   } else { refs.movieList.removeAttribute('style') }
+// };
 
 //Функция для работы с Библиотекой
 const onChangeList = event => {
@@ -57,38 +45,27 @@ const onChangeList = event => {
     currentActiveItem.classList.remove('is-active');
   }
 
-  const windowHeight = document.documentElement.clientHeight;
-  let scrollHeight = Math.max(
-    document.body.scrollHeight,
-    document.documentElement.scrollHeight,
-    document.body.offsetHeight,
-    document.documentElement.offsetHeight,
-    document.body.clientHeight,
-    document.documentElement.clientHeight,
-  );
-  if (scrollHeight <= windowHeight) {
-    refs.movieList.removeAttribute('style');
-  }
-
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === 'finished') {
     event.target.classList.add('is-active');
-    // const movies = LocalStorageService.getMoviesFromStorage();
-    getMoviesLibraryList().then(item => {
-     const watchedMovies = item.watсhed;
-     renderLibrary(watchedMovies);
-    });
+    const movies = LocalStorageService.getMoviesFromStorage();
+    if (!movies.watсhed) {
+      console.log('Nothing in watched');
+      return;
+    }
+    const watchedMovies = movies.watсhed;
+    renderLibrary(watchedMovies);
   }
 
   //Отрисовывает если нажата кнопка "QUEUE"
   if (event.target.dataset.action === 'waiting') {
     event.target.classList.add('is-active');
-    const movies = getMoviesLibraryList();
-    if (!movies.queue) {
+    const movies = LocalStorageService.getMoviesFromStorage();
+    if (!movies.inQueue) {
       console.log('Nothing in queue');
       return;
     }
-    const queueMovies = movies.queue;
+    const queueMovies = movies.inQueue;
     renderLibrary(queueMovies);
   }
 };
@@ -113,10 +90,10 @@ const changeMarkup = (page) => {
     refs.header.classList.remove('header');
     refs.searchFofm.classList.add('is-hidden');
     refs.tabs.classList.remove('is-hidden');
-    document.querySelector('button[data-action="waiting"]').classList.add('is-active', 'current');
+    document.querySelector('button[data-action="waiting"]').classList.add('is-active');
     //нужно добавить отрисовку
     refs.tabs.addEventListener('click', onChangeList);
-    setMoviesLibraryListHeight();
+    // setMoviesLibraryListHeight();
   }
 };
 
