@@ -3,7 +3,7 @@ import { newApi } from '../api-service/apiService';
 import newStorage from '../local-storage/local-storage';
 import spinner from '../spinner';
 import noImage from '../../images/movies-card/noimage.jpg';
-import { onCloseTrailer } from '../modal-trailer';
+import onCloseTrailer from '../modal-trailer';
 import { updateWatched, updateQueue } from '../firebase';
 
 const requestError = document.querySelector('.request-error');
