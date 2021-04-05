@@ -1,5 +1,6 @@
 import axios from 'axios';
 import refs from '../refs/refs';
+import filterTmpl from '../../templates/filter.hbs';
 
 class MoviesApiServiceVersion {
   constructor() {
@@ -76,6 +77,10 @@ class MoviesApiServiceVersion {
         genres.genres.forEach(element => {
           this.genresArr.push(element);
         });
+        refs.genreSelector.insertAdjacentHTML(
+          'beforeend',
+          filterTmpl(this.genresArr),
+        );
       });
   }
   // получаем id фільма віддаем інфу після кліка по карточці
