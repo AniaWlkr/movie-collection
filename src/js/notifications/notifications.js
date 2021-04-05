@@ -100,4 +100,13 @@ export default class AuthNotifications {
       delay: 5000,
     });
   }
+  errorObject() {
+    PNotify.error({
+      title: 'ERROR',
+      text: 'There is no such object in the database, try the next movie.',
+      icon: false,
+      sticker: false,
+      delay: 5000,
+    });
+  }
 }
