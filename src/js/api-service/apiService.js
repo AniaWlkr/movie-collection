@@ -39,7 +39,9 @@ class MoviesApiServiceVersion {
       try {
         if (page === total_pages) throw 'Last page no no'; // фікс 404 якщо остання сторінка то 2 запрос не робим
         const secondRequest = await axios.get(
-          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${page}`,
+          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${
+            page + 1
+          }`,
         );
         return {
           data: {
