@@ -3,6 +3,7 @@ import { newApi } from '../api-service/apiService';
 //функція обробляє і формує коректний обєкт результатів повертає проміс є проблеми коли немає результатів багато помилок проблемні закинув в try catch ще є помилка відсутності картинки
 //function insertPopularFilms(results)
 //если не нужно обрезать жанры - вызовите эту функцию с false: createCorectResult(results, false)
+
 export default function createCorectResult(results, cutting = true) {
   return new Promise(res => res(...results)).then(function () {
     //перебираем массив results

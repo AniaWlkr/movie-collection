@@ -8,6 +8,7 @@ import renderCard from './utils/renderCard';
 import createCorectResult from './utils/createCorectResults';
 import createNewPagination from './utils/createNewPagination';
 import { newApi } from './api-service/apiService';
+import refs from './refs/refs';
 //--------------------------------------------------------
 // константи
 const searchForm = document.querySelector('#search-form');
@@ -25,9 +26,13 @@ async function renderAndPagination(key) {
     // return moviesApiService.getResponseWord(page);
     return newApi.getResponseWord(page);
   }
+  function getFilteredMovies(page) {
+    return newApi.getMoviesByGenre(page);
+  }
   //берем ссилку на необхідну функцію
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
+  if (key === 'filter') promise = getFilteredMovies;
   //------------------------------------------------------------------ <------ не реалізовано
   //заготовка під скрол до потрібної сторінки
   //якщо у нас записалась якась сторінка на локал сторадж
@@ -108,6 +113,20 @@ function onSearch(event) {
   searchForm.reset();
 }
 //--------------------------------------------------------
+//функція фільтрації
+function renderAndPaginationFilteredMovies() {
+  refs.genreSelector.addEventListener('change', filterMovies);
+}
+//--------------------------------------------------------
+function filterMovies() {
+  const select = refs.genreSelector;
+  const selected = select.options[select.selectedIndex];
+  if (selected !== select.options[0]) {
+    newApi.filterCriteria = selected.dataset.id;
+    renderAndPagination('filter');
+  } else renderAndPagination();
+}
+//--------------------------------------------------------
 //зміна теми для пагінації
 function removeAndChangePagTheme(selector) {
   selector.children.forEach(element => element.classList.remove('dark-theme'));
@@ -120,6 +139,8 @@ function removeAndChangePagTheme(selector) {
 renderAndPaginationPopularMovies();
 // функція пошук по слову
 renderAndPaginationSearchMovies();
+//функція фільтрації
+renderAndPaginationFilteredMovies();
 //-----------------------------------------------------------
 //функція для рендеру і пагінації для бібліотеки
 // отримуєм масив готових коректних обєктів
@@ -251,5 +272,5 @@ function renderLibraryById(arrayMovieId) {
 }
 // renderLibraryById(testArrId);
 function errorSearchMovie() {
-  errorRef.classList.add('is-hidden'); 
-};
+  errorRef.classList.add('is-hidden');
+}

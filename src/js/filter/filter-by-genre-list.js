@@ -1,8 +1,10 @@
-/* import { newApi } from '../api-service/apiService';
+import axios from 'axios';
+import { newApi } from '../api-service/apiService';
 import filterTmpl from '../../templates/filter.hbs';
+import refs from '../refs/refs';
 
-const genresList = document.querySelector('.filter-container');
+const arr = newApi.genresArr;
 
-function createGenresList(arr) {
-  return genresList.insertAdjacentHTML('beforeend', filterTmpl(arr));
-} */
+setTimeout(function () {
+  refs.genreSelector.insertAdjacentHTML('beforeend', filterTmpl(arr));
+}, 1000);
