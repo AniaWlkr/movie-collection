@@ -43,13 +43,6 @@ function getMoviesLibraryList() {
 }
 
 
-// function reloadWeb() {
-//   const moviesLibrary = getMoviesLibraryList();
-//   moviesRef.set(moviesLibrary);
-// }
-
-// window.addEventListener('unload', reloadWeb)
-
 export { updateWatched, updateQueue, getMoviesLibraryList };
   
 //test
