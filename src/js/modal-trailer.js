@@ -2,12 +2,7 @@ import templateTrailer from '../templates/modal-trailer.hbs';
 import MoviesApiService from './api-service/apiService';
 const moviesApiService = new MoviesApiService();
 import spinner from './spinner';
-
-const refs = {
-  openTrailerBtn: document.querySelector('.modal-content'),
-  modalTrailer: document.querySelector('.modal-trailer'),
-  modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
-};
+import refs from './refs/refs';
 
 function onOpenTrailer(event) {
   const movieId = event.target.dataset.sourse;
@@ -15,6 +10,7 @@ function onOpenTrailer(event) {
   if (event.target.className !== 'modal-card-button trailer-btn') {
     return;
   }
+
   // здесь можно поставить спиннер
   spinner.showSpinner();
   moviesApiService.getTrailer(movieId).then(({ data: { results } }) => {
@@ -23,8 +19,8 @@ function onOpenTrailer(event) {
       'beforeend',
       templateTrailer(results[0]),
     );
+
     addClassList();
-    window.addEventListener('keydown', onPressEsc);
   });
 }
 
@@ -40,20 +36,11 @@ function onCloseOverlay(event) {
   }
 }
 
-function onPressEsc(event) {
-  if (event.code === 'Escape') {
-    removeClassList();
-    clearContainer();
-  }
-}
-
 function clearContainer() {
   refs.modalOverlayTrailer.innerHTML = '';
 }
 
 function removeClassList() {
-  window.removeEventListener('keydown', onPressEsc);
-
   refs.modalOverlayTrailer.classList.remove('show-trailer');
   document.body.classList.remove('no-scroll');
 }
@@ -66,3 +53,5 @@ function addClassList() {
 refs.openTrailerBtn.addEventListener('click', onOpenTrailer);
 refs.modalOverlayTrailer.addEventListener('click', onCloseOverlay);
 refs.modalTrailer.addEventListener('click', onCloseTrailer);
+
+export default onCloseTrailer;

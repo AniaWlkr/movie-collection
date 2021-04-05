@@ -1,11 +1,4 @@
-const refs = {
-  checkbox: document.querySelector('#checkbox'),
-  sunIcon: document.querySelector('#sun'),
-  moonIcon: document.querySelector('#moon'),
-  footer: document.querySelector('.footer'),
-  modalContent: document.querySelector('.modal-content'),
-  hackersModal: document.querySelector('.hackers-modal'),
-};
+import refs from './refs/refs';
 
 function onChangeTheme() {
   toggleDarkTheme();
