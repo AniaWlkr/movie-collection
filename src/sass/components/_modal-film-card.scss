@@ -172,6 +172,7 @@
     width: 72px;
     height: 44px;
     padding: 5px;
+    outline: none;
 
     background-color: $primary-text-color;
     border-radius: 5px;
@@ -186,7 +187,8 @@
       cursor: pointer;
       background-color: $accent-color;
       color: $primary-text-color;
-      border: 1px solid $accent-color;
+      // border: 1px solid $accent-color;
+      outline: none;
     }
   }
 
