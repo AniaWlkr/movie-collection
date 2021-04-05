@@ -11,7 +11,9 @@ import './js/notifications/notifications';
 import './js/firebase';
 import './js/hackers-modal/render-hackers-modal';
 import './js/filter/filter-by-genre-list';
-/* import './js/filter/filter-function'; */
+import './js/hackers-modal/hackers-modal-in-modal';
+/* import './js/filter/filter-by-genre-list'; */
+import './js/filter/filter-function';
 
 //отображение лоадера при загрузке страницы
 window.addEventListener('load', pageLoading());

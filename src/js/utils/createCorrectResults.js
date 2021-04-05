@@ -4,7 +4,7 @@ import { newApi } from '../api-service/apiService';
 //function insertPopularFilms(results)
 //если не нужно обрезать жанры - вызовите эту функцию с false: createCorectResult(results, false)
 
-export default function createCorectResult(results, cutting = true) {
+export default function createCorrectResult(results, cutting = true) {
   return new Promise(res => res(...results)).then(function () {
     //перебираем массив results
     results.forEach(result => {

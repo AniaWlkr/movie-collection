@@ -68,7 +68,12 @@
         margin: 0 auto 10px;
         display: block;
         width: 60px;
-        
+        cursor: pointer;
+        transition: transform $transition-duration $transition-timing-function;
+    }
+    &-img:hover,
+    &-img:focus {
+        transform: scale(1.10);
     }
     &-wrapper {
         margin: 0 auto;
@@ -76,12 +81,12 @@
     }
     &-name {
         @extend %standart-text-style;
-        font-size: 10px;
+        font-size: 8px;
         margin-bottom: 6px;
     }
-    &-developer {
+    &-position {
         @extend %standart-text-style;
-        font-size: 8px;
+        font-size: 6px;
         color: $accent-color;
     }
 }
@@ -97,47 +102,164 @@
             width: 80px;
         }
         &-name {
-            font-size: 16px;
+            font-size: 12px;
         }
-        &-developer {
-            font-size: 14px;
+        &-position {
+            font-size: 10px;
         }
     }
 }
 // hacker card styles 
-.hacker-modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $overlay-color;
-}
-.hacker-modal-backdrop.hide-hacker {
-    opacity: 0;
-    pointer-events: none;
-}
-.hacker-modal-in-modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    z-index: 10000;
-    max-width: 280px;
-    min-width: 280px;
-    max-height: 600px;
+.hacker {
+    &-modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $overlay-color;
+    }
+    &-modal-backdrop.hide-hacker {
+        opacity: 0;
+        pointer-events: none;
+    }
+    &-modal-in-modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        // text-align: center;
     
-    padding: 48px 20px 41px 20px;
-    background-color: $primary-text-color;
-    transition: transform $transition-duration $transition-timing-function;
+        z-index: 10000;
+        // max-width: 280px;
+        // min-width: 280px;
+        // max-height: 600px;
+        
+        // padding: 48px 20px 41px 20px;
+        background-color: $primary-text-color;
+        transition: transform $transition-duration $transition-timing-function;
+    }
+    &-modal-card {
+        max-width: 280px;
+        min-width: 280px;
+        max-height: 600px;
+        
+        padding: 48px 20px 41px 20px;
+    }
+    &-modal-close-button {
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        color: $secondary-text-color;
+        outline-color: $accent-color;
+        font-size: 30px;
+        border: none;
+        background-color: $primary-text-color;
+        transition: color $transition-duration $transition-timing-function;
+    
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          color: $accent-color;
+        }
+    }
+    &-pic {
+        display: block;
+        margin: 0 auto 10px;
+        width: 200px;
+        border-radius: 5px;
+    }
+    &-wrapper {
+        margin-left: 20px;
+    }
+    &-name{
+        margin-bottom: 6px;
+        font-size: 16px;
+        // @extend %standart-text-style;
+    }
+    &-position {
+        margin-bottom: 10px;
+        font-size: 12px;
+        // @extend %standart-text-style;
+        color: $accent-color;
+    }
+    &-location {
+        margin-bottom: 10px;
+        font-size: 16px;
+        @extend %standart-text-style;
+    }
+    &-accent {
+        font-size: 14px;
+        color: $accent-color;
+    }
+    &-list {
+        @extend %list;
+    }
+    &-list-item:not(:last-child) {
+        margin-bottom: 6px;
+    }
+    &-list-item > p {
+        font-size: 14px;
+    }
+    &-list-item a {
+        font-size: 14px;
+        color: $accent-color;
+        text-decoration: none;
+    }
+    &-stack-and-tools {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+    &-tools-list {
+        margin-bottom: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        @extend %list;
+    }
+    &-tools-item:not(:nth-child(5n)) {
+        margin-right: 5px;
+    }
+    &-tools-img {
+        width: 35px;
+        height: 35px;
+    }
 }
-.hacker-pic {
-    display: block;
-    margin: 0 auto 10px;
-    width: 200px;
-}
-.hacker-name{
-    font-size: 16px;
-    margin-left: 20px;
+
+@media screen and (min-width: $tablet) {
+    .hacker {
+        &-modal-card {
+            max-width: 458px;
+            min-width: 458px;
+            display: flex;
+        }
+        &-pic {
+            margin: 0;
+            margin-right: 20px;
+        }
+        &-wrapper {
+            margin-left: 0;
+        }
+        &-name {
+            margin-bottom: 8;
+            font-size: 19px;
+        }
+        &-position {
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        &-location {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        &-accent {
+            font-size: 16px;
+        }
+        &-tools-list {
+            margin-bottom: 15px;
+        }
+        &-tools-img {
+            width: 30px;
+            height: 30px;
+        }
+    }
 }

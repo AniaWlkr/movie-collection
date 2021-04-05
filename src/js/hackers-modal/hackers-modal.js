@@ -27,6 +27,7 @@ function onBackdrop(event) {
 
         refs.backdrop.classList.add('hide-hackers');
         refs.backdrop.removeEventListener('click', onBackdrop);
+        window.removeEventListener('keydown', onESCPress);
     }
 }
 

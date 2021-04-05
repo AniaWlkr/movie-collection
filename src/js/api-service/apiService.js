@@ -11,6 +11,8 @@ class MoviesApiServiceVersion {
     this.currentMovie = [];
     //записываем критерий фильтрации
     this.filterCriteria = '';
+    this.movieId = null;
+    this.movie = null;
     //робим один запит за жанрами при створенні конструктора і записуєм жанри в масив вище
     this.getGenresMovies();
   }
@@ -79,28 +81,34 @@ class MoviesApiServiceVersion {
   // получаем id фільма віддаем інфу після кліка по карточці
   //фактично непотрібно проганяти через функцію корекції лиш поправити жанри і все
   //старий варіант
-  getResponseInfo(id) {
-    return axios.get(
-      `${refs.BASE_URL}3/movie/${id}?api_key=${refs.API_KEY}&language=en-US`,
-    );
-  }
-  //нове версія з записом обєкта в конструктор при кліку
-  /** async getResponseInfo(id) {
+  // getResponseInfo(id) {
+  //   return axios.get(
+  //     `${refs.BASE_URL}3/movie/${id}?api_key=${refs.API_KEY}&language=en-US`,
+  //   );
+  // }
+  async getResponseInfo(currentId) {
+    //щоб не робити ще один запрос якщо по тому самому фільму клікнули
+    //віддаєм обєкт із конструктора класу
+    if (this.movieId === currentId) return this.movie;
+    //пишем в конструктор обєкт якщо відповідь успішна
+    //обнулення конструктора
+    this.movieId = currentId;
+    this.movie = {};
     try {
       const { data } = await axios.get(
-        `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
+        `${refs.BASE_URL}3/movie/${currentId}?api_key=${refs.API_KEY}&language=en-US`,
       );
       const { genres } = data;
-      // const newGenresID = genres.map(({ id }) => id); // перезаписуєм по нормальному ID жанрів
-      // data.genre_ids = [...newGenresID];
       const newGenres = genres.map(({ name }) => name); // перезаписуєм по нормальному жанри
       data.genres = [...newGenres];
+      //запис обєкта в конструктор
+      this.movie = { ...data };
       return data;
     } catch (error) {
-      console.log('Такого обєкта немає в базі даних,попробуй наступнй фільм'); //клік по картинці якої немає в бд можна виносити в pnotify
+      console.log('Такого обєкта немає в базі даних,попробуй наступний фільм'); //клік по картинці якої немає в бд можна виносити в pnotify
       console.log('Упс, щось пішло не так');
     }
-  } */
+  }
   getTrailer(movie_id) {
     return axios.get(
       `${refs.BASE_URL}3/movie/${movie_id}/videos?api_key=${refs.API_KEY}&language=en-US`,
