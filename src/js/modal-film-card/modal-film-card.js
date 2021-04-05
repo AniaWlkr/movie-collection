@@ -49,12 +49,21 @@ class ModalFilmCard {
 
     if (activeItem.dataset.active === 'watched') {
       newStorage.addToWatched();
-      activeItem.disabled = true; //обработка кнопки (смена текста)
+      // activeItem.disabled = true; //обработка кнопки (смена текста)
+      activeItem.outerHTML = `<button class="modal-card-button remove-from-watched"data-active="remove-from-watched">REMOVE FROM WATCHED</button>`;
+      const removeFromWatchedButtonRef = document.querySelector(
+        '.remove-from-watched',
+      );
+      console.dir(removeFromWatchedButtonRef);
     }
 
     if (activeItem.dataset.active === 'queue') {
       newStorage.addToQueue();
-      activeItem.disabled = true; //обработка кнопки (смена текста)
+      // activeItem.disabled = true; //обработка кнопки (смена текста)
+      activeItem.outerHTML = `<button class="modal-card-button remove-from-queue"data-active="remove-from-queue">REMOVE FROM QUEUE</button>`;
+      const removeFromQueueButtonRef = document.querySelector(
+        '.remove-from-queue',
+      );
     }
   }
 
