@@ -20,8 +20,9 @@ import photoTatyana from '../../images/students-modal-pics/Tatyana_Rudenko_origi
 
 const team = [
   {
+    id: 1,
     name: 'Anna Skorokhod',
-    position: 'Team Lead/ Front-End Developer',
+    position: 'Team Lead',
     city: 'Dnipro',
     country: 'Ukraine',
     github: 'https://github.com/AniaWlkr',
@@ -31,8 +32,9 @@ const team = [
   },
 
   {
+    id: 2,
     name: 'Olha Dolzhenko',
-    position: 'Scrum Master/ Front-End Developer',
+    position: 'Front-End Developer',
     city: 'Bratislava',
     country: 'Slovakia',
     github: 'https://github.com/OlhaDolzhenko',
@@ -42,6 +44,7 @@ const team = [
   },
 
   {
+    id: 3,
     name: 'Elnara Golovina',
     position: 'Front-End Developer',
     city: 'Kiev',
@@ -53,6 +56,7 @@ const team = [
   },
 
   {
+    id: 4,
     name: 'Denys Kostenko',
     position: 'Front-End Developer',
     city: 'Tallinn',
@@ -64,6 +68,7 @@ const team = [
   },
 
   {
+    id: 5,
     name: 'Roma Didukh',
     position: 'Front-End Developer',
     city: 'Brody',
@@ -75,6 +80,7 @@ const team = [
   },
 
   {
+    id: 6,
     name: 'Igor Oliynik',
     position: 'Front-End Developer',
     city: 'Warsaw',
@@ -86,6 +92,7 @@ const team = [
   },
 
   {
+    id: 7,
     name: 'Elena Goyeva',
     position: 'Front-End Developer',
     city: 'Lviv',
@@ -97,6 +104,7 @@ const team = [
   },
 
   {
+    id: 8,
     name: 'Elena Gubarenko',
     position: 'Front-End Developer',
     city: 'Minsk',
@@ -108,6 +116,7 @@ const team = [
   },
 
   {
+    id: 9,
     name: 'Tatyana Rudenko',
     position: 'Front-End Developer',
     city: 'Kiev',

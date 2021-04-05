@@ -20,4 +20,6 @@ export default {
   openTrailerBtn: document.querySelector('.modal-content'),
   modalTrailer: document.querySelector('.modal-trailer'),
   modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
+
+  genreSelector: document.querySelector('#genres'),
 };

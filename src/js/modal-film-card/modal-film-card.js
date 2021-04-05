@@ -1,9 +1,14 @@
 import modalCardTemplate from '../../templates/modal-film-card.hbs';
-import MoviesApiService from '../api-service/apiService';
-import onCloseTrailer from '../modal-trailer';
-
+import { newApi } from '../api-service/apiService';
 import newStorage from '../local-storage/local-storage';
+import spinner from '../spinner';
+import noImage from '../../images/movies-card/noimage.jpg';
+import { onCloseTrailer } from '../modal-trailer';
 import { updateWatched, updateQueue } from '../firebase';
+
+const requestError = document.querySelector('.request-error');
+const boxModalTrailer = document.querySelector('.modal-trailer-overlay'); //ссылка на бокс
+
 class ModalFilmCard {
   constructor() {
     this.modalRef = document.querySelector('.modal');
@@ -19,26 +24,24 @@ class ModalFilmCard {
     this.createObjForStoring = this.createObjForStoring.bind(this);
     this.cardInToObj = {};
   }
-  openModal(even) {
+  openModal() {
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
 
-  closeModal(event) {
+  closeModal() {
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
+    window.removeEventListener('keyup', this.modalCloseByEsc);
   }
 
   modalCloseByEsc(event) {
     if (event.code !== 'Escape') return;
-
     if (this.modalOverlayTrailer.classList.contains('show-trailer')) {
       onCloseTrailer();
       return;
     }
-    this.modalRef.classList.remove('is-open');
-    this.modalContentRef.innerHTML = '';
-    window.removeEventListener('keyup', this.modalCloseByEsc);
+    this.closeModal();
   }
 
   storageHandler(event) {
@@ -47,15 +50,15 @@ class ModalFilmCard {
     if (activeItem === event.currentTarget) return;
 
     if (activeItem.dataset.active === 'watched') {
-      updateWatched(this.cardInToObj);
-      // newStorage.addToWatched();
-      activeItem.disabled = true;
+      // updateWatched(this.cardInToObj);
+      newStorage.addToWatched();
+      activeItem.disabled = true; //обработка кнопки (смена текста)
     }
 
     if (activeItem.dataset.active === 'queue') {
-      updateQueue(this.cardInToObj);
-      // newStorage.addToQueue();
-      activeItem.disabled = true;
+      // updateQueue(this.cardInToObj);
+      newStorage.addToQueue();
+      activeItem.disabled = true; //обработка кнопки (смена текста)
     }
   }
 
@@ -71,44 +74,67 @@ class ModalFilmCard {
     this.cardInToObj.name = data.name;
   }
 
-  drawSelectedFilm(event) {
-    if (event.target.nodeName === 'UL') {
-      return;
+  async getData(id) {
+    try {
+      const resolve = await newApi.getResponseInfo(id);
+      return resolve;
+    } catch (error) {
+      return 'error';
     }
+  }
+
+  async drawSelectedFilm(event) {
     if (!event.target === 'IMG') {
       return;
     }
 
-    const newApi = new MoviesApiService();
+    spinner.showSpinner();
 
-    const checkTargetElements = event.path.find(
-      element => element.nodeName === 'LI',
-    );
-    const targetId = checkTargetElements.dataset.sourse;
-
+    const targetId = event.target.dataset.sourse;
     const contentRef = this.modalContentRef;
+
+    newStorage.addMovieId = targetId;
+
+    this.modalContentRef.innerHTML = '';
+
+    const answer = await this.getData(targetId);
+
+    if (answer === 'error') {
+      spinner.hideSpinner();
+      requestError.classList.remove('visually-hidden');
+      console.log(requestError);
+      setTimeout(() => {
+        requestError.classList.add('visually-hidden');
+      }, 2700);
+      return;
+    }
+
+    if (!answer.poster_path) {
+      answer.poster_path = `${noImage}`;
+    } else if (answer.poster_path.length > 32) {
+      answer.poster_path = answer.poster_path;
+    } else {
+      answer.poster_path =
+        'https://image.tmdb.org/t/p/w500' + answer.poster_path;
+    }
+    console.log(answer);
+
     const openModalInPromice = this.openModal();
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
+
     const newObj = this.createObjForStoring;
-    newStorage.addMovieId = targetId;
-    const modalButtonsDivRefPromice = this.modalButtonsDivRef;
-    this.modalContentRef.innerHTML = '';
+    newObj(answer);
 
-    newApi.getResponseInfo(targetId).then(function (answer) {
-      newObj(answer.data);
-      contentRef.insertAdjacentHTML(
-        'afterbegin',
-        modalCardTemplate(answer.data),
-      );
+    spinner.hideSpinner();
 
-      openModalInPromice;
-      const modalCloseButtonRef = document.querySelector('.modal-close-button');
-      const modalButtonsDivRef = document.querySelector('.modal-button-div');
-      modalCloseButtonRef.addEventListener('click', closeModalInPromice);
-      // openModalInPromice;
-      modalButtonsDivRef.addEventListener('click', storageHandler);
-    });
+    contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
+
+    openModalInPromice;
+    const modalCloseButtonRef = document.querySelector('.modal-close-button');
+    const modalButtonsDivRef = document.querySelector('.modal-button-div');
+    modalCloseButtonRef.addEventListener('click', closeModalInPromice);
+    modalButtonsDivRef.addEventListener('click', storageHandler);
   }
   addEventListeners() {
     this.modalBackdropeRef.addEventListener('click', this.closeModal);
@@ -117,4 +143,4 @@ class ModalFilmCard {
 }
 const newModal = new ModalFilmCard();
 newModal.addEventListeners();
-export default ModalFilmCard;
+// export default ModalFilmCard;

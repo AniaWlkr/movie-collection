@@ -145,10 +145,20 @@
   color: $primary-text-color;
 }
 
+.search-error-container {
+  display: flex;
+  justify-content: center;
+}
+
 .search-error {
+  position: absolute;
+  left: 37%;
   @extend %centered;
-  color: red;
   margin-top: 10px;
+  font-size: 14px;
+  line-height: 16px;
+  color: red;
+  transition: all 0.3s;
 }
 
 .btn-submit:focus {

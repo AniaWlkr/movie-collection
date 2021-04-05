@@ -1,12 +1,5 @@
+import goUp from '../utils/goUp'; //import
 const buttonUpRef = document.querySelector('.button-up');
-
-const goUp = () => {
-  window.scrollTo({
-    top: 0,
-    right: 0,
-    behavior: 'smooth',
-  });
-};
 
 buttonUpRef.classList.add('visually-hidden');
 
@@ -23,5 +16,5 @@ const watchScroll = () => {
   }
 };
 
-buttonUpRef.addEventListener('click', goUp);
+buttonUpRef.addEventListener('click', e => goUp());
 window.addEventListener('scroll', watchScroll);

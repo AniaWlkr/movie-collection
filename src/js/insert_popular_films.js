@@ -1,21 +1,17 @@
-import MoviesApiService from './api-service/apiService';
 // import noImage from '../images/movies-card/noimage.jpg';
 import defOptions from './pagination/paginationOptions';
 const { options } = defOptions;
 import spinner from './spinner';
-import refs from './refs/refs';
+// import refs from './refs/refs';
 import goUp from './utils/goUp';
 import renderCard from './utils/renderCard';
-import createCorectResult from './utils/createCorectResults';
+import createCorrectResult from './utils/createCorrectResults';
 import createNewPagination from './utils/createNewPagination';
 import { newApi } from './api-service/apiService';
-// екземпляр класу АПІ в подальшому потрібно буде передати зразу в експорт новий екземпляр, щоб код не дублювався у всіх хто працює з АПІ
-const moviesApiService = new MoviesApiService();
+import refs from './refs/refs';
 //--------------------------------------------------------
 // константи
-
 const searchForm = document.querySelector('#search-form');
-// const pagBox = document.querySelector('#pagination-box');
 const errorRef = document.querySelector('.search-error');
 const headerRef = document.querySelector('header');
 //--------------------------------------------------------
@@ -30,15 +26,21 @@ async function renderAndPagination(key) {
     // return moviesApiService.getResponseWord(page);
     return newApi.getResponseWord(page);
   }
+  function getFilteredMovies(page) {
+    return newApi.getMoviesByGenre(page);
+  }
   //берем ссилку на необхідну функцію
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
+  if (key === 'filter') promise = getFilteredMovies;
+  //------------------------------------------------------------------ <------ не реалізовано
   //заготовка під скрол до потрібної сторінки
   //якщо у нас записалась якась сторінка на локал сторадж
   let page = 1;
   // let storadgePage = 2; //Для перевірки наступну строку заоментувати і навпаки
   let storadgePage = 0;
   if (storadgePage !== 1 && storadgePage) page = storadgePage;
+  //------------------------------------------------------------------ <------ не реалізовано
   // spinner.showSpinner();
   const {
     data: { results, total_results },
@@ -53,20 +55,32 @@ async function renderAndPagination(key) {
   const pagBox = document.querySelector('#pagination-box');
   PaginationPlugin.movePageTo(page);
   //-------------------------------
-  changePagTheme(pagBox);
+  removeAndChangePagTheme(pagBox);
   PaginationPlugin.setTotalItems(total_results);
-  const correctResult = await createCorectResult(results);
-  // spinner.hideSpinner();
+  // якщо пустий масив в результатах <------ коли нічого не знайдено а відповідь приходить
+  if (total_results === 0) {
+    errorRef.classList.remove('is-hidden');
+    setTimeout(errorSearchMovie, 2000);
+    console.log('нічого не знайдено'); // <-------------------------------- все на pnotify
+    return;
+  }
+  const correctResult = await createCorrectResult(results);
   renderCard(correctResult);
   // spinner.hideSpinner();
+  PaginationPlugin.on('beforeMove', e => {
+    removeAndChangePagTheme(pagBox);
+  });
+
   PaginationPlugin.on('afterMove', async ({ page }) => {
     spinner.showSpinner();
-    changePagTheme(pagBox);
+    removeAndChangePagTheme(pagBox);
     const {
-      data: { results, total_results },
+      data: { results },
     } = await promise(page);
-    // PaginationPlugin.setTotalItems(total_results);
-    const correctResult = await createCorectResult(results);
+
+    //PaginationPlugin.setTotalItems(total_results);
+
+    const correctResult = await createCorrectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
     spinner.hideSpinner();
@@ -80,7 +94,7 @@ function renderAndPaginationPopularMovies() {
 //--------------------------------------------------------
 // функція пошук по слову
 function renderAndPaginationSearchMovies() {
-  refs.searchForm.addEventListener('submit', onSearch);
+  searchForm.addEventListener('submit', onSearch);
 }
 //--------------------------------------------------------
 function onSearch(event) {
@@ -89,17 +103,33 @@ function onSearch(event) {
   //получаем строку и удаляем пробели
   let query = event.currentTarget.elements.query.value.trim();
   if (!query) {
-    refs.errorRef.classList.remove('is-hidden');
+    errorRef.classList.remove('is-hidden');
+    setTimeout(errorSearchMovie, 2000);
     spinner.hideSpinner();
     return;
   }
-  // moviesApiService.query = query;
   newApi.searchQuery = query;
   renderAndPagination('word');
+  searchForm.reset();
+}
+//--------------------------------------------------------
+//функція фільтрації
+function renderAndPaginationFilteredMovies() {
+  refs.genreSelector.addEventListener('change', filterMovies);
+}
+//--------------------------------------------------------
+function filterMovies() {
+  const select = refs.genreSelector;
+  const selected = select.options[select.selectedIndex];
+  if (selected !== select.options[0]) {
+    newApi.filterCriteria = selected.dataset.id;
+    renderAndPagination('filter');
+  } else renderAndPagination();
 }
 //--------------------------------------------------------
 //зміна теми для пагінації
-function changePagTheme(selector) {
+function removeAndChangePagTheme(selector) {
+  selector.children.forEach(element => element.classList.remove('dark-theme'));
   if (document.body.classList.contains('dark-theme')) {
     selector.children.forEach(element => element.classList.add('dark-theme'));
   }
@@ -109,6 +139,8 @@ function changePagTheme(selector) {
 renderAndPaginationPopularMovies();
 // функція пошук по слову
 renderAndPaginationSearchMovies();
+//функція фільтрації
+renderAndPaginationFilteredMovies();
 //-----------------------------------------------------------
 //функція для рендеру і пагінації для бібліотеки
 // отримуєм масив готових коректних обєктів
@@ -119,7 +151,7 @@ function renderLibrary(arrayFilm) {
   options.totalItems = arrayFilm.length;
   const { PaginationPlugin } = createNewPagination();
   const pagBox = document.querySelector('#pagination-box');
-  changePagTheme(pagBox);
+  removeAndChangePagTheme(pagBox);
   const firstMovie = arrayFilm.filter((_, index) => index < maxCardPerPage);
   renderCard(firstMovie);
   PaginationPlugin.on('beforeMove', ({ page }) => {
@@ -129,124 +161,116 @@ function renderLibrary(arrayFilm) {
     } else {
       nextMovie = arrayFilm.filter(
         (_, index) =>
-          index > maxCardPerPage * page - maxCardPerPage - 2 &&
-          index < maxCardPerPage * page - 1,
+          index >= maxCardPerPage * (page - 1) && index < maxCardPerPage * page,
       );
     }
-    changePagTheme(pagBox);
+    removeAndChangePagTheme(pagBox);
     renderCard(nextMovie);
     goUp(headerRef);
   });
-  PaginationPlugin.on('afterMove', e => changePagTheme(pagBox));
+  PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
 }
 
 export { renderAndPaginationPopularMovies, renderLibrary };
-
-/**
-//--------------------------------------------------------
-// функція для рендеру і пагінації
-function renderAndPagination(key) {
-  //повертаем проміс
-  function getAllMovie(page) {
-    return moviesApiService.getResponseAll(page);
-  }
-  //повертаем проміс
-  function getSearchWord(page) {
-    return moviesApiService.getResponseWord(page);
-  }
-  //берем ссилку на необхідну функцію
-  let promise = getAllMovie;
-  if (key === 'word') promise = getSearchWord;
-  //перший рендер
-  promise().then(({ data }) => {
-    //деструктуризація
-    const { results, total_results } = data;
-    if (results.length === 0) {
-      refs.errorRef.classList.remove('is-hidden');
-       setTimeout(errorSearchMovie, 2000);
-      spinner.hideSpinner();
+//----------------------------------------------------------------------------------------------------------------
+//варіанти для Бібліотеки
+//отримуєм масив коректних id без 404
+const testArrId = [
+  399566,
+  412656,
+  791373,
+  621954,
+  660006,
+  651589,
+  69050,
+  600354,
+  464052,
+  802504,
+  527774,
+  95557,
+  90970,
+  93454,
+  508442,
+  587807,
+  567797,
+  1429,
+  399566,
+  412656,
+  791373,
+  621954,
+  660006,
+  651589,
+  69050,
+  600354,
+  464052,
+  802504,
+  527774,
+  95557,
+  90970,
+  93454,
+  508442,
+  587807,
+  567797,
+  1429,
+  791373,
+  621954,
+  660006,
+  651589,
+  69050,
+  600354,
+  464052,
+  802504,
+  527774,
+  95557,
+  90970,
+  93454,
+  508442,
+  587807,
+  567797,
+  1429,
+];
+async function requestHandler(arr) {
+  const promises = arr.map(el => {
+    try {
+      return newApi.getResponseInfo(el);
+    } catch (error) {
+      console.log(error);
       return;
-  }
-    //формує коректний пагінатор
-    PaginationPlugin.setTotalItems(total_results);
-    PaginationPlugin.reset();
-    changePagTheme();
-    
-    //створюєм коректний результат потім рендер
-    createCorectResult(results)
-      .then(data => {
-        renderCard(data);
-      })
-    PaginationPlugin.setTotalItems(total_results);
-spinner.hideSpinner();
-    //рендери при зміні в пагінації
-    PaginationPlugin.on('afterMove', ({ page }) => {
-      //зміна теми
-      changePagTheme();
-      promise(page).then(({ data: { results } }) => {
-        createCorectResult(results).then(renderCard);
-        //скрол після кліку на верх
-        setTimeout(goUp(), 100);
-        // await goUp();
-      });
-    });
+    }
   });
-  PaginationPlugin.on('afterMove', e => changePagTheme(pagBox));
+  const results = await Promise.all(promises);
+  const correctResult = await createCorrectResult(results);
+  renderCard(correctResult);
 }
-//--------------------------------------------------------
-// функція популярних фільмів
-function renderAndPaginationPopularMovies() {
-  renderAndPagination();
-}
-//--------------------------------------------------------
-// функція пошук по слову
-function renderAndPaginationSearchMovies() {
-  refs.searchForm.addEventListener('submit', onSearch);
-}
-//--------------------------------------------------------
-function onSearch(event) {
-  event.preventDefault();
-  spinner.showSpinner();
-  //получаем строку и удаляем пробели
-  let query = event.currentTarget.elements.query.value.trim();
-  if (!query) {
-    refs.errorRef.classList.remove('is-hidden');
-    setTimeout(errorSearchMovie, 2000);
-    spinner.hideSpinner();
-    return;
-  }
-  moviesApiService.query = query;
-  renderAndPagination('word');
-  refs.searchForm.reset();
-}
-//--------------------------------------------------------
-//зміна теми для пагінації
-function changePagTheme() {
-  if (document.body.classList.contains('dark-theme')) {
-    refs.pagBox.children.forEach(element => element.classList.add('dark-theme'));
-  }
-}
-//--------------------------------------------------------
-// функція популярних фільмів
-renderAndPaginationPopularMovies();
-// функція пошук по слову
-renderAndPaginationSearchMovies();
-//-----------------------------------------------------------
-//-----------------------------------------------------------
-//функция рендерит в My Library просмотренныефильмы и фильмы в очереди
-export const renderLibraryFilms = function(arrayOfId) {
-  let arr = [];  
-  arrayOfId.forEach(element => {
-        moviesApiService.getResponseInfo(element)
-          .then(({ data }) => {
-            arr.push(data);       
-        });
-  })
-  createCorectResult(arr).then(renderCard);
-}
-//-----------------------------------------------------------
-function errorSearchMovie() {
-  refs.errorRef.classList.add('is-hidden'); 
-};
-*/
+function renderLibraryById(arrayMovieId) {
+  const maxCardPerPage = 12;
+  options.itemsPerPage = maxCardPerPage;
+  options.totalItems = arrayMovieId.length;
+  const { PaginationPlugin } = createNewPagination();
+  const pagBox = document.querySelector('#pagination-box');
 
+  removeAndChangePagTheme(pagBox);
+  const firstMovieId = arrayMovieId.filter(
+    (_, index) => index < maxCardPerPage,
+  );
+  requestHandler(firstMovieId);
+  PaginationPlugin.on('beforeMove', ({ page }) => {
+    let nextMovieId = null;
+    if (page === 1) {
+      nextMovieId = arrayMovieId.filter((_, index) => index < maxCardPerPage);
+    } else {
+      nextMovieId = arrayMovieId.filter(
+        (_, index) =>
+          index >= maxCardPerPage * (page - 1) && index < maxCardPerPage * page,
+      );
+    }
+    requestHandler(nextMovieId);
+    goUp(headerRef);
+  });
+
+  PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
+}
+// renderLibraryById(testArrId);
+function errorSearchMovie() {
+  errorRef.classList.add('is-hidden');
+}
