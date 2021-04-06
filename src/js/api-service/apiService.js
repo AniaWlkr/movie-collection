@@ -79,7 +79,9 @@ class MoviesApiServiceVersion {
         genres.genres.forEach(element => {
           this.genresArr.push(element);
         });
-        refs.genreSelector.insertAdjacentHTML('beforeend', filterTmpl(this.genresArr),
+        refs.genreSelector.insertAdjacentHTML(
+          'beforeend',
+          filterTmpl(this.genresArr),
         );
       });
   }

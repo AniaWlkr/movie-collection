@@ -10,7 +10,6 @@ import './js/authentication/authentication';
 import './js/notifications/notifications';
 import './js/firebase';
 import './js/hackers-modal/render-hackers-modal';
-import './js/filter/filter-by-genre-list';
 import './js/hackers-modal/hackers-modal-in-modal';
 /* import './js/filter/filter-by-genre-list'; */
 import './js/filter/filter-function';
