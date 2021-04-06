@@ -20,6 +20,7 @@ export default {
   openTrailerBtn: document.querySelector('.modal-content'),
   modalTrailer: document.querySelector('.modal-trailer'),
   modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
+  hackerModalDeveloper: document.querySelector('.hacker-modal-in-modal'),
 
   genreSelector: document.querySelector('#genres'),
 };

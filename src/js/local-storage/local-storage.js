@@ -8,8 +8,12 @@ class LocalStorageService {
     this.addToQueue = this.addToQueue.bind(this);
     this.addToWatched = this.addToWatched.bind(this);
     this.getMoviesFromStorage = this.getMoviesFromStorage.bind(this);
-    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(this);
-    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(this);
+    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(
+      this,
+    );
+    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(
+      this,
+    );
     this.removeMovieFromQueue = this.removeMovieFromQueue.bind(this);
     this.removeMovieFromWatched = this.removeMovieFromWatched.bind(this);
   }
@@ -19,22 +23,26 @@ class LocalStorageService {
   }
 
   newMoviesList() {
-   const newMovieList = this.takeFromStorage(this._moviesListKey);
-   if (!newMovieList) return;
-   return (this._moviesList = newMovieList);
+    const newMovieList = this.takeFromStorage(this._moviesListKey);
+    if (!newMovieList) return;
+    return (this._moviesList = newMovieList);
   }
 
   checkCurrentMovieInQueueList(id) {
     this.newMoviesList();
     const currentInQueueMovieList = this._moviesList.inQueue;
-    const isIdExist = currentInQueueMovieList.find(obj => obj.id === Number(id));
+    const isIdExist = currentInQueueMovieList.find(
+      obj => obj.id === Number(id),
+    );
     return isIdExist ? true : false;
   }
 
   checkCurrentMovieInWatchedList(id) {
     this.newMoviesList();
     const currentInWatchedMovieList = this._moviesList.watсhed;
-    const isIdExist = currentInWatchedMovieList.find(obj => obj.id === Number(id));
+    const isIdExist = currentInWatchedMovieList.find(
+      obj => obj.id === Number(id),
+    );
     return isIdExist ? true : false;
   }
 
@@ -43,13 +51,19 @@ class LocalStorageService {
   }
 
   addToWatched() {
+    console.log('add to watched');
     this.newMoviesList();
+    const id = this.movie.id;
+    if (this.checkCurrentMovieInWatchedList(id)) return;
     this._moviesList.watсhed.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
   addToQueue() {
+    console.log('add to queue');
     this.newMoviesList();
+    const id = this.movie.id;
+    if (this.checkCurrentMovieInQueueList(id)) return;
     this._moviesList.inQueue.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
@@ -74,7 +88,7 @@ class LocalStorageService {
   getMoviesFromStorage() {
     return this.takeFromStorage(this._moviesListKey);
   }
-  
+
   createObjForStoring(data) {
     const id = data.id;
     const homepege = data.homepage;
@@ -97,19 +111,27 @@ class LocalStorageService {
     const release_date = data.release_date.slice(0, 4);
     return {id, homepege,  poster_path,  original_title, vote_average, vote_count, popularity, genres, release_date};
   }
-  
-  removeMovieFromQueue(id) {
+
+  removeMovieFromQueue() {
+    console.log('remove from queue');
     this.newMoviesList();
+    const id = this.movie.id;
     const currentInQueueMoviesList = this._moviesList.inQueue;
-    const newArreyOfMoviesinQueue = currentInQueueMoviesList.filter(obj => obj.id !== Number(id));
+    const newArreyOfMoviesinQueue = currentInQueueMoviesList.filter(
+      obj => obj.id !== Number(id),
+    );
     this._moviesList.inQueue = newArreyOfMoviesinQueue;
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
-  removeMovieFromWatched(id) {
+  removeMovieFromWatched() {
+    console.log('remove from watched');
     this.newMoviesList();
+    const id = this.movie.id;
     const currentWatchedMoviesList = this._moviesList.watсhed;
-    const newArreyOfWatchedMovies = currentWatchedMoviesList.filter(obj => obj.id !== Number(id));
+    const newArreyOfWatchedMovies = currentWatchedMoviesList.filter(
+      obj => obj.id !== Number(id),
+    );
     this._moviesList.watсhed = newArreyOfWatchedMovies;
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
@@ -118,13 +140,3 @@ class LocalStorageService {
 const newlocalStorage = new LocalStorageService();
 
 export default newlocalStorage;
-
-
-
-
-
-
-
-
-
-

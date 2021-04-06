@@ -10,16 +10,32 @@
 .movie-item:not(:last-child) {
   margin-bottom: 30px;
 }
+
+.movie-img-wrapper {
+  display: block;
+  max-width: 280px;
+  max-height: 398px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
 .movie-img {
   width: 280px;
   height: 398px;
   display: block;
   background-color: #b8b8b8;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  transition: all 1s;
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 .movie-title {
   margin-bottom: 7px;
+  overflow: visible;
 }
 
 .movie-info {
