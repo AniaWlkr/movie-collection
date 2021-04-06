@@ -22,7 +22,9 @@ body.dark-theme {
 }
 
 .hacker-modal-in-modal.dark-theme,
-.hacker-modal-in-modal.dark-theme .hacker-modal-close-button {
+.hacker-modal-in-modal.dark-theme .hacker-modal-close-button,
+.select-content.dark-theme,
+.select-content.dark-theme .select-genre-item {
   background-color: #747474;
   color: $primary-text-color;
 }
@@ -35,6 +37,14 @@ body.dark-theme {
   &:focus {
     outline: none;
     color: $accent-color;
+  }
+}
+
+.select-content.dark-theme,
+.select-content.dark-theme .select-genre-item {
+  &:hover,
+  &:focus {
+    background-color: $accent-color;
   }
 }
 
