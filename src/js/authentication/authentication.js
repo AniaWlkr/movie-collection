@@ -1,20 +1,59 @@
-// import * as PNotify from '@pnotify/core';
 import AuthNotifications from '../notifications/notifications';
-
 const newNotification = new AuthNotifications();
-const authenticationEmailRef = document.querySelector('.authentication-email');
-const authenticationPasswordRef = document.querySelector(
-  '.authentication-password',
-);
-const authenticationFormSignUpRef = document.querySelector('.sign-up'); // registration
-const authenticationFormSignInRef = document.querySelector('.sign-in'); // voiti
-const authenticationFormRef = document.querySelector('.authentication-form');
 
+const refs = {
+  controls: document.querySelector('[data-controls]'),
+  panes: document.querySelector('[data-panes]'),
+};
+let userID = null;
+
+const authOpenButtonRef = document.querySelector('.auth-open-modal-button');
 const modalAuthRef = document.querySelector('.modal-auth');
 const modalAuthBackdropeRef = document.querySelector('.modal-auth-backdrope');
-// const modalAuthContentRef = document.querySelector('.modal-auth-content');
-const modalAuthCloseRef = document.querySelector('.modal-auth-close-button');
-const authOpenButtonRef = document.querySelector('.auth-open-modal-button');
+// registration refs
+const signUpFormRef = document.querySelector('.sign-up-form'); 
+const signUpMailRef = document.querySelector('.sign-up-form .email'); 
+const signUpPwdRef = document.querySelector('.sign-up-form .password'); 
+const signUpPwdRepeatRef = document.querySelector('.sign-up-form .password-repeat'); 
+// sign-in refs
+const signInFormRef = document.querySelector('.sign-in-form'); 
+const signInMailRef = document.querySelector('.sign-in-form .email'); 
+const signInPwdRef = document.querySelector('.sign-in-form .password'); 
+
+refs.controls.addEventListener('click', event => { 
+  event.preventDefault();
+  const controlItem = event.target;
+  if (controlItem.nodeName !== 'A') return;
+
+  const currentActiveControlsItem = refs.controls.querySelector('.controls__item--active');
+
+  if (currentActiveControlsItem) { 
+    currentActiveControlsItem.classList.remove('controls__item--active');
+    const paneId = getPaneId(currentActiveControlsItem);
+    const pane = getPaneById(paneId);
+    pane.classList.toggle('pane--active');
+  }
+  
+  controlItem.classList.add('controls__item--active');
+
+  const paneId = getPaneId(controlItem);
+
+  const currentActivePane = refs.panes.querySelector('.pane--active');
+  if (currentActivePane) { 
+    currentActivePane.classList.remove('pane--active');
+  }
+
+  const pane = getPaneById(paneId);
+  pane.classList.add('pane--active');
+})
+
+function getPaneId(control) { 
+  return control.getAttribute('href').slice(1);
+}
+
+function getPaneById(id) { 
+  return refs.panes.querySelector(`#${id}`);
+}
 
 // voiti
 const requestSignIn = (email, password) => {
@@ -34,11 +73,11 @@ const requestSignIn = (email, password) => {
       },
     },
   ).then(response => response.json());
-  // .then(answer => console.log(answer));
 };
 
 // registration
 const requestSignUp = (email, password) => {
+
   const data = {
     email: email,
     password: password,
@@ -54,42 +93,63 @@ const requestSignUp = (email, password) => {
         'Content-type': 'application/json',
       },
     },
-  ).then(response => response.json());
+  )
+    .then(response => response.json())
+    .then(answer => console.log(answer));
 };
 
-const registrateUser = event => {
+const registerUser = event => {
   event.preventDefault();
 
-  const email = authenticationEmailRef.value;
-  const password = JSON.stringify(authenticationPasswordRef.value);
+  if (signUpFormRef.password.value !== signUpFormRef.repeatPassword.value) { 
+    addInvalidClass(signUpPwdRef);
+    addInvalidClass(signUpPwdRepeatRef);
+    newNotification.differentPasswords();
+    setTimeout(() => {
+      signUpFormRef.reset();
+      removeInvalidClass(signUpPwdRef);
+      removeInvalidClass(signUpPwdRepeatRef);
+    }, 2500);
+    return;
+  }
+
+  const email = signUpMailRef.value;
+  const password = JSON.stringify(signUpPwdRef.value);
 
   requestSignUp(email, password).then(answer => {
     console.log(answer);
     if (!answer.error) {
-      removeInvalidClass();
-      addValidClass();
       newNotification.rigistrateUser();
       authenticationFormRef.reset();
       setTimeout(newNotification.preposeToSignIn, 4000);
     }
     if (answer.error && answer.error.message === 'INVALID_EMAIL') {
-      addInvalidClass();
+      addInvalidClass(signUpMailRef);
       newNotification.wrongEmail();
-      setTimeout(removeInvalidClass, 2000);
+      setTimeout(() => { 
+        removeInvalidClass(signUpMailRef);
+      }, 2000);
     }
     if (answer.error && answer.error.message === 'EMAIL_EXISTS') {
-      addInvalidClass();
+      addInvalidClass(signUpMailRef);
       newNotification.emailExists();
-      setTimeout(removeInvalidClass, 2000);
+      setTimeout(() => {
+        removeInvalidClass(signUpMailRef);
+      }, 2000);
     }
     if (
       answer.error &&
       answer.error.message ===
         'WEAK_PASSWORD : Password should be at least 6 characters'
     ) {
-      addInvalidClass();
+      addInvalidClass(signUpPwdRef);
+      addInvalidClass(signUpPwdRepeatRef);
       newNotification.weakPassword();
-      setTimeout(removeInvalidClass, 2000);
+      setTimeout(() => {
+      signUpFormRef.reset();
+      removeInvalidClass(signUpPwdRef);
+      removeInvalidClass(signUpPwdRepeatRef);
+    }, 2500);
     }
   });
 };
@@ -97,51 +157,45 @@ const registrateUser = event => {
 const signInUser = event => {
   event.preventDefault();
 
-  const email = authenticationEmailRef.value;
-  const password = JSON.stringify(authenticationPasswordRef.value);
-  requestSignIn(email, password).then(answer => {
-    console.log(answer);
+  const email = signInMailRef.value;
+  const password = JSON.stringify(signInPwdRef.value);
+  requestSignIn(email, password).then((answer) => {
+
     if (answer.registered) {
-      removeInvalidClass();
-      addValidClass();
       newNotification.enterUser();
-      setTimeout(closeAuthModal, 2000);
+      localStorage.setItem('token', answer.idToken);
+      userID = answer.localId;
+
+      setTimeout(closeAuthModal, 1000); //change icon 'Log-In' & unblock Library
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
-      addInvalidClass();
+      addInvalidClass(signInPwdRef);
       newNotification.wrongPassword();
-      setTimeout(removeInvalidClass, 2000);
+      setTimeout(() => {
+        signUpFormRef.reset();
+        removeInvalidClass(signInPwdRef);
+      }, 2500);
     }
-
     if (answer.error && answer.error.message === 'EMAIL_NOT_FOUND') {
-      addInvalidClass();
+      addInvalidClass(signInMailRef);
       newNotification.wrongLogin();
-      setTimeout(removeInvalidClass, 2000);
+      setTimeout(() => {
+        signUpFormRef.reset();
+        removeInvalidClass(signInMailRef);
+      }, 2500);
     }
   });
 };
 
-const addValidClass = () => {
-  authenticationFormRef.classList.add('valid');
+const addInvalidClass = (elem) => {
+  elem.classList.add('invalid');
 };
 
-const removeValidClass = () => {
-  authenticationFormRef.reset();
-  authenticationFormRef.classList.remove('valid');
-};
-
-const addInvalidClass = () => {
-  authenticationFormRef.classList.add('invalid');
-};
-
-const removeInvalidClass = () => {
-  authenticationFormRef.reset();
-  authenticationFormRef.classList.remove('invalid');
+const removeInvalidClass = (elem) => {
+  elem.classList.remove('invalid');
 };
 
 const openAuthModal = event => {
-  removeValidClass();
-  removeInvalidClass();
   modalAuthRef.classList.add('is-open');
   window.addEventListener('keyup', modalAuthCloseByEsc);
 };
@@ -151,8 +205,8 @@ const closeAuthModal = event => {
   window.removeEventListener('keyup', modalAuthCloseByEsc);
 };
 
-const modalCloseOnOverlay = event => {
-  if (event.target === event.currentTarget) {
+const closeAuthModalOnOverlay = event => { 
+  if (event.target === event.currentTarget) { 
     closeAuthModal();
   }
 }
@@ -162,9 +216,10 @@ const modalAuthCloseByEsc = event => {
   closeAuthModal();
 };
 
-authenticationFormSignUpRef.addEventListener('submit', registrateUser);
-authenticationFormSignInRef.addEventListener('submit', signInUser);
+signUpFormRef.addEventListener('submit', registerUser);
+signInFormRef.addEventListener('submit', signInUser);
 
-modalAuthBackdropeRef.addEventListener('click', modalCloseOnOverlay);
-modalAuthCloseRef.addEventListener('click', closeAuthModal);
+modalAuthBackdropeRef.addEventListener('click', closeAuthModalOnOverlay);
 authOpenButtonRef.addEventListener('click', openAuthModal);
+
+export default userID; 
