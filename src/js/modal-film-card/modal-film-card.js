@@ -56,7 +56,7 @@ class ModalFilmCard {
         activeItem.textContent = 'Remove from Watched';
       }
       else { 
-        // newStorage.removeFromWatched(); 
+        newStorage.removeMovieFromWatched(); 
         this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Watched';
       }
@@ -69,7 +69,7 @@ class ModalFilmCard {
         activeItem.textContent = 'Remove from Queue';
       }
       else { 
-        // newStorage.removeFromQueue(); 
+        newStorage.removeMovieFromQueue(); 
          this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Queue';
       }
@@ -81,7 +81,6 @@ class ModalFilmCard {
     element.classList.add(classToAdd);
   }
   
-
   async getData(id) {
     try {
       const resolve = await newApi.getResponseInfo(id);
