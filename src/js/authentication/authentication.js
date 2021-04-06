@@ -152,7 +152,7 @@ const closeAuthModal = event => {
 };
 
 const modalCloseOnOverlay = event => {
-  if (event.target) {
+  if (event.target === event.currentTarget) {
     closeAuthModal();
   }
 }
