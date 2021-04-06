@@ -9,3 +9,4 @@ setTimeout(function () {
   refs.genreSelector.insertAdjacentHTML('beforeend', filterTmpl(arr));
 }, 1000);
  */
+

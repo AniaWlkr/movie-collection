@@ -1,4 +1,3 @@
-// import noImage from '../images/movies-card/noimage.jpg';
 import defOptions from './pagination/paginationOptions';
 const { options } = defOptions;
 import spinner from './spinner';
@@ -61,12 +60,10 @@ async function renderAndPagination(key) {
   if (total_results === 0) {
     errorRef.classList.remove('is-hidden');
     setTimeout(errorSearchMovie, 2000);
-    console.log('нічого не знайдено'); // <-------------------------------- все на pnotify
     return;
   }
   const correctResult = await createCorrectResult(results);
   renderCard(correctResult);
-  // spinner.hideSpinner();
   PaginationPlugin.on('beforeMove', e => {
     removeAndChangePagTheme(pagBox);
   });
