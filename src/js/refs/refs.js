@@ -21,5 +21,8 @@ export default {
   modalTrailer: document.querySelector('.modal-trailer'),
   modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
 
-  genreSelector: document.querySelector('#genres'),
+  //filter
+  genreSelector: document.querySelector('.filter-by-genre'),
+  genresList: document.querySelector('.select-content'),
+  filterByGenreButton: document.querySelector('.by-genre'),
 };

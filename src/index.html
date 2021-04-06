@@ -146,12 +146,9 @@
     <div class="spinner hidden-spinner"></div>
     <header class="header">
       <div class="container">
-        
         <!----------- switch-theme ----------->
         <div class="toolbar">
-          <a href="" class="auth-open-modal-button">
-            SIGN-IN
-          </a>
+          <a href="" class="auth-open-modal-button"> SIGN-IN </a>
           <div class="switch-theme">
             <div class="switch-theme-control">
               <input
@@ -227,9 +224,22 @@
         </div>
         <!-- FILTER -->
         <div class="filter-container">
-          <select name="genres" id="genres">
-            <option value="genres">All genres</option>
-          </select>
+          <div class="filter-wrapper">
+            <button class="filter-button sort-by" type="button">SORT BY</button>
+          </div>
+          <div class="filter-wrapper">
+            <button class="filter-button by-genre" type="button">
+              All GENRES
+            </button>
+            <div class="select-content filter-by-genre is-hidden">
+              <button class="select-genre-item" id="0" type="button">
+                ALL GENRES
+              </button>
+            </div>
+          </div>
+          <div class="filter-wrapper">
+            <button class="filter-button" type="button">CLEAR</button>
+          </div>
         </div>
         <!-- FILTER -->
         <div class="tabs is-hidden">
@@ -343,7 +353,7 @@
               id="email"
               class="authentication-form-input authentication-email"
               type="email"
-              name="email" 
+              name="email"
               placeholder="Enter email..."
             />
           </label>
