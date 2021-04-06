@@ -172,6 +172,7 @@
     width: 72px;
     height: 44px;
     padding: 5px;
+    outline: none;
 
     background-color: $primary-text-color;
     border-radius: 5px;
@@ -181,12 +182,14 @@
     transition: color, background-color,
       $transition-duration $transition-timing-function;
 
-    &:hover,
-    &:focus {
+    // &:hover,
+    // &:focus {
+    &:hover {
       cursor: pointer;
       background-color: $accent-color;
       color: $primary-text-color;
-      border: 1px solid $accent-color;
+      // border: 1px solid $accent-color;
+      outline: none;
     }
   }
 
@@ -220,7 +223,7 @@
     }
 
     &-card-button {
-      width: 100px;
+      width: 78px;
       height: 44px;
 
       &:not(:last-child) {
@@ -231,14 +234,14 @@
 
   @media screen and (min-width: 1024px) {
     &-content {
-      max-width: 882px;
-      max-height: 568px;
+      min-width: 882px;
+      min-height: 568px;
       padding: 50px 30px 41px 30px;
     }
 
     &-close-button {
-      top: 18px;
-      font-size: 40px;
+      top: 15px;
+      font-size: 30px;
     }
 
     &-card-img {
@@ -248,8 +251,8 @@
     }
 
     &-card-about {
-      width: 396px;
-      max-height: 160px;
+      min-width: 400px;
+      max-height: 150px;
     }
 
     &-card-title {
@@ -259,6 +262,10 @@
 
     &-button-div {
       justify-content: flex-start;
+    }
+
+    &-card-button {
+      width: 125px;
     }
   }
 }

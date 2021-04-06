@@ -4,7 +4,7 @@ import newStorage from '../local-storage/local-storage';
 import spinner from '../spinner';
 import noImage from '../../images/movies-card/noimage.jpg';
 import onCloseTrailer from '../modal-trailer';
-import { updateWatched, updateQueue } from '../firebase';
+// import { updateWatched, updateQueue } from '../firebase';
 
 const requestError = document.querySelector('.request-error');
 const boxModalTrailer = document.querySelector('.modal-trailer-overlay'); //ссылка на бокс
@@ -16,6 +16,7 @@ class ModalFilmCard {
     this.modalContentRef = document.querySelector('.modal-content');
     this.moviesListRef = document.querySelector('.movies-list');
     this.modalOverlayTrailer = document.querySelector('.modal-trailer-overlay');
+
     this.drawSelectedFilm = this.drawSelectedFilm.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -23,6 +24,7 @@ class ModalFilmCard {
     this.modalCloseByEsc = this.modalCloseByEsc.bind(this);
   }
   openModal() {
+    console.log('Open Modal');
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
@@ -48,15 +50,37 @@ class ModalFilmCard {
     if (activeItem === event.currentTarget) return;
 
     if (activeItem.dataset.active === 'watched') {
-      newStorage.addToWatched();
-      activeItem.disabled = true; //обработка кнопки (смена текста)
+      if (activeItem.classList.contains('add')) {
+        newStorage.addToWatched();
+        this.toggleClasses(activeItem, 'add', 'remove');
+        activeItem.textContent = 'Remove from Watched';
+      }
+      else { 
+        // newStorage.removeFromWatched(); 
+        this.toggleClasses(activeItem, 'remove', 'add');
+        activeItem.textContent = 'Add to Watched';
+      }
     }
 
     if (activeItem.dataset.active === 'queue') {
-      newStorage.addToQueue();
-      activeItem.disabled = true; //обработка кнопки (смена текста)
+       if (activeItem.classList.contains('add')) {
+        newStorage.addToQueue();
+        this.toggleClasses(activeItem, 'add', 'remove');
+        activeItem.textContent = 'Remove from Queue';
+      }
+      else { 
+        // newStorage.removeFromQueue(); 
+         this.toggleClasses(activeItem, 'remove', 'add');
+        activeItem.textContent = 'Add to Queue';
+      }
     }
   }
+
+  toggleClasses(element, classToRemove, classToAdd) { 
+    element.classList.remove(classToRemove);
+    element.classList.add(classToAdd);
+  }
+  
 
   async getData(id) {
     try {
@@ -75,11 +99,8 @@ class ModalFilmCard {
     spinner.showSpinner();
 
     const targetId = event.target.dataset.sourse;
-    // console.log(newStorage.checkCurrentMovieInQueueList(targetId));
-    // console.log(newStorage.checkCurrentMovieInWatchedList(targetId));
-    // newStorage.removeMovieFromQueue(targetId);
-    // newStorage.removeMovieFromWatched(targetId); 
- 
+    const isInQueue = newStorage.checkCurrentMovieInQueueList(targetId);
+    const isInWatched = newStorage.checkCurrentMovieInWatchedList(targetId);
     const contentRef = this.modalContentRef;
 
     this.modalContentRef.innerHTML = '';
@@ -106,15 +127,29 @@ class ModalFilmCard {
         'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
 
-    const openModalInPromice = this.openModal();
+    
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
 
     spinner.hideSpinner();
-
+    const modalMarkUp = modalCardTemplate(answer);
+    console.log(modalMarkUp);
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
+    const queueBtnRef = document.querySelector('button[data-active="watched"]');
+    const watchedBtnRef = document.querySelector('button[data-active="queue"]');
 
-    openModalInPromice;
+    if (isInQueue) { 
+      queueBtnRef.textContent = 'Remove from Queue';
+      queueBtnRef.classList.remove('add');
+      queueBtnRef.classList.add('remove');
+    }
+    if (isInWatched) { 
+      watchedBtnRef.textContent = 'Remove from Watched';
+      watchedBtnRef.classList.remove('add');
+      watchedBtnRef.classList.add('remove');
+    }
+
+    this.openModal();
     const modalCloseButtonRef = document.querySelector('.modal-close-button');
     const modalButtonsDivRef = document.querySelector('.modal-button-div');
     modalCloseButtonRef.addEventListener('click', closeModalInPromice);
