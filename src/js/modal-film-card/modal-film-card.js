@@ -24,7 +24,6 @@ class ModalFilmCard {
     this.modalCloseByEsc = this.modalCloseByEsc.bind(this);
   }
   openModal() {
-    console.log('Open Modal');
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
@@ -110,7 +109,7 @@ class ModalFilmCard {
     if (answer === 'error') {
       spinner.hideSpinner();
       requestError.classList.remove('visually-hidden');
-      console.log(requestError);
+      // console.log(requestError);
       setTimeout(() => {
         requestError.classList.add('visually-hidden');
       }, 2700);
@@ -132,10 +131,9 @@ class ModalFilmCard {
 
     spinner.hideSpinner();
     const modalMarkUp = modalCardTemplate(answer);
-    console.log(modalMarkUp);
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
-    const queueBtnRef = document.querySelector('button[data-active="watched"]');
-    const watchedBtnRef = document.querySelector('button[data-active="queue"]');
+    const queueBtnRef = document.querySelector('button[data-active="queue"]');
+    const watchedBtnRef = document.querySelector('button[data-active="watched"]');
 
     if (isInQueue) { 
       queueBtnRef.textContent = 'Remove from Queue';

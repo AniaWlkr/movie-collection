@@ -42,12 +42,14 @@ class LocalStorageService {
   }
 
   addToWatched() {
+    console.log('add to watched');
     this.newMoviesList();
     this._moviesList.watсhed.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
   addToQueue() {
+    console.log('add to queue');
     this.newMoviesList();
     this._moviesList.inQueue.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
@@ -87,6 +89,7 @@ class LocalStorageService {
   }
   
   removeMovieFromQueue(id) {
+    console.log('remove from queue');
     this.newMoviesList();
     const currentInQueueMoviesList = this._moviesList.inQueue;
     const newArreyOfMoviesinQueue = currentInQueueMoviesList.filter(obj => obj.id !== Number(id));
@@ -95,6 +98,7 @@ class LocalStorageService {
   }
 
   removeMovieFromWatched(id) {
+    console.log('remove from watched');
     this.newMoviesList();
     const currentWatchedMoviesList = this._moviesList.watсhed;
     const newArreyOfWatchedMovies = currentWatchedMoviesList.filter(obj => obj.id !== Number(id));
