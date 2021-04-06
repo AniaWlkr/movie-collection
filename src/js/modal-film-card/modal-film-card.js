@@ -45,6 +45,7 @@ class ModalFilmCard {
 
   storageHandler(event) {
     const activeItem = event.target;
+    const movieId = activeItem.dataset.sourse;
 
     if (activeItem === event.currentTarget) return;
 
@@ -55,7 +56,7 @@ class ModalFilmCard {
         activeItem.textContent = 'Remove from Watched';
       }
       else { 
-        newStorage.removeMovieFromWatched(); 
+        newStorage.removeMovieFromWatched(movieId); 
         this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Watched';
       }
@@ -68,7 +69,7 @@ class ModalFilmCard {
         activeItem.textContent = 'Remove from Queue';
       }
       else { 
-        newStorage.removeMovieFromQueue(); 
+        newStorage.removeMovieFromQueue(movieId); 
          this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Queue';
       }
@@ -90,7 +91,7 @@ class ModalFilmCard {
   }
 
   async drawSelectedFilm(event) {
-    if (!event.target === 'IMG') {
+    if (event.target !== 'IMG') {
       return;
     }
 
