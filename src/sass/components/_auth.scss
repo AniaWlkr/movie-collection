@@ -124,21 +124,21 @@
 
   margin-right: 20px;
   color: $primary-text-color;
-  text-decoration: none;
-  padding: 5px;
+  padding: 2px 5px;
   // width: 200px;
   // height: 30px;
 
   background-color: $dark-theme-color;
 
   border-radius: 50em;
-  font-size: 10px;
   outline: none;
+  border: none;
+
+  font-size: 10px;
 
   // border: none;
   // transition: color, background-color,
   //   $transition-duration $transition-timing-function;
-  outline: none;
 
   &:hover,
   &:focus {
