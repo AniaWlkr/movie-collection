@@ -54,33 +54,31 @@ class ModalFilmCard {
         newStorage.addToWatched();
         this.toggleClasses(activeItem, 'add', 'remove');
         activeItem.textContent = 'Remove from Watched';
-      }
-      else { 
-        newStorage.removeMovieFromWatched(movieId); 
+      } else {
+        newStorage.removeMovieFromWatched();
         this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Watched';
       }
     }
 
     if (activeItem.dataset.active === 'queue') {
-       if (activeItem.classList.contains('add')) {
+      if (activeItem.classList.contains('add')) {
         newStorage.addToQueue();
         this.toggleClasses(activeItem, 'add', 'remove');
         activeItem.textContent = 'Remove from Queue';
-      }
-      else { 
-        newStorage.removeMovieFromQueue(movieId); 
-         this.toggleClasses(activeItem, 'remove', 'add');
+      } else {
+        newStorage.removeMovieFromQueue();
+        this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Queue';
       }
     }
   }
 
-  toggleClasses(element, classToRemove, classToAdd) { 
+  toggleClasses(element, classToRemove, classToAdd) {
     element.classList.remove(classToRemove);
     element.classList.add(classToAdd);
   }
-  
+
   async getData(id) {
     try {
       const resolve = await newApi.getResponseInfo(id);
@@ -126,7 +124,6 @@ class ModalFilmCard {
         'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
 
-    
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
 
@@ -134,14 +131,16 @@ class ModalFilmCard {
     const modalMarkUp = modalCardTemplate(answer);
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
     const queueBtnRef = document.querySelector('button[data-active="queue"]');
-    const watchedBtnRef = document.querySelector('button[data-active="watched"]');
+    const watchedBtnRef = document.querySelector(
+      'button[data-active="watched"]',
+    );
 
-    if (isInQueue) { 
+    if (isInQueue) {
       queueBtnRef.textContent = 'Remove from Queue';
       queueBtnRef.classList.remove('add');
       queueBtnRef.classList.add('remove');
     }
-    if (isInWatched) { 
+    if (isInWatched) {
       watchedBtnRef.textContent = 'Remove from Watched';
       watchedBtnRef.classList.remove('add');
       watchedBtnRef.classList.add('remove');
