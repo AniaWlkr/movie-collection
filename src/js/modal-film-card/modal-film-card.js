@@ -91,7 +91,7 @@ class ModalFilmCard {
   }
 
   async drawSelectedFilm(event) {
-    if (event.target !== 'IMG') {
+    if (event.target.nodeName !== 'IMG') {
       return;
     }
 
