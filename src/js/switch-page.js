@@ -16,58 +16,65 @@ const refs = {
 
 const renderQueue = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
-  const queueMovies = movies.inQueue;
+  let queueMovies = null;
+  if (!movies) {
+    queueMovies = [];
+  } else {
+    queueMovies = movies.inQueue;
+  }
   renderLibrary(queueMovies);
-}
+};
 
 const renderWatched = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
-  const watchedMovies = movies.watсhed;
+  let watchedMovies = null;
+  if (!movies) {
+    watchedMovies = [];
+  } else {
+    watchedMovies = movies.watсhed;
+  }
   renderLibrary(watchedMovies);
-}
+};
 
-const checkActive = (selector) => {
+const checkActive = selector => {
   const currentActiveItem = selector.querySelector('.is-active');
 
   if (currentActiveItem) {
     currentActiveItem.classList.remove('is-active');
   }
-}
+};
 
 //Функция для работы с Библиотекой
 const onChangeList = event => {
-
   checkActive(refs.tabs);
 
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === 'finished') {
-    fixedFooterAndPaginationBox();
+    // fixedFooterAndPaginationBox();
     event.target.classList.add('is-active');
     renderWatched();
   }
 
   //Отрисовывает если нажата кнопка "QUEUE"
   if (event.target.dataset.action === 'waiting') {
-    fixedFooterAndPaginationBox();
+    // fixedFooterAndPaginationBox();
     event.target.classList.add('is-active');
     renderQueue();
   }
 };
 
-function fixedFooterAndPaginationBox() {
-
-  if (refs.movieList.clientHeight === 0) {
-    refs.footer.classList.add('footer--fixed');
-    refs.paginationBox.classList.add('pagination-wrapper--fixed');
-  } else {
-    refs.footer.classList.remove('footer--fixed');
-    refs.paginationBox.classList.remove('pagination-wrapper--fixed');
-  }
-}
+// function fixedFooterAndPaginationBox() {
+//   if (refs.movieList.clientHeight === 0) {
+//     refs.footer.classList.add('footer--fixed');
+//     refs.paginationBox.classList.add('pagination-wrapper--fixed');
+//   } else {
+//     refs.footer.classList.remove('footer--fixed');
+//     refs.paginationBox.classList.remove('pagination-wrapper--fixed');
+//   }
+// }
 
 //Перерисовка разметки
-const changeMarkup = (page) => {
-
+const changeMarkup = page => {
   const activePageState = page.dataset.state;
 
   if (activePageState === 'home') {
@@ -76,8 +83,8 @@ const changeMarkup = (page) => {
     refs.header.classList.remove('header-library');
     refs.searchFofm.classList.remove('is-hidden');
     refs.tabs.classList.add('is-hidden');
-    renderAndPaginationPopularMovies();
-    
+    renderAndPaginationPopularMovies(); //асинхрон
+    // setTimeout(fixedFooterAndPaginationBox(), 100); //забираєм фіксацію
   }
 
   if (activePageState === 'library') {
@@ -87,11 +94,14 @@ const changeMarkup = (page) => {
     refs.header.classList.remove('header');
     refs.searchFofm.classList.add('is-hidden');
     refs.tabs.classList.remove('is-hidden');
-    document.querySelector('button[data-action="waiting"]').classList.add('is-active');
+    document
+      .querySelector('button[data-action="waiting"]')
+      .classList.add('is-active');
     try {
       renderQueue();
+      // fixedFooterAndPaginationBox(); //забираєм фіксацію
     } catch {
-      fixedFooterAndPaginationBox();
+      // fixedFooterAndPaginationBox(); //забираєм фіксацію
     }
     refs.tabs.addEventListener('click', onChangeList);
   }
