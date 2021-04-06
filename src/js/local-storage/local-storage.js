@@ -1,19 +1,20 @@
 class LocalStorageService {
   constructor() {
-    this.movieId = '';
+    this.movie = {};
     this._moviesList = { watсhed: [], inQueue: [] };
-    this._watchedMovies = [];
-    this._moviesInQueue = [];
     this._moviesListKey = 'movie';
     this._currentPageKey = 'currentPage';
     this.addToQueue = this.addToQueue.bind(this);
     this.addToWatched = this.addToWatched.bind(this);
     this.getMoviesFromStorage = this.getMoviesFromStorage.bind(this);
-    this.saveCurrentPageToStorage = this.saveCurrentPageToStorage.bind(this);
+    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(this);
+    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(this);
+    this.removeMovieFromQueue = this.removeMovieFromQueue.bind(this);
+    this.removeMovieFromWatched = this.removeMovieFromWatched.bind(this);
   }
 
-  set addMovieId (newId) {
-   this.movieId = newId;
+  set addMovieObj(newObj) {
+    this.movie = this.createObjForStoring(newObj);
   }
 
   newMoviesList() {
@@ -22,15 +23,18 @@ class LocalStorageService {
    return (this._moviesList = newMovieList);
   }
 
-  createMovieCardObj(element) {
-    this.getRefs(element);
-    let movieObj = {};
-    // movieObj.posterPath = ;
+  checkCurrentMovieInQueueList(id) {
+    this.newMoviesList();
+    const currentInQueueMovieList = this._moviesList.inQueue;
+    const isIdExist = currentInQueueMovieList.find(obj => obj.id === Number(id));
+    return isIdExist ? true : false;
   }
 
-  getRefs(ref) {
-    const arr = ref.children;
-    console.dir(arr);
+  checkCurrentMovieInWatchedList(id) {
+    this.newMoviesList();
+    const currentInWatchedMovieList = this._moviesList.watсhed;
+    const isIdExist = currentInWatchedMovieList.find(obj => obj.id === Number(id));
+    return isIdExist ? true : false;
   }
 
   saveToStorage(key, element) {
@@ -38,21 +42,25 @@ class LocalStorageService {
   }
 
   addToWatched() {
+    console.log('add to watched');
     this.newMoviesList();
-    if (this._moviesList.watсhed.includes(this.movieId)) return;
-    this._moviesList.watсhed.push(this.movieId);
+    this._moviesList.watсhed.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
   addToQueue() {
+    console.log('add to queue');
     this.newMoviesList();
-    if (this._moviesList.inQueue.includes(this.movieId)) return;
-    this._moviesList.inQueue.push(this.movieId);
+    this._moviesList.inQueue.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
   saveCurrentPageToStorage(page) {
     this.saveToStorage(this._currentPageKey, page);
+  }
+
+  getCurrentPageFromStorage() {
+    return this.takeFromStorage(this._currentPageKey);
   }
 
   takeFromStorage(key) {
@@ -67,16 +75,36 @@ class LocalStorageService {
   getMoviesFromStorage() {
     return this.takeFromStorage(this._moviesListKey);
   }
-
-  getСurrentPageFromStorage() {
-     return this.takeFromStorage(this._currentPageKey);
+  
+  createObjForStoring(data) {
+    const id = data.id;
+    const homepege = data.homepage;
+    const poster_path = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+    const original_title = data.original_title;
+    const vote_average = data.vote_average;
+    const vote_count = data.vote_count;
+    const popularity = data.popularity;
+    const genres = data.genres;
+    return {id, homepege,  poster_path,  original_title, vote_average, vote_count, popularity, genres};
+  }
+  
+  removeMovieFromQueue(id) {
+    console.log('remove from queue');
+    this.newMoviesList();
+    const currentInQueueMoviesList = this._moviesList.inQueue;
+    const newArreyOfMoviesinQueue = currentInQueueMoviesList.filter(obj => obj.id !== Number(id));
+    this._moviesList.inQueue = newArreyOfMoviesinQueue;
+    this.saveToStorage(this._moviesListKey, this._moviesList);
   }
 
-  // getСurrentThemeFromStorage() {
-  //   this.takeFromStorage(this._currentPageKeyName);
-  // }
-
- 
+  removeMovieFromWatched(id) {
+    console.log('remove from watched');
+    this.newMoviesList();
+    const currentWatchedMoviesList = this._moviesList.watсhed;
+    const newArreyOfWatchedMovies = currentWatchedMoviesList.filter(obj => obj.id !== Number(id));
+    this._moviesList.watсhed = newArreyOfWatchedMovies;
+    this.saveToStorage(this._moviesListKey, this._moviesList);
+  }
 }
 
 const newlocalStorage = new LocalStorageService();
@@ -92,30 +120,3 @@ export default newlocalStorage;
 
 
 
-
-
- // storageHandler (event) {
-  //   const activeItem = event.target;
-
-  //   if (activeItem === event.currentTarget) return;
-
-  //   if (activeItem.dataset.active === 'watched') {
-  //     this.addToWatched();
-  //     activeItem.disabled = true;
-  //   }
-
-  //   if (activeItem.dataset.active === 'queue') {
-  //     this.addToQueue();
-  //     activeItem.disabled = true;
-  //   }
-  // }
-
-  //Метод для Лены Губаренко
-  // addLocalStorageListener(selector) {
-  //   selector.addEventListener('click', this.storageHandler);
-  // }
-
-  // //Метод для Лены Губаренко
-  // removeLocalStorageListener(selector) {
-  //   selector.removeEventListener('click', this.storageHandler);
-  // }

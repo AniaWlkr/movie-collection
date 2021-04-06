@@ -31,9 +31,8 @@
         <li class="modal-list-item">
           <div class="modal-card-info-list-item modal-value-name">Genre</div>
 
-          <div class="modal-card-info-list-item"> {{#each genres}}{{this}} / {{/each}}
+          <div class="modal-card-info-list-item"> {{#each genres}}{{this}}{{#unless @last}} / {{/unless}}{{/each}}
 
-          </div>
         </li>
       </ul>
 
@@ -42,8 +41,8 @@
     <p class="modal-card-about">
       {{overview}}</p>
     <div class="modal-button-div">
-      <button class="modal-card-button" data-active="watched">add to <br>Watched</button>
-      <button class="modal-card-button" data-active="queue">add to queue</button>
+      <button class="modal-card-button add" data-active="watched">add to Watched</button>
+      <button class="modal-card-button add" data-active="queue">add to queue</button>
       <button class="modal-card-button trailer-btn" data-sourse="{{id}}" data-action="trailer">show trailer</button>
     </div>
   </div>

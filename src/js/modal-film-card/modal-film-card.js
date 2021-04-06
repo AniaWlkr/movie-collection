@@ -4,7 +4,7 @@ import newStorage from '../local-storage/local-storage';
 import spinner from '../spinner';
 import noImage from '../../images/movies-card/noimage.jpg';
 import onCloseTrailer from '../modal-trailer';
-import { updateWatched, updateQueue } from '../firebase';
+// import { updateWatched, updateQueue } from '../firebase';
 
 const requestError = document.querySelector('.request-error');
 const boxModalTrailer = document.querySelector('.modal-trailer-overlay'); //ссылка на бокс
@@ -16,13 +16,12 @@ class ModalFilmCard {
     this.modalContentRef = document.querySelector('.modal-content');
     this.moviesListRef = document.querySelector('.movies-list');
     this.modalOverlayTrailer = document.querySelector('.modal-trailer-overlay');
+
     this.drawSelectedFilm = this.drawSelectedFilm.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.storageHandler = this.storageHandler.bind(this);
     this.modalCloseByEsc = this.modalCloseByEsc.bind(this);
-    this.createObjForStoring = this.createObjForStoring.bind(this);
-    this.cardInToObj = {};
   }
   openModal() {
     this.modalRef.classList.add('is-open');
@@ -50,30 +49,37 @@ class ModalFilmCard {
     if (activeItem === event.currentTarget) return;
 
     if (activeItem.dataset.active === 'watched') {
-      // updateWatched(this.cardInToObj);
-      newStorage.addToWatched();
-      activeItem.disabled = true; //обработка кнопки (смена текста)
+      if (activeItem.classList.contains('add')) {
+        newStorage.addToWatched();
+        this.toggleClasses(activeItem, 'add', 'remove');
+        activeItem.textContent = 'Remove from Watched';
+      }
+      else { 
+        newStorage.removeMovieFromWatched(); 
+        this.toggleClasses(activeItem, 'remove', 'add');
+        activeItem.textContent = 'Add to Watched';
+      }
     }
 
     if (activeItem.dataset.active === 'queue') {
-      // updateQueue(this.cardInToObj);
-      newStorage.addToQueue();
-      activeItem.disabled = true; //обработка кнопки (смена текста)
+       if (activeItem.classList.contains('add')) {
+        newStorage.addToQueue();
+        this.toggleClasses(activeItem, 'add', 'remove');
+        activeItem.textContent = 'Remove from Queue';
+      }
+      else { 
+        newStorage.removeMovieFromQueue(); 
+         this.toggleClasses(activeItem, 'remove', 'add');
+        activeItem.textContent = 'Add to Queue';
+      }
     }
   }
 
-  createObjForStoring(data) {
-    this.cardInToObj.homepege = data.homepage;
-    this.cardInToObj.poster_path = data.poster_path;
-    this.cardInToObj.original_title = data.original_title;
-    this.cardInToObj.vote_average = data.vote_average;
-    this.cardInToObj.vote_count = data.vote_count;
-    this.cardInToObj.vote_count = data.vote_count;
-    this.cardInToObj.popularity = data.popularity;
-    this.cardInToObj.genres = data.genres;
-    this.cardInToObj.name = data.name;
+  toggleClasses(element, classToRemove, classToAdd) { 
+    element.classList.remove(classToRemove);
+    element.classList.add(classToAdd);
   }
-
+  
   async getData(id) {
     try {
       const resolve = await newApi.getResponseInfo(id);
@@ -91,18 +97,19 @@ class ModalFilmCard {
     spinner.showSpinner();
 
     const targetId = event.target.dataset.sourse;
+    const isInQueue = newStorage.checkCurrentMovieInQueueList(targetId);
+    const isInWatched = newStorage.checkCurrentMovieInWatchedList(targetId);
     const contentRef = this.modalContentRef;
-
-    newStorage.addMovieId = targetId;
 
     this.modalContentRef.innerHTML = '';
 
     const answer = await this.getData(targetId);
+    newStorage.addMovieObj = newApi.movie;
 
     if (answer === 'error') {
       spinner.hideSpinner();
       requestError.classList.remove('visually-hidden');
-      console.log(requestError);
+      // console.log(requestError);
       setTimeout(() => {
         requestError.classList.add('visually-hidden');
       }, 2700);
@@ -117,20 +124,29 @@ class ModalFilmCard {
       answer.poster_path =
         'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
-    console.log(answer);
 
-    const openModalInPromice = this.openModal();
+    
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
 
-    const newObj = this.createObjForStoring;
-    newObj(answer);
-
     spinner.hideSpinner();
-
+    const modalMarkUp = modalCardTemplate(answer);
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
+    const queueBtnRef = document.querySelector('button[data-active="queue"]');
+    const watchedBtnRef = document.querySelector('button[data-active="watched"]');
 
-    openModalInPromice;
+    if (isInQueue) { 
+      queueBtnRef.textContent = 'Remove from Queue';
+      queueBtnRef.classList.remove('add');
+      queueBtnRef.classList.add('remove');
+    }
+    if (isInWatched) { 
+      watchedBtnRef.textContent = 'Remove from Watched';
+      watchedBtnRef.classList.remove('add');
+      watchedBtnRef.classList.add('remove');
+    }
+
+    this.openModal();
     const modalCloseButtonRef = document.querySelector('.modal-close-button');
     const modalButtonsDivRef = document.querySelector('.modal-button-div');
     modalCloseButtonRef.addEventListener('click', closeModalInPromice);

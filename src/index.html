@@ -146,11 +146,12 @@
     <div class="spinner hidden-spinner"></div>
     <header class="header">
       <div class="container">
-        <button type="button" class="auth-open-modal-button">
-          SIGN-IN / SIGN-UP
-        </button>
+        
         <!----------- switch-theme ----------->
         <div class="toolbar">
+          <a href="" class="auth-open-modal-button">
+            SIGN-IN
+          </a>
           <div class="switch-theme">
             <div class="switch-theme-control">
               <input
@@ -224,14 +225,13 @@
             Search result not successful. Enter the correct movie name
           </p>
         </div>
+        <!-- FILTER -->
         <div class="filter-container">
           <select name="genres" id="genres">
             <option value="genres">All genres</option>
-            <!--             <option value="drama" data-id="18">Drama</option>
-            <option value="action" data-id="28">Action</option>
-            <option value="comedy" data-id="35">Comedy</option> -->
           </select>
         </div>
+        <!-- FILTER -->
         <div class="tabs is-hidden">
           <button class="tabs-button" data-action="waiting" type="button">
             QUEUE
@@ -248,9 +248,9 @@
           <h2 class="visually-hidden">Movies Roll</h2>
           <ul class="movies-list"></ul>
           <!-- переніс пагінацію після списку -->
-          <div class="pagination-wrapper">
-            <div id="pagination-box" class="tui-pagination"></div>
-          </div>
+        </div>
+        <div class="pagination-wrapper">
+          <div id="pagination-box" class="tui-pagination"></div>
         </div>
       </section>
       <!-- все що нижче і до закриття main дублювання -->
@@ -343,7 +343,7 @@
               id="email"
               class="authentication-form-input authentication-email"
               type="email"
-              name="email"
+              name="email" 
               placeholder="Enter email..."
             />
           </label>

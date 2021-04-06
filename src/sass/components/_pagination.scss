@@ -10,6 +10,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  &--fixed {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 100px;
+    @media screen and (min-width: $tablet) {
+      bottom: 90px;
+    }
+  }
 }
 
 .tui-pagination {

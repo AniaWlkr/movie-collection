@@ -1,5 +1,8 @@
 import axios from 'axios';
 import refs from '../refs/refs';
+import AuthNotifications from '../notifications/notifications';
+import filterTmpl from '../../templates/filter.hbs';
+const newNotification = new AuthNotifications();
 
 class MoviesApiServiceVersion {
   constructor() {
@@ -37,9 +40,9 @@ class MoviesApiServiceVersion {
         data: { results, total_results, total_pages },
       } = firstRequest;
       try {
-        if (page === total_pages) throw 'Last page no no'; // фікс 404 якщо остання сторінка то 2 запрос не робим
+        if (page === total_pages) throw 'Oops, this is the last page ...'; // фікс 404 якщо остання сторінка то 2 запрос не робим
         const secondRequest = await axios.get(
-          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${page}`,
+          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${page + 1}`,
         );
         return {
           data: {
@@ -76,6 +79,10 @@ class MoviesApiServiceVersion {
         genres.genres.forEach(element => {
           this.genresArr.push(element);
         });
+        refs.genreSelector.insertAdjacentHTML(
+          'beforeend',
+          filterTmpl(this.genresArr),
+        );
       });
   }
   // получаем id фільма віддаем інфу після кліка по карточці
@@ -105,8 +112,7 @@ class MoviesApiServiceVersion {
       this.movie = { ...data };
       return data;
     } catch (error) {
-      console.log('Такого обєкта немає в базі даних,попробуй наступний фільм'); //клік по картинці якої немає в бд можна виносити в pnotify
-      console.log('Упс, щось пішло не так');
+     newNotification.errorObject();
     }
   }
   getTrailer(movie_id) {
