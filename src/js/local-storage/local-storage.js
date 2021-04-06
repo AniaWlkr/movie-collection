@@ -1,3 +1,4 @@
+import noImage from '../../images/movies-card/noimage.jpg';
 class LocalStorageService {
   constructor() {
     this.movie = {};
@@ -91,22 +92,24 @@ class LocalStorageService {
   createObjForStoring(data) {
     const id = data.id;
     const homepege = data.homepage;
-    const poster_path = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+    let poster_path;
+    if (!data.poster_path) {
+          poster_path = noImage;
+        } else {
+          poster_path =
+            'https://image.tmdb.org/t/p/w500' + data.poster_path;
+        }
     const original_title = data.original_title;
-    const vote_average = data.vote_average;
+    const vote_average = data.vote_average.toFixed(1);
     const vote_count = data.vote_count;
     const popularity = data.popularity;
-    const genres = data.genres;
-    return {
-      id,
-      homepege,
-      poster_path,
-      original_title,
-      vote_average,
-      vote_count,
-      popularity,
-      genres,
-    };
+    let genres = data.genres;
+    if (genres.length > 2) {
+          genres = genres.slice(0, 2);
+          genres.push(' Other');
+        }
+    const release_date = data.release_date.slice(0, 4);
+    return {id, homepege,  poster_path,  original_title, vote_average, vote_count, popularity, genres, release_date};
   }
 
   removeMovieFromQueue() {
