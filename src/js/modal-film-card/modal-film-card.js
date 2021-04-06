@@ -24,7 +24,6 @@ class ModalFilmCard {
     this.modalCloseByEsc = this.modalCloseByEsc.bind(this);
   }
   openModal() {
-    console.log('Open Modal');
     this.modalRef.classList.add('is-open');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
@@ -46,6 +45,7 @@ class ModalFilmCard {
 
   storageHandler(event) {
     const activeItem = event.target;
+    const movieId = activeItem.dataset.sourse;
 
     if (activeItem === event.currentTarget) return;
 
@@ -54,33 +54,31 @@ class ModalFilmCard {
         newStorage.addToWatched();
         this.toggleClasses(activeItem, 'add', 'remove');
         activeItem.textContent = 'Remove from Watched';
-      }
-      else { 
-        newStorage.removeMovieFromWatched(); 
+      } else {
+        newStorage.removeMovieFromWatched();
         this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Watched';
       }
     }
 
     if (activeItem.dataset.active === 'queue') {
-       if (activeItem.classList.contains('add')) {
+      if (activeItem.classList.contains('add')) {
         newStorage.addToQueue();
         this.toggleClasses(activeItem, 'add', 'remove');
         activeItem.textContent = 'Remove from Queue';
-      }
-      else { 
-        newStorage.removeMovieFromQueue(); 
-         this.toggleClasses(activeItem, 'remove', 'add');
+      } else {
+        newStorage.removeMovieFromQueue();
+        this.toggleClasses(activeItem, 'remove', 'add');
         activeItem.textContent = 'Add to Queue';
       }
     }
   }
 
-  toggleClasses(element, classToRemove, classToAdd) { 
+  toggleClasses(element, classToRemove, classToAdd) {
     element.classList.remove(classToRemove);
     element.classList.add(classToAdd);
   }
-  
+
   async getData(id) {
     try {
       const resolve = await newApi.getResponseInfo(id);
@@ -91,7 +89,7 @@ class ModalFilmCard {
   }
 
   async drawSelectedFilm(event) {
-    if (!event.target === 'IMG') {
+    if (event.target.nodeName !== 'IMG') {
       return;
     }
 
@@ -110,7 +108,7 @@ class ModalFilmCard {
     if (answer === 'error') {
       spinner.hideSpinner();
       requestError.classList.remove('visually-hidden');
-      console.log(requestError);
+      // console.log(requestError);
       setTimeout(() => {
         requestError.classList.add('visually-hidden');
       }, 2700);
@@ -126,23 +124,23 @@ class ModalFilmCard {
         'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
 
-    
     const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
 
     spinner.hideSpinner();
     const modalMarkUp = modalCardTemplate(answer);
-    console.log(modalMarkUp);
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
-    const queueBtnRef = document.querySelector('button[data-active="watched"]');
-    const watchedBtnRef = document.querySelector('button[data-active="queue"]');
+    const queueBtnRef = document.querySelector('button[data-active="queue"]');
+    const watchedBtnRef = document.querySelector(
+      'button[data-active="watched"]',
+    );
 
-    if (isInQueue) { 
+    if (isInQueue) {
       queueBtnRef.textContent = 'Remove from Queue';
       queueBtnRef.classList.remove('add');
       queueBtnRef.classList.add('remove');
     }
-    if (isInWatched) { 
+    if (isInWatched) {
       watchedBtnRef.textContent = 'Remove from Watched';
       watchedBtnRef.classList.remove('add');
       watchedBtnRef.classList.add('remove');

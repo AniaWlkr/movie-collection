@@ -3,18 +3,43 @@ body.light-theme {
   color: $dark-theme-color;
 }
 
-body.dark-theme,
-.footer.dark-theme,
-.modal-content.dark-theme,
-.modal-content.dark-theme .modal-close-button,
-.hackers-modal.dark-theme,
-.hackers-modal.dark-theme .hackers-modal-close-button {
-  background-color: $dark-theme-color;
+body.dark-theme {
+  background-color: #252525;
   color: $primary-text-color;
 }
 
 .footer.dark-theme {
-  border-top: 1px solid $primary-text-color;
+  background-color: rgba(12, 12, 12, 0.8);
+  color: $primary-text-color;
+}
+
+.modal-content.dark-theme,
+.modal-content.dark-theme .modal-close-button,
+.hackers-modal.dark-theme,
+.hackers-modal.dark-theme .hackers-modal-close-button {
+  background-color: #575757;
+  color: $primary-text-color;
+}
+
+.hacker-modal-in-modal.dark-theme,
+.hacker-modal-in-modal.dark-theme .hacker-modal-close-button {
+  background-color: #747474;
+  color: $primary-text-color;
+}
+
+.modal-content.dark-theme .modal-close-button,
+.hackers-modal.dark-theme .hackers-modal-close-button,
+.hacker-modal-in-modal.dark-theme .hacker-modal-close-button {
+  border: none;
+  &:hover,
+  &:focus {
+    outline: none;
+    color: $accent-color;
+  }
+}
+
+.modal-content.dark-theme .modal-card-button {
+  border: none;
 }
 
 .footer.dark-theme a {
@@ -38,7 +63,6 @@ body.dark-theme,
 
   &-icon {
     position: relative;
-    //z-index: 2;
     pointer-events: none;
     color: $primary-text-color;
     height: 15px;
@@ -80,7 +104,6 @@ body.dark-theme,
     user-select: none;
     background-color: $dark-theme-color;
     border-radius: inherit;
-    //z-index: 1;
     cursor: pointer;
   }
 

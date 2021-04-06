@@ -13,7 +13,19 @@ import refs from './refs/refs';
 const searchForm = document.querySelector('#search-form');
 const errorRef = document.querySelector('.search-error');
 const headerRef = document.querySelector('header');
+const footerRef = document.querySelector('footer');
+const paginationBox = document.querySelector('.pagination-wrapper');
+const movieList = document.querySelector('.movies-list');
 //--------------------------------------------------------
+function fixedFooterAndPaginationBox() {
+  footerRef.classList.remove('footer--fixed');
+  paginationBox.classList.remove('pagination-wrapper--fixed');
+  if (movieList.clientHeight === 0) {
+    footerRef.classList.add('footer--fixed');
+    paginationBox.classList.add('pagination-wrapper--fixed');
+  }
+}
+
 // функція для рендеру і пагінації
 async function renderAndPagination(key) {
   function getAllMovie(page) {
@@ -64,13 +76,16 @@ async function renderAndPagination(key) {
   }
   const correctResult = await createCorrectResult(results);
   renderCard(correctResult);
+  fixedFooterAndPaginationBox();
   PaginationPlugin.on('beforeMove', e => {
     removeAndChangePagTheme(pagBox);
+    fixedFooterAndPaginationBox();
   });
 
   PaginationPlugin.on('afterMove', async ({ page }) => {
     spinner.showSpinner();
     removeAndChangePagTheme(pagBox);
+    fixedFooterAndPaginationBox();
     const {
       data: { results },
     } = await promise(page);
@@ -150,7 +165,6 @@ renderAndPaginationFilteredMovies();
 //функція для рендеру і пагінації для бібліотеки
 // отримуєм масив готових коректних обєктів
 function renderLibrary(arrayFilm) {
-  console.log(arrayFilm.length);
   const maxCardPerPage = 12;
   options.itemsPerPage = maxCardPerPage;
   options.totalItems = arrayFilm.length;
@@ -159,6 +173,7 @@ function renderLibrary(arrayFilm) {
   removeAndChangePagTheme(pagBox);
   const firstMovie = arrayFilm.filter((_, index) => index < maxCardPerPage);
   renderCard(firstMovie);
+  fixedFooterAndPaginationBox();
   PaginationPlugin.on('beforeMove', ({ page }) => {
     let nextMovie = null;
     if (page === 1) {
@@ -173,108 +188,14 @@ function renderLibrary(arrayFilm) {
     renderCard(nextMovie);
     goUp(headerRef);
   });
-  PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
+  PaginationPlugin.on('afterMove', e => {
+    fixedFooterAndPaginationBox();
+    removeAndChangePagTheme(pagBox);
+  });
 }
 
 export { renderAndPaginationPopularMovies, renderLibrary };
 //----------------------------------------------------------------------------------------------------------------
-//варіанти для Бібліотеки
-//отримуєм масив коректних id без 404
-const testArrId = [
-  399566,
-  412656,
-  791373,
-  621954,
-  660006,
-  651589,
-  69050,
-  600354,
-  464052,
-  802504,
-  527774,
-  95557,
-  90970,
-  93454,
-  508442,
-  587807,
-  567797,
-  1429,
-  399566,
-  412656,
-  791373,
-  621954,
-  660006,
-  651589,
-  69050,
-  600354,
-  464052,
-  802504,
-  527774,
-  95557,
-  90970,
-  93454,
-  508442,
-  587807,
-  567797,
-  1429,
-  791373,
-  621954,
-  660006,
-  651589,
-  69050,
-  600354,
-  464052,
-  802504,
-  527774,
-  95557,
-  90970,
-  93454,
-  508442,
-  587807,
-  567797,
-  1429,
-];
-async function requestHandler(arr) {
-  const promises = arr.map(el => {
-    try {
-      return newApi.getResponseInfo(el);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  });
-  const results = await Promise.all(promises);
-  const correctResult = await createCorrectResult(results);
-  renderCard(correctResult);
-}
-function renderLibraryById(arrayMovieId) {
-  const maxCardPerPage = 12;
-  options.itemsPerPage = maxCardPerPage;
-  options.totalItems = arrayMovieId.length;
-  const { PaginationPlugin } = createNewPagination();
-  const pagBox = document.querySelector('#pagination-box');
-
-  removeAndChangePagTheme(pagBox);
-  const firstMovieId = arrayMovieId.filter(
-    (_, index) => index < maxCardPerPage,
-  );
-  requestHandler(firstMovieId);
-  PaginationPlugin.on('beforeMove', ({ page }) => {
-    let nextMovieId = null;
-    if (page === 1) {
-      nextMovieId = arrayMovieId.filter((_, index) => index < maxCardPerPage);
-    } else {
-      nextMovieId = arrayMovieId.filter(
-        (_, index) =>
-          index >= maxCardPerPage * (page - 1) && index < maxCardPerPage * page,
-      );
-    }
-    requestHandler(nextMovieId);
-    goUp(headerRef);
-  });
-
-  PaginationPlugin.on('afterMove', e => removeAndChangePagTheme(pagBox));
-}
 // renderLibraryById(testArrId);
 function errorSearchMovie() {
   errorRef.classList.add('is-hidden');

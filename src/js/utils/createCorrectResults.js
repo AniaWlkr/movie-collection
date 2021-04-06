@@ -70,6 +70,7 @@ export default function createCorrectResult(results, cutting = true) {
           result.poster_path =
             'https://image.tmdb.org/t/p/w500' + result.poster_path;
         }
+        result.vote_average = result.vote_average.toFixed(1);
       } catch (error) {
         console.log(error);
       }

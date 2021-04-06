@@ -33,6 +33,7 @@ function addDarkTheme() {
   refs.footer.classList.add('dark-theme');
   refs.modalContent.classList.add('dark-theme');
   refs.hackersModal.classList.add('dark-theme');
+  refs.hackerModalDeveloper.classList.add('dark-theme');
 }
 
 function toggleDarkTheme() {
@@ -40,6 +41,7 @@ function toggleDarkTheme() {
   refs.footer.classList.toggle('dark-theme');
   refs.modalContent.classList.toggle('dark-theme');
   refs.hackersModal.classList.toggle('dark-theme');
+  refs.hackerModalDeveloper.classList.toggle('dark-theme');
 }
 
 function setIconsDark() {
