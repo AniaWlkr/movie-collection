@@ -42,7 +42,9 @@ class MoviesApiServiceVersion {
       try {
         if (page === total_pages) throw 'Oops, this is the last page ...'; // фікс 404 якщо остання сторінка то 2 запрос не робим
         const secondRequest = await axios.get(
-          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${page + 1}`,
+          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${
+            page + 1
+          }`,
         );
         return {
           data: {
@@ -112,7 +114,7 @@ class MoviesApiServiceVersion {
       this.movie = { ...data };
       return data;
     } catch (error) {
-     newNotification.errorObject();
+      newNotification.errorObject();
     }
   }
   getTrailer(movie_id) {

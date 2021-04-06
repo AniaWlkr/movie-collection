@@ -1,12 +1,15 @@
-import axios from 'axios';
-import { newApi } from '../api-service/apiService';
-import filterTmpl from '../../templates/filter.hbs';
 import refs from '../refs/refs';
 
-/* const arr = newApi.genresArr;
+refs.filterByGenreButton.addEventListener('click', hendleListOpening);
 
-setTimeout(function () {
-  refs.genreSelector.insertAdjacentHTML('beforeend', filterTmpl(arr));
-}, 1000);
- */
+function hendleListOpening() {
+  if (refs.genresList.classList.contains('is-hidden')) {
+    refs.genresList.classList.remove('is-hidden');
+  } else {
+    closeList();
+  }
+}
 
+function closeList() {
+  refs.genresList.classList.add('is-hidden');
+}

@@ -22,5 +22,8 @@ export default {
   modalOverlayTrailer: document.querySelector('.modal-trailer-overlay'),
   hackerModalDeveloper: document.querySelector('.hacker-modal-in-modal'),
 
-  genreSelector: document.querySelector('#genres'),
+  //filter
+  genreSelector: document.querySelector('.filter-by-genre'),
+  genresList: document.querySelector('.select-content'),
+  filterByGenreButton: document.querySelector('.by-genre'),
 };
