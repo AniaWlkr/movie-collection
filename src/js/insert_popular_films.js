@@ -127,14 +127,22 @@ function onSearch(event) {
 //--------------------------------------------------------
 //функція фільтрації
 function renderAndPaginationFilteredMovies() {
-  refs.genreSelector.addEventListener('change', filterMovies);
+  refs.genresList.addEventListener('click', handleGenreSelection);
 }
 //--------------------------------------------------------
-function filterMovies() {
-  const select = refs.genreSelector;
-  const selected = select.options[select.selectedIndex];
-  if (selected !== select.options[0]) {
-    newApi.filterCriteria = selected.dataset.id;
+function handleGenreSelection(event) {
+  event.preventDefault();
+  const target = event.target;
+  if (target.nodeName !== 'BUTTON') return;
+  setGenre(target);
+  refs.genresList.classList.add('is-hidden');
+}
+
+function setGenre(newGenre) {
+  const genreName = newGenre.textContent;
+  refs.filterByGenreButton.textContent = genreName;
+  newApi.filterCriteria = newGenre.id;
+  if (newApi.filterCriteria !== '0') {
     renderAndPagination('filter');
   } else renderAndPagination();
 }
