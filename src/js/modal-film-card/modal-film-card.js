@@ -4,10 +4,11 @@ import newStorage from '../local-storage/local-storage';
 import spinner from '../spinner';
 import noImage from '../../images/movies-card/noimage.jpg';
 import onCloseTrailer from '../modal-trailer';
-// import { updateWatched, updateQueue } from '../firebase';
+import { refreshLibrary } from '../switch-page';
 
 const requestError = document.querySelector('.request-error');
 const boxModalTrailer = document.querySelector('.modal-trailer-overlay'); //ссылка на бокс
+const headerRef = document.querySelector('.header'); // Добавил Денис для функции refreshLibrary
 
 class ModalFilmCard {
   constructor() {
@@ -32,6 +33,7 @@ class ModalFilmCard {
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
     window.removeEventListener('keyup', this.modalCloseByEsc);
+    refreshLibrary(headerRef); // Добавил Денис
   }
 
   modalCloseByEsc(event) {
@@ -157,6 +159,7 @@ class ModalFilmCard {
     this.moviesListRef.addEventListener('click', this.drawSelectedFilm);
   }
 }
+
 const newModal = new ModalFilmCard();
 newModal.addEventListeners();
 // export default ModalFilmCard;

@@ -14,6 +14,7 @@ const refs = {
   paginationBox: document.querySelector('.pagination-wrapper'),
 };
 
+
 const renderQueue = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
   let queueMovies = null;
@@ -36,6 +37,26 @@ const renderWatched = () => {
   renderLibrary(watchedMovies);
 };
 
+const refreshLibrary = (selector) => {
+  const isLibrary = selector.classList.contains('header-library');
+  if (isLibrary) {
+    const tabsRef = document.querySelector('.tabs');
+    const activeList = tabsRef.querySelector('.is-active');
+
+    if (activeList.dataset.action === 'finished') {
+      renderWatched();
+    }
+
+    if (activeList.dataset.action === 'waiting') {
+      renderQueue();
+    }
+  }
+
+  return;
+};
+
+export { refreshLibrary };
+
 const checkActive = selector => {
   const currentActiveItem = selector.querySelector('.is-active');
 
@@ -50,28 +71,16 @@ const onChangeList = event => {
 
   //Отрисовывает если нажата кнопка "WATCHED"
   if (event.target.dataset.action === 'finished') {
-    // fixedFooterAndPaginationBox();
     event.target.classList.add('is-active');
     renderWatched();
   }
 
   //Отрисовывает если нажата кнопка "QUEUE"
   if (event.target.dataset.action === 'waiting') {
-    // fixedFooterAndPaginationBox();
     event.target.classList.add('is-active');
     renderQueue();
   }
 };
-
-// function fixedFooterAndPaginationBox() {
-//   if (refs.movieList.clientHeight === 0) {
-//     refs.footer.classList.add('footer--fixed');
-//     refs.paginationBox.classList.add('pagination-wrapper--fixed');
-//   } else {
-//     refs.footer.classList.remove('footer--fixed');
-//     refs.paginationBox.classList.remove('pagination-wrapper--fixed');
-//   }
-// }
 
 //Перерисовка разметки
 const changeMarkup = page => {
@@ -83,8 +92,7 @@ const changeMarkup = page => {
     refs.header.classList.remove('header-library');
     refs.searchFofm.classList.remove('is-hidden');
     refs.tabs.classList.add('is-hidden');
-    renderAndPaginationPopularMovies(); //асинхрон
-    // setTimeout(fixedFooterAndPaginationBox(), 100); //забираєм фіксацію
+    renderAndPaginationPopularMovies();
   }
 
   if (activePageState === 'library') {

@@ -1,4 +1,5 @@
 import noImage from '../../images/movies-card/noimage.jpg';
+
 class LocalStorageService {
   constructor() {
     this.movie = {};
@@ -122,6 +123,7 @@ class LocalStorageService {
     );
     this._moviesList.inQueue = newArreyOfMoviesinQueue;
     this.saveToStorage(this._moviesListKey, this._moviesList);
+
   }
 
   removeMovieFromWatched() {
