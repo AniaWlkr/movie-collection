@@ -7,8 +7,7 @@ import onCloseTrailer from '../modal-trailer';
 import { refreshLibrary } from '../switch-page';
 
 const requestError = document.querySelector('.request-error');
-const boxModalTrailer = document.querySelector('.modal-trailer-overlay'); //ссылка на бокс
-const headerRef = document.querySelector('.header'); // Добавил Денис для функции refreshLibrary
+const headerRef = document.querySelector('.header'); 
 
 class ModalFilmCard {
   constructor() {
@@ -33,7 +32,13 @@ class ModalFilmCard {
     this.modalRef.classList.remove('is-open');
     this.modalContentRef.innerHTML = '';
     window.removeEventListener('keyup', this.modalCloseByEsc);
-    refreshLibrary(headerRef); // Добавил Денис
+    refreshLibrary(headerRef); 
+  }
+
+  modalCloseOnOverlay(event) {
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
   }
 
   modalCloseByEsc(event) {
@@ -126,11 +131,10 @@ class ModalFilmCard {
         'https://image.tmdb.org/t/p/w500' + answer.poster_path;
     }
 
-    const closeModalInPromice = this.closeModal;
     const storageHandler = this.storageHandler;
 
     spinner.hideSpinner();
-    const modalMarkUp = modalCardTemplate(answer);
+  
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
     const queueBtnRef = document.querySelector('button[data-active="queue"]');
     const watchedBtnRef = document.querySelector(
@@ -151,11 +155,11 @@ class ModalFilmCard {
     this.openModal();
     const modalCloseButtonRef = document.querySelector('.modal-close-button');
     const modalButtonsDivRef = document.querySelector('.modal-button-div');
-    modalCloseButtonRef.addEventListener('click', closeModalInPromice);
+    modalCloseButtonRef.addEventListener('click', this.closeModal);
     modalButtonsDivRef.addEventListener('click', storageHandler);
   }
   addEventListeners() {
-    this.modalBackdropeRef.addEventListener('click', this.closeModal);
+    this.modalBackdropeRef.addEventListener('click', this.modalCloseOnOverlay.bind(this));
     this.moviesListRef.addEventListener('click', this.drawSelectedFilm);
   }
 }

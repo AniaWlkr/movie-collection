@@ -151,14 +151,20 @@ const closeAuthModal = event => {
   window.removeEventListener('keyup', modalAuthCloseByEsc);
 };
 
+const modalCloseOnOverlay = event => {
+  if (event.target) {
+    closeAuthModal();
+  }
+}
+
 const modalAuthCloseByEsc = event => {
   if (event.code !== 'Escape') return;
   closeAuthModal();
 };
 
-authenticationFormSignUpRef.addEventListener('click', registrateUser);
-authenticationFormSignInRef.addEventListener('click', signInUser);
+authenticationFormSignUpRef.addEventListener('submit', registrateUser);
+authenticationFormSignInRef.addEventListener('submit', signInUser);
 
-modalAuthBackdropeRef.addEventListener('click', closeAuthModal);
+modalAuthBackdropeRef.addEventListener('click', modalCloseOnOverlay);
 modalAuthCloseRef.addEventListener('click', closeAuthModal);
 authOpenButtonRef.addEventListener('click', openAuthModal);

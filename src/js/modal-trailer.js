@@ -32,8 +32,7 @@ function onCloseTrailer() {
 
 function onCloseOverlay(event) {
   if (event.target) {
-    removeClassList();
-    clearContainer();
+    onCloseTrailer();
   }
 }
 
