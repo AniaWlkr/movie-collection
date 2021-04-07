@@ -105,6 +105,7 @@ class LocalStorageService {
     const vote_count = data.vote_count;
     const popularity = data.popularity;
     let genres = data.genres;
+    genres = genres.map(genre => ' ' + genre);
     if (genres.length > 2) {
           genres = genres.slice(0, 2);
           genres.push(' Other');

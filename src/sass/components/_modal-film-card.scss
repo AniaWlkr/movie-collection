@@ -178,8 +178,6 @@
     transition: color, background-color,
       $transition-duration $transition-timing-function;
 
-    // &:hover,
-    // &:focus {
     &:hover {
       cursor: pointer;
       background-color: $accent-color;
@@ -196,7 +194,7 @@
     &-content {
       max-width: 680px;
       max-height: 562px;
-      padding: 42px 28px 41px 40px;
+      padding: 42px 36px 41px 32px;
     }
 
     &-card-img {
@@ -231,7 +229,7 @@
     &-content {
       min-width: 882px;
       min-height: 568px;
-      padding: 50px 30px 41px 30px;
+      padding: 50px 30px 41px 10px;
     }
 
     &-close-button {

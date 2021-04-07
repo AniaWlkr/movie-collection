@@ -10,9 +10,11 @@ export default {
   sunIcon: document.querySelector('#sun'),
   moonIcon: document.querySelector('#moon'),
   footer: document.querySelector('.footer'),
-  modalContent: document.querySelector('.modal-content'),
   hackersModal: document.querySelector('.hackers-modal'),
   hackerModalDeveloper: document.querySelector('.hacker-modal-in-modal'),
+  signInForm: document.querySelector('.sign-in-form'),
+  signUpForm: document.querySelector('.sign-up-form'),
+  modalAuthControls: document.querySelector('.modal-auth-controls'),
 
   //modal-trailer
   openTrailerBtn: document.querySelector('.modal-content'),

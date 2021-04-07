@@ -3,6 +3,7 @@
 }
 .movies-list {
   @extend %list;
+  padding-bottom: 30px;
 }
 .movie-item {
   max-width: 280px;
