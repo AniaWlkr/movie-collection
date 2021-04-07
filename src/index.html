@@ -225,41 +225,47 @@
         <!-- FILTER -->
         <div class="filter-container">
           <div class="filter-wrapper">
-            <button class="filter-button sort-by" type="button">SORT BY</button>
+            <button
+              class="filter-button sort-by"
+              type="button"
+              data-value="no-filter"
+            >
+              SORT BY
+            </button>
             <div class="base-layer-sort-by is-hidden">
               <div class="select-content filter-sort-by" id="filter-sort-by">
                 <button
                   class="select-genre-item"
                   type="button"
-                  data-value="No filter"
+                  data-value="no-filter"
                 >
                   No filter
                 </button>
                 <button
                   class="select-genre-item"
                   type="button"
-                  data-value="No filter"
+                  data-value="popularity.desc"
                 >
                   Popularity <span class="arrow">↓</span>
                 </button>
                 <button
                   class="select-genre-item"
                   type="button"
-                  data-value="No filter"
+                  data-value="popularity.asc"
                 >
                   Popularity <span class="arrow">↑</span>
                 </button>
                 <button
                   class="select-genre-item"
                   type="button"
-                  data-value="No filter"
+                  data-value="vote_average.desc"
                 >
-                  Vote average <span class="arrow">↑</span>
+                  Vote average <span class="arrow">↓</span>
                 </button>
                 <button
                   class="select-genre-item"
                   type="button"
-                  data-value="No filter"
+                  data-value="vote_average.asc"
                 >
                   Vote average <span class="arrow">↑</span>
                 </button>
@@ -267,7 +273,7 @@
             </div>
           </div>
           <div class="filter-wrapper">
-            <button class="filter-button by-genre" type="button">
+            <button class="filter-button by-genre" id="default" type="button">
               All GENRES
             </button>
             <div class="base-layer-for-genres is-hidden">
@@ -284,7 +290,7 @@
             </div>
           </div>
           <div class="filter-wrapper">
-            <button class="filter-button" type="button">CLEAR</button>
+            <button class="filter-button reset" type="button">RESET</button>
           </div>
         </div>
         <!-- FILTER -->
@@ -393,18 +399,34 @@
       <div class="modal-auth-backdrope">
         <div class="modal-auth-content">
           <div class="modal-auth-controls" data-controls>
-            <a href="#sign-in" class="controls__item controls__item--active">Log In</a>
+            <a href="#sign-in" class="controls__item controls__item--active"
+              >Log In</a
+            >
             <a href="#sign-up" class="controls__item">Create Account</a>
           </div>
           <div class="panes" data-panes>
             <div class="pane pane--active" id="sign-in">
               <form class="sign-in-form">
-                <label class="sign-in-form-label email-label" for="email">Email:
-                  <input class="sign-in-form-input email" type="email" name="email" placeholder="Enter email..." />
+                <label class="sign-in-form-label email-label" for="email"
+                  >Email:
+                  <input
+                    class="sign-in-form-input email"
+                    type="email"
+                    name="email"
+                    placeholder="Enter email..."
+                  />
                 </label>
-                <label class="sign-in-form-label password-label" for="password">Password:
-                  <input class="sign-in-form-input password" type="password" name="password" placeholder="Enter password..."
-                    required minlength="6" maxlength="20" />
+                <label class="sign-in-form-label password-label" for="password"
+                  >Password:
+                  <input
+                    class="sign-in-form-input password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter password..."
+                    required
+                    minlength="6"
+                    maxlength="20"
+                  />
                 </label>
                 <button class="sign-in-form-submit sign-in" type="submit">
                   Submit
@@ -413,16 +435,40 @@
             </div>
             <div class="pane" id="sign-up">
               <form class="sign-up-form">
-                <label class="sign-up-form-label email-label" for="email">Email:
-                  <input class="sign-up-form-input email" type="email" name="email" placeholder="Enter email..." />
+                <label class="sign-up-form-label email-label" for="email"
+                  >Email:
+                  <input
+                    class="sign-up-form-input email"
+                    type="email"
+                    name="email"
+                    placeholder="Enter email..."
+                  />
                 </label>
-                <label class="sign-up-form-label password-label" for="password">Password:
-                  <input class="sign-up-form-input password" type="password" name="password" placeholder="Enter password..."
-                    required minlength="6" maxlength="20" />
+                <label class="sign-up-form-label password-label" for="password"
+                  >Password:
+                  <input
+                    class="sign-up-form-input password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter password..."
+                    required
+                    minlength="6"
+                    maxlength="20"
+                  />
                 </label>
-                <label class="sign-up-form-label password-repeat-label" for="password">Password:
-                  <input class="sign-up-form-input password-repeat" type="password" name="repeatPassword"
-                    placeholder="Repeat password..." required minlength="6" maxlength="20" />
+                <label
+                  class="sign-up-form-label password-repeat-label"
+                  for="password"
+                  >Password:
+                  <input
+                    class="sign-up-form-input password-repeat"
+                    type="password"
+                    name="repeatPassword"
+                    placeholder="Repeat password..."
+                    required
+                    minlength="6"
+                    maxlength="20"
+                  />
                 </label>
                 <button class="sign-up-form-submit sign-up" type="submit">
                   Submit

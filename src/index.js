@@ -10,7 +10,7 @@ import './js/authentication/authentication';
 import './js/notifications/notifications';
 import './js/hackers-modal/render-hackers-modal';
 import './js/hackers-modal/hackers-modal-in-modal';
-import './js/filter/filter-by-genre-list';
+import './js/filter/filter';
 import localStorage from './js/local-storage/local-storage';
 
 //отображение лоадера при загрузке страницы
