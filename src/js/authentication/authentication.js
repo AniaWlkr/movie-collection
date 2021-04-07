@@ -23,13 +23,18 @@ const signUpPwdRepeatRef = document.querySelector(
 const signInFormRef = document.querySelector('.sign-in-form');
 const signInMailRef = document.querySelector('.sign-in-form .email');
 const signInPwdRef = document.querySelector('.sign-in-form .password');
+const signInTabRef = document.querySelector('.sign-in-tab');
 
 refs.controls.addEventListener('click', event => {
   event.preventDefault();
   const controlItem = event.target;
   if (controlItem.nodeName !== 'A') return;
 
-  const currentActiveControlsItem = refs.controls.querySelector(
+  controlTabToggle(controlItem);
+});
+
+function controlTabToggle(controlItem) { 
+   const currentActiveControlsItem = refs.controls.querySelector(
     '.controls__item--active',
   );
 
@@ -53,7 +58,7 @@ refs.controls.addEventListener('click', event => {
 
   const pane = getPaneById(paneId);
   pane.classList.add('pane--active');
-});
+}
 
 function getPaneId(control) {
   return control.getAttribute('href').slice(1);
@@ -101,8 +106,8 @@ const requestSignUp = (email, password) => {
       },
     },
   )
-    .then(response => response.json())
-    .then(answer => console.log(answer));
+    .then(response => response.json());
+    // .then(answer => console.log(answer));
 };
 
 const registerUser = event => {
@@ -124,10 +129,11 @@ const registerUser = event => {
   const password = JSON.stringify(signUpPwdRef.value);
 
   requestSignUp(email, password).then(answer => {
-    console.log(answer);
+    // console.log(answer);
     if (!answer.error) {
       newNotification.rigistrateUser();
-      authenticationFormRef.reset();
+      signUpFormRef.reset();
+      controlTabToggle(signInTabRef);
       setTimeout(newNotification.preposeToSignIn, 4000);
     }
     if (answer.error && answer.error.message === 'INVALID_EMAIL') {
@@ -171,14 +177,15 @@ const signInUser = event => {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
       userID = answer.localId;
-
-      setTimeout(closeAuthModal, 1000); //change icon 'Log-In' & unblock Library
+      setTimeout(() => {
+        closeAuthModal();
+        signInFormRef.reset();
+      }, 1000); //change icon 'Log-In' & unblock Library
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
       addInvalidClass(signInPwdRef);
       newNotification.wrongPassword();
       setTimeout(() => {
-        signInFormRef.reset();
         removeInvalidClass(signInPwdRef);
       }, 2500);
     }
@@ -186,7 +193,6 @@ const signInUser = event => {
       addInvalidClass(signInMailRef);
       newNotification.wrongLogin();
       setTimeout(() => {
-        signInFormRef.reset();
         removeInvalidClass(signInMailRef);
       }, 2500);
     }
