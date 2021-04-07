@@ -390,44 +390,47 @@
       <span class="arrow material-icons"> keyboard_arrow_up </span>
     </button>
     <div class="modal-auth">
-      <div class="modal-auth-backdrope"></div>
-      <div class="modal-auth-content">
-        <form class="authentication-form">
-          <label class="authentication-form-label email-label" for="email"
-            >Email:
-            <input
-              id="email"
-              class="authentication-form-input authentication-email"
-              type="email"
-              name="email"
-              placeholder="Enter email..."
-            />
-          </label>
-          <label class="authentication-form-label password-label" for="password"
-            >Password:
-            <input
-              id="password"
-              class="authentication-form-input authentication-password"
-              type="password"
-              name="password"
-              placeholder="Enter password..."
-              required
-              minlength="6"
-              maxlength="20"
-            />
-          </label>
-          <div class="authentication-form-buttons-div">
-            <button class="authentication-form-submit sign-up" type="submit">
-              Sign UP
-            </button>
-            <button class="authentication-form-submit sign-in" type="submit">
-              Sign IN
-            </button>
+      <div class="modal-auth-backdrope">
+        <div class="modal-auth-content">
+          <div class="modal-auth-controls" data-controls>
+            <a href="#sign-in" class="controls__item controls__item--active">Log In</a>
+            <a href="#sign-up" class="controls__item">Create Account</a>
           </div>
-          <button type="button" class="modal-auth-close-button material-icons">
-            close
-          </button>
-        </form>
+          <div class="panes" data-panes>
+            <div class="pane pane--active" id="sign-in">
+              <form class="sign-in-form">
+                <label class="sign-in-form-label email-label" for="email">Email:
+                  <input class="sign-in-form-input email" type="email" name="email" placeholder="Enter email..." />
+                </label>
+                <label class="sign-in-form-label password-label" for="password">Password:
+                  <input class="sign-in-form-input password" type="password" name="password" placeholder="Enter password..."
+                    required minlength="6" maxlength="20" />
+                </label>
+                <button class="sign-in-form-submit sign-in" type="submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+            <div class="pane" id="sign-up">
+              <form class="sign-up-form">
+                <label class="sign-up-form-label email-label" for="email">Email:
+                  <input class="sign-up-form-input email" type="email" name="email" placeholder="Enter email..." />
+                </label>
+                <label class="sign-up-form-label password-label" for="password">Password:
+                  <input class="sign-up-form-input password" type="password" name="password" placeholder="Enter password..."
+                    required minlength="6" maxlength="20" />
+                </label>
+                <label class="sign-up-form-label password-repeat-label" for="password">Password:
+                  <input class="sign-up-form-input password-repeat" type="password" name="repeatPassword"
+                    placeholder="Repeat password..." required minlength="6" maxlength="20" />
+                </label>
+                <button class="sign-up-form-submit sign-up" type="submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="modal-trailer">

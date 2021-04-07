@@ -21,6 +21,16 @@ export default class AuthNotifications {
     });
   }
 
+  differentPasswords() {
+    PNotify.info({
+      title: 'DIFFERENT PASSWORDS',
+      text: 'Passwords should coincide.',
+      icon: false,
+      sticker: false,
+      delay: 5000,
+    });
+  }
+
   wrongLogin() {
     PNotify.info({
       title: 'WRONG LOGIN',

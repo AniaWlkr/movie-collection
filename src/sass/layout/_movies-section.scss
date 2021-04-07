@@ -18,6 +18,14 @@
   margin-bottom: 10px;
   border-radius: 5px;
   overflow: hidden;
+
+  @media screen and (min-width: $tablet) {
+    max-width: 294px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    max-width: 274px;
+  }
 }
 
 .movie-img {

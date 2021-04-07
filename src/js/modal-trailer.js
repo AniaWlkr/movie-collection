@@ -1,6 +1,4 @@
 import templateTrailer from '../templates/modal-trailer.hbs';
-// import MoviesApiService from './api-service/apiService';
-// const moviesApiService = new MoviesApiService();
 import spinner from './spinner';
 import refs from './refs/refs';
 import { newApi } from './api-service/apiService';
@@ -12,7 +10,6 @@ function onOpenTrailer(event) {
     return;
   }
 
-  // здесь можно поставить спиннер
   spinner.showSpinner();
   newApi.getTrailer(movieId).then(({ data: { results } }) => {
     spinner.hideSpinner();
