@@ -1,3 +1,5 @@
+import settings from '../settings/firebase-settings';
+const { BASE_URL, API_KEY } = settings;
 import AuthNotifications from '../notifications/notifications';
 const newNotification = new AuthNotifications();
 
@@ -64,7 +66,7 @@ const requestSignIn = (email, password) => {
   };
 
   return fetch(
-    'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
+    `${BASE_URL}accounts:signInWithPassword?key=${API_KEY}`, // 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
     {
       method: 'POST',
       body: JSON.stringify(data),
@@ -85,7 +87,7 @@ const requestSignUp = (email, password) => {
   };
 
   return fetch(
-    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
+    `${BASE_URL}accounts:signUp?key=${API_KEY}`, //   'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
     {
       method: 'POST',
       body: JSON.stringify(data),

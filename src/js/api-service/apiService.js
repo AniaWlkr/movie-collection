@@ -1,4 +1,6 @@
 import axios from 'axios';
+import settings from '../settings/movie-settings';
+const { BASE_URL, API_KEY } = settings;
 import refs from '../refs/refs';
 import AuthNotifications from '../notifications/notifications';
 import filterTmpl from '../../templates/filter.hbs';
@@ -34,7 +36,7 @@ class MoviesApiServiceVersion {
   async manyRequest(page) {
     if (document.documentElement.clientWidth > 1024) {
       const firstRequest = await axios.get(
-        ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${page}`,
+        ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${page}`,
       );
       const {
         data: { results, total_results, total_pages },
@@ -42,7 +44,7 @@ class MoviesApiServiceVersion {
       try {
         if (page === total_pages) throw 'Oops, this is the last page ...'; // фікс 404 якщо остання сторінка то 2 запрос не робим
         const secondRequest = await axios.get(
-          ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${
+          ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${
             page + 1
           }`,
         );
@@ -58,7 +60,7 @@ class MoviesApiServiceVersion {
       }
     } else {
       return axios.get(
-        ` ${refs.BASE_URL}3/movie/popular?api_key=${refs.API_KEY}&page=${page}`,
+        ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${page}`,
       );
     }
   }
@@ -68,14 +70,14 @@ class MoviesApiServiceVersion {
     let page = this.page;
     if (newPage) page = newPage;
     return axios.get(
-      `${refs.BASE_URL}3/search/movie?api_key=${refs.API_KEY}&page=${page}&query=${this.searchQuery}&include_adult=false&language=en`,
+      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${page}&query=${this.searchQuery}&include_adult=false&language=en`,
     );
   }
   //відповідь жанри фільміву відповіді пишем в масив
   getGenresMovies() {
     return axios
       .get(
-        `${refs.BASE_URL}3/genre/movie/list?api_key=${refs.API_KEY}&language=en-US`,
+        `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
       )
       .then(({ data: genres }) => {
         genres.genres.forEach(element => {
@@ -92,7 +94,7 @@ class MoviesApiServiceVersion {
   //старий варіант
   // getResponseInfo(id) {
   //   return axios.get(
-  //     `${refs.BASE_URL}3/movie/${id}?api_key=${refs.API_KEY}&language=en-US`,
+  //     `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
   //   );
   // }
   async getResponseInfo(currentId) {
@@ -105,7 +107,7 @@ class MoviesApiServiceVersion {
     this.movie = {};
     try {
       const { data } = await axios.get(
-        `${refs.BASE_URL}3/movie/${currentId}?api_key=${refs.API_KEY}&language=en-US`,
+        `${BASE_URL}3/movie/${currentId}?api_key=${API_KEY}&language=en-US`,
       );
       const { genres } = data;
       const newGenres = genres.map(({ name }) => name); // перезаписуєм по нормальному жанри
@@ -119,14 +121,14 @@ class MoviesApiServiceVersion {
   }
   getTrailer(movie_id) {
     return axios.get(
-      `${refs.BASE_URL}3/movie/${movie_id}/videos?api_key=${refs.API_KEY}&language=en-US`,
+      `${BASE_URL}3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`,
     );
   }
   getMoviesByGenre(newPage) {
     let page = this.page;
     if (newPage) page = newPage;
     return axios.get(
-      `${refs.BASE_URL}3/discover/movie?api_key=${refs.API_KEY}&page=${page}&language=en-US&with_genres=${this.filterCriteria}`,
+      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.filterCriteria}`,
     );
   }
   get query() {
