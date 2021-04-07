@@ -35,11 +35,13 @@ refs.controls.addEventListener('click', event => {
 
   if (currentActiveControlsItem) {
     currentActiveControlsItem.classList.remove('controls__item--active');
+    currentActiveControlsItem.classList.add('controls__item--inactive');
     const paneId = getPaneId(currentActiveControlsItem);
     const pane = getPaneById(paneId);
     pane.classList.toggle('pane--active');
   }
 
+  controlItem.classList.remove('controls__item--inactive');
   controlItem.classList.add('controls__item--active');
 
   const paneId = getPaneId(controlItem);
@@ -176,7 +178,7 @@ const signInUser = event => {
       addInvalidClass(signInPwdRef);
       newNotification.wrongPassword();
       setTimeout(() => {
-        signUpFormRef.reset();
+        signInFormRef.reset();
         removeInvalidClass(signInPwdRef);
       }, 2500);
     }
@@ -184,7 +186,7 @@ const signInUser = event => {
       addInvalidClass(signInMailRef);
       newNotification.wrongLogin();
       setTimeout(() => {
-        signUpFormRef.reset();
+        signInFormRef.reset();
         removeInvalidClass(signInMailRef);
       }, 2500);
     }
