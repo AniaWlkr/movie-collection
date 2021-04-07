@@ -35,5 +35,3 @@ function filterReset() {
   refs.filterByGenreButton.id = 'default';
   newApi.genreCriterion = '';
 }
-
-refs.filterByGenreButton.classList.add('is-hidden');
