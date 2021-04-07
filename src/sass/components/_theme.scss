@@ -6,6 +6,14 @@ body.light-theme {
 body.dark-theme {
   background-color: #252525;
   color: $primary-text-color;
+  scrollbar-color: dark;
+
+  & ::-webkit-scrollbar {
+    background-color: #919191;
+  }
+}
+.dark-theme ::-webkit-scrollbar {
+  background-color: #919191;
 }
 
 .footer.dark-theme {
@@ -23,8 +31,10 @@ body.dark-theme {
 
 .hacker-modal-in-modal.dark-theme,
 .hacker-modal-in-modal.dark-theme .hacker-modal-close-button,
-.select-content.dark-theme,
-.select-content.dark-theme .select-genre-item {
+.base-layer-sort-by.dark-theme .select-content,
+.base-layer-sort-by.dark-theme .select-genre-item,
+.base-layer-for-genres.dark-theme .select-content,
+.base-layer-for-genres.dark-theme .select-genre-item {
   background-color: #747474;
   color: $primary-text-color;
 }
@@ -40,10 +50,43 @@ body.dark-theme {
   }
 }
 
-.select-content.dark-theme,
-.select-content.dark-theme .select-genre-item {
+.sign-in-form.dark-theme,
+.sign-up-form.dark-theme {
+  background-color: rgba(87, 87, 87, 0.98);
+}
+
+.sign-in-form.dark-theme .sign-in-form-label,
+.sign-up-form.dark-theme .sign-up-form-label {
+  color: $primary-text-color;
+}
+
+.modal-auth-controls.dark-theme .controls__item {
+  border: 1px solid #919191;
+}
+.modal-auth-controls.dark-theme .controls__item--active {
+  background-color: rgba(87, 87, 87, 0.98);
+  border: none;
+  border-bottom: 1px solid #919191;
+}
+
+.sign-in-form.dark-theme .sign-in-form-input,
+.sign-up-form.dark-theme .sign-up-form-input,
+.sign-in-form.dark-theme .sign-in-form-submit,
+.sign-up-form.dark-theme .sign-up-form-submit {
+  border: 1px solid transparent;
   &:hover,
   &:focus {
+    //outline: none;
+    border: 1px solid $accent-color;
+    outline: $accent-color;
+  }
+}
+
+.base-layer-sort-by.dark-theme .select-genre-item,
+.base-layer-for-genres.dark-theme .select-genre-item {
+  &:hover,
+  &:focus {
+    cursor: pointer;
     background-color: $accent-color;
   }
 }

@@ -23,7 +23,18 @@
     margin-left: 15px;
     padding: 3px;
     border-radius: 5px;
+    border: 1px solid #919191;
     width: 100px;
+
+    &:hover,
+    &:focus {
+      border: 1px solid $accent-color;
+      outline: none;
+    }
+
+    &::placeholder {
+      font-size: 14px;
+    }
   }
 
   &-submit {
@@ -32,6 +43,7 @@
     text-align: center;
     background-color: $primary-text-color;
     border-radius: 5px;
+    border: 1px solid #919191;
     font-size: 16px;
     transition: color, background-color,
       $transition-duration $transition-timing-function;
@@ -43,6 +55,7 @@
       background-color: $accent-color;
       color: $primary-text-color;
       outline: none;
+      border: none;
     }
 
     &:not(:last-child) {
@@ -101,6 +114,7 @@
   color: $primary-text-color;
   font-weight: 500;
   text-decoration: none;
+  text-align: center;
 }
 
 .controls__item--active {
