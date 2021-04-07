@@ -2,8 +2,10 @@ export default {
   //insert-popular-films
   searchForm: document.querySelector('#search-form'),
   moviesRef: document.querySelector('.movies-list'),
-  pagBox: document.querySelector('#pagination-box'),
   errorRef: document.querySelector('.search-error'),
+  paginationBox: document.querySelector('.pagination-wrapper'),
+  bodyRef: document.querySelector('body'),
+  headerRef: document.querySelector('header'),
 
   //theme
   checkbox: document.querySelector('#checkbox'),

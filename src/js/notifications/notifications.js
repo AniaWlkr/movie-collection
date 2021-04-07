@@ -73,8 +73,8 @@ export default class AuthNotifications {
 
   preposeToSignIn() {
     PNotify.info({
-      title: 'SIGN IN!',
-      title: 'And now you can sign in!',
+      title: 'LOG IN!',
+      title: 'And now you can log into your account!',
       icon: false,
       sticker: false,
       delay: 3000,
@@ -114,6 +114,15 @@ export default class AuthNotifications {
     PNotify.error({
       title: 'ERROR',
       text: 'There is no such object in the database, try the next movie.',
+      icon: false,
+      sticker: false,
+      delay: 5000,
+    });
+  }
+  emptyField() {
+    PNotify.error({
+      title: 'SOME DATA IS MISSING',
+      text: 'Please fill in all the fields.',
       icon: false,
       sticker: false,
       delay: 5000,

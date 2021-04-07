@@ -14,8 +14,9 @@ class MoviesApiServiceVersion {
     this.genresArr = [];
     //сюди записуєм фільм на якому користувач зробить клік записуєм після отримання коректної відповіді
     this.currentMovie = [];
-    //записываем критерий фильтрации
-    this.filterCriteria = '';
+    //записываем критерии фильтрации
+    this.genreCriterion = '';
+    this.sortByCriterion = '';
     this.movieId = null;
     this.movie = null;
     //робим один запит за жанрами при створенні конструктора і записуєм жанри в масив вище
@@ -44,9 +45,7 @@ class MoviesApiServiceVersion {
       try {
         if (page === total_pages) throw 'Oops, this is the last page ...'; // фікс 404 якщо остання сторінка то 2 запрос не робим
         const secondRequest = await axios.get(
-          ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${
-            page + 1
-          }`,
+          ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${page + 1}`,
         );
         return {
           data: {
@@ -76,9 +75,7 @@ class MoviesApiServiceVersion {
   //відповідь жанри фільміву відповіді пишем в масив
   getGenresMovies() {
     return axios
-      .get(
-        `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
-      )
+      .get(`${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
       .then(({ data: genres }) => {
         genres.genres.forEach(element => {
           this.genresArr.push(element);
@@ -127,8 +124,18 @@ class MoviesApiServiceVersion {
   getMoviesByGenre(newPage) {
     let page = this.page;
     if (newPage) page = newPage;
+    let str = '';
+    if (this.genreCriterion && !this.sortByCriterion) {
+      str = `&with_genres=${this.genreCriterion}`;
+    }
+    if (this.sortByCriterion && !this.genreCriterion) {
+      str = `&sort_by=${this.sortByCriterion}`;
+    }
+    if (this.genreCriterion && this.sortByCriterion) {
+      str = `&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}`;
+    }
     return axios.get(
-      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.filterCriteria}`,
+      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US${str}`,
     );
   }
   get query() {

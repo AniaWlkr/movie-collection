@@ -1,7 +1,6 @@
 import defOptions from './pagination/paginationOptions';
 const { options } = defOptions;
 import spinner from './spinner';
-// import refs from './refs/refs';
 import goUp from './utils/goUp';
 import renderCard from './utils/renderCard';
 import createCorrectResult from './utils/createCorrectResults';
@@ -9,33 +8,31 @@ import createNewPagination from './utils/createNewPagination';
 import { newApi } from './api-service/apiService';
 import refs from './refs/refs';
 //--------------------------------------------------------
-// константи
-const searchForm = document.querySelector('#search-form');
-const errorRef = document.querySelector('.search-error');
-const headerRef = document.querySelector('header');
-const footerRef = document.querySelector('footer');
-const paginationBox = document.querySelector('.pagination-wrapper');
-const movieList = document.querySelector('.movies-list');
-const bodyRef = document.querySelector('body');
+const {
+  footer,
+  searchForm,
+  paginationBox,
+  errorRef,
+  headerRef,
+  bodyRef,
+} = refs;
 //--------------------------------------------------------
 function fixedFooterAndPaginationBox() {
-  footerRef.classList.remove('footer--fixed');
+  footer.classList.remove('footer--fixed');
   paginationBox.classList.remove('pagination-wrapper--fixed');
   if (bodyRef.clientHeight < window.innerHeight) {
     paginationBox.classList.add('pagination-wrapper--fixed');
-    footerRef.classList.add('footer--fixed');
+    footer.classList.add('footer--fixed');
   }
 }
 
 // функція для рендеру і пагінації
 async function renderAndPagination(key) {
   function getAllMovie(page) {
-    // return moviesApiService.getResponseAll(page);
     return newApi.getResponseAll(page);
   }
-  //повертаем проміс
+
   function getSearchWord(page) {
-    // return moviesApiService.getResponseWord(page);
     return newApi.getResponseWord(page);
   }
   function getFilteredMovies(page) {
@@ -53,14 +50,10 @@ async function renderAndPagination(key) {
   let storadgePage = 0;
   if (storadgePage !== 1 && storadgePage) page = storadgePage;
   //------------------------------------------------------------------ <------ не реалізовано
-  // spinner.showSpinner();
   const {
     data: { results, total_results },
   } = await promise(page);
-  spinner.hideSpinner();
-  //налаштування пагінації відбувається при запуску функції
-  // перестворюєм пагінатор і отримуєм на нього ссилку
-  //перехід пагінації до потрібної сторінки
+  spinner.showSpinner();
   options.totalItems = total_results;
   options.itemsPerPage = 20;
   const { PaginationPlugin } = createNewPagination();
@@ -69,7 +62,6 @@ async function renderAndPagination(key) {
   //-------------------------------
   removeAndChangePagTheme(pagBox);
   PaginationPlugin.setTotalItems(total_results);
-  // якщо пустий масив в результатах <------ коли нічого не знайдено а відповідь приходить
   if (total_results === 0) {
     errorRef.classList.remove('is-hidden');
     setTimeout(errorSearchMovie, 2000);
@@ -78,11 +70,13 @@ async function renderAndPagination(key) {
   const correctResult = await createCorrectResult(results);
   renderCard(correctResult);
   fixedFooterAndPaginationBox();
+  spinner.hideSpinner();
+  //-------------------------------
   PaginationPlugin.on('beforeMove', e => {
     removeAndChangePagTheme(pagBox);
     fixedFooterAndPaginationBox();
   });
-
+  //-------------------------------
   PaginationPlugin.on('afterMove', async ({ page }) => {
     spinner.showSpinner();
     removeAndChangePagTheme(pagBox);
@@ -90,9 +84,6 @@ async function renderAndPagination(key) {
     const {
       data: { results },
     } = await promise(page);
-
-    //PaginationPlugin.setTotalItems(total_results);
-
     const correctResult = await createCorrectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
@@ -129,23 +120,52 @@ function onSearch(event) {
 //функція фільтрації
 function renderAndPaginationFilteredMovies() {
   refs.genreSelector.addEventListener('click', handleGenreSelection);
+  refs.sortBySelector.addEventListener('click', handleSortBySelection);
 }
 //--------------------------------------------------------
 function handleGenreSelection(event) {
   event.preventDefault();
   const target = event.target;
   if (target.nodeName !== 'BUTTON') return;
-  setGenre(target);
+  if (target.id !== refs.filterByGenreButton.id) {
+    refs.filterByGenreButton.textContent = target.textContent;
+    if (target.id !== '0') {
+      newApi.genreCriterion = target.id;
+    } else {
+      refs.filterByGenreButton.id = 'default';
+      newApi.genreCriterion = '';
+    }
+  }
+
+  setFiltration();
   refs.genresListBase.classList.add('is-hidden');
 }
 
-function setGenre(newGenre) {
-  const genreName = newGenre.textContent;
-  refs.filterByGenreButton.textContent = genreName;
-  newApi.filterCriteria = newGenre.id;
-  if (newApi.filterCriteria !== '0') {
-    renderAndPagination('filter');
-  } else renderAndPagination();
+function handleSortBySelection(event) {
+  event.preventDefault();
+  const target = event.target;
+  if (target.nodeName !== 'BUTTON') return;
+
+  if (target.dataset.value !== refs.filterSortByButton.dataset.value) {
+    if (target.dataset.value === 'no-filter') {
+      refs.filterSortByButton.textContent = 'SORT BY';
+      refs.filterSortByButton.dataset.value = target.dataset.value;
+      newApi.sortByCriterion = '';
+    } else {
+      refs.filterSortByButton.textContent = target.textContent;
+      refs.filterSortByButton.dataset.value = target.dataset.value;
+      newApi.sortByCriterion = target.dataset.value;
+    }
+  }
+
+  setFiltration();
+  refs.sortByListBase.classList.add('is-hidden');
+}
+
+function setFiltration() {
+  if (!newApi.genreCriterion && !newApi.sortByCriterion) {
+    renderAndPagination();
+  } else renderAndPagination('filter');
 }
 //--------------------------------------------------------
 //зміна теми для пагінації
@@ -155,16 +175,8 @@ function removeAndChangePagTheme(selector) {
     selector.children.forEach(element => element.classList.add('dark-theme'));
   }
 }
-//--------------------------------------------------------
-// функція популярних фільмів
-renderAndPaginationPopularMovies();
-// функція пошук по слову
-renderAndPaginationSearchMovies();
-//функція фільтрації
-renderAndPaginationFilteredMovies();
 //-----------------------------------------------------------
 //функція для рендеру і пагінації для бібліотеки
-// отримуєм масив готових коректних обєктів
 function renderLibrary(arrayFilm) {
   const maxCardPerPage = 12;
   options.itemsPerPage = maxCardPerPage;
@@ -196,8 +208,14 @@ function renderLibrary(arrayFilm) {
 }
 
 export { renderAndPaginationPopularMovies, renderLibrary };
-//----------------------------------------------------------------------------------------------------------------
-// renderLibraryById(testArrId);
+//--------------------------------------------------------
 function errorSearchMovie() {
   errorRef.classList.add('is-hidden');
 }
+//----------------------------------------------------------------------------------------------------------------
+// функція популярних фільмів
+renderAndPaginationPopularMovies();
+// функція пошук по слову
+renderAndPaginationSearchMovies();
+//функція фільтрації
+renderAndPaginationFilteredMovies();

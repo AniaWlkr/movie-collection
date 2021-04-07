@@ -14,10 +14,7 @@
     width: 100%;
     position: absolute;
     left: 0;
-    bottom: 100px;
-    @media screen and (min-width: $tablet) {
-      bottom: 90px;
-    }
+    bottom: 120px;
   }
 }
 
