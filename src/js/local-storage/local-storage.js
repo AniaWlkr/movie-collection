@@ -101,7 +101,12 @@ class LocalStorageService {
             'https://image.tmdb.org/t/p/w500' + data.poster_path;
         }
     const original_title = data.original_title;
-    const vote_average = data.vote_average.toFixed(1);
+    let vote_average;
+    if (!data.vote_average) {
+        vote_average = '0.0';
+        } else {
+          vote_average = data.vote_average.toFixed(1);
+    };
     const vote_count = data.vote_count;
     const popularity = data.popularity;
     let genres = data.genres;
