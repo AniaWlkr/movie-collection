@@ -127,7 +127,7 @@ function onSearch(event) {
 //--------------------------------------------------------
 //функція фільтрації
 function renderAndPaginationFilteredMovies() {
-  refs.genresList.addEventListener('click', handleGenreSelection);
+  refs.genreSelector.addEventListener('click', handleGenreSelection);
 }
 //--------------------------------------------------------
 function handleGenreSelection(event) {
@@ -135,7 +135,7 @@ function handleGenreSelection(event) {
   const target = event.target;
   if (target.nodeName !== 'BUTTON') return;
   setGenre(target);
-  refs.genresList.classList.add('is-hidden');
+  refs.genresListBase.classList.add('is-hidden');
 }
 
 function setGenre(newGenre) {

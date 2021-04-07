@@ -24,6 +24,9 @@ export default {
 
   //filter
   genreSelector: document.querySelector('.filter-by-genre'),
+  genresListBase: document.querySelector('.base-layer-for-genres'),
+  sortByListBase: document.querySelector('.base-layer-sort-by'),
   genresList: document.querySelector('.select-content'),
-  filterByGenreButton: document.querySelector('.by-genre'),
+  filterSortByButton: document.querySelector('.filter-button.sort-by'),
+  filterByGenreButton: document.querySelector('.filter-button.by-genre'),
 };
