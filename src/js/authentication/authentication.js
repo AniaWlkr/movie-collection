@@ -13,47 +13,51 @@ const authOpenButtonRef = document.querySelector('.auth-open-modal-button');
 const modalAuthRef = document.querySelector('.modal-auth');
 const modalAuthBackdropeRef = document.querySelector('.modal-auth-backdrope');
 // registration refs
-const signUpFormRef = document.querySelector('.sign-up-form'); 
-const signUpMailRef = document.querySelector('.sign-up-form .email'); 
-const signUpPwdRef = document.querySelector('.sign-up-form .password'); 
-const signUpPwdRepeatRef = document.querySelector('.sign-up-form .password-repeat'); 
+const signUpFormRef = document.querySelector('.sign-up-form');
+const signUpMailRef = document.querySelector('.sign-up-form .email');
+const signUpPwdRef = document.querySelector('.sign-up-form .password');
+const signUpPwdRepeatRef = document.querySelector(
+  '.sign-up-form .password-repeat',
+);
 // sign-in refs
-const signInFormRef = document.querySelector('.sign-in-form'); 
-const signInMailRef = document.querySelector('.sign-in-form .email'); 
-const signInPwdRef = document.querySelector('.sign-in-form .password'); 
+const signInFormRef = document.querySelector('.sign-in-form');
+const signInMailRef = document.querySelector('.sign-in-form .email');
+const signInPwdRef = document.querySelector('.sign-in-form .password');
 
-refs.controls.addEventListener('click', event => { 
+refs.controls.addEventListener('click', event => {
   event.preventDefault();
   const controlItem = event.target;
   if (controlItem.nodeName !== 'A') return;
 
-  const currentActiveControlsItem = refs.controls.querySelector('.controls__item--active');
+  const currentActiveControlsItem = refs.controls.querySelector(
+    '.controls__item--active',
+  );
 
-  if (currentActiveControlsItem) { 
+  if (currentActiveControlsItem) {
     currentActiveControlsItem.classList.remove('controls__item--active');
     const paneId = getPaneId(currentActiveControlsItem);
     const pane = getPaneById(paneId);
     pane.classList.toggle('pane--active');
   }
-  
+
   controlItem.classList.add('controls__item--active');
 
   const paneId = getPaneId(controlItem);
 
   const currentActivePane = refs.panes.querySelector('.pane--active');
-  if (currentActivePane) { 
+  if (currentActivePane) {
     currentActivePane.classList.remove('pane--active');
   }
 
   const pane = getPaneById(paneId);
   pane.classList.add('pane--active');
-})
+});
 
-function getPaneId(control) { 
+function getPaneId(control) {
   return control.getAttribute('href').slice(1);
 }
 
-function getPaneById(id) { 
+function getPaneById(id) {
   return refs.panes.querySelector(`#${id}`);
 }
 
@@ -79,7 +83,6 @@ const requestSignIn = (email, password) => {
 
 // registration
 const requestSignUp = (email, password) => {
-
   const data = {
     email: email,
     password: password,
@@ -103,7 +106,7 @@ const requestSignUp = (email, password) => {
 const registerUser = event => {
   event.preventDefault();
 
-  if (signUpFormRef.password.value !== signUpFormRef.repeatPassword.value) { 
+  if (signUpFormRef.password.value !== signUpFormRef.repeatPassword.value) {
     addInvalidClass(signUpPwdRef);
     addInvalidClass(signUpPwdRepeatRef);
     newNotification.differentPasswords();
@@ -128,7 +131,7 @@ const registerUser = event => {
     if (answer.error && answer.error.message === 'INVALID_EMAIL') {
       addInvalidClass(signUpMailRef);
       newNotification.wrongEmail();
-      setTimeout(() => { 
+      setTimeout(() => {
         removeInvalidClass(signUpMailRef);
       }, 2000);
     }
@@ -148,10 +151,10 @@ const registerUser = event => {
       addInvalidClass(signUpPwdRepeatRef);
       newNotification.weakPassword();
       setTimeout(() => {
-      signUpFormRef.reset();
-      removeInvalidClass(signUpPwdRef);
-      removeInvalidClass(signUpPwdRepeatRef);
-    }, 2500);
+        signUpFormRef.reset();
+        removeInvalidClass(signUpPwdRef);
+        removeInvalidClass(signUpPwdRepeatRef);
+      }, 2500);
     }
   });
 };
@@ -161,8 +164,7 @@ const signInUser = event => {
 
   const email = signInMailRef.value;
   const password = JSON.stringify(signInPwdRef.value);
-  requestSignIn(email, password).then((answer) => {
-
+  requestSignIn(email, password).then(answer => {
     if (answer.registered) {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
@@ -189,29 +191,31 @@ const signInUser = event => {
   });
 };
 
-const addInvalidClass = (elem) => {
+const addInvalidClass = elem => {
   elem.classList.add('invalid');
 };
 
-const removeInvalidClass = (elem) => {
+const removeInvalidClass = elem => {
   elem.classList.remove('invalid');
 };
 
 const openAuthModal = event => {
   modalAuthRef.classList.add('is-open');
+  document.body.classList.add('no-scroll');
   window.addEventListener('keyup', modalAuthCloseByEsc);
 };
 
 const closeAuthModal = event => {
   modalAuthRef.classList.remove('is-open');
+  document.body.classList.remove('no-scroll');
   window.removeEventListener('keyup', modalAuthCloseByEsc);
 };
 
-const closeAuthModalOnOverlay = event => { 
-  if (event.target === event.currentTarget) { 
+const closeAuthModalOnOverlay = event => {
+  if (event.target === event.currentTarget) {
     closeAuthModal();
   }
-}
+};
 
 const modalAuthCloseByEsc = event => {
   if (event.code !== 'Escape') return;
@@ -224,4 +228,4 @@ signInFormRef.addEventListener('submit', signInUser);
 modalAuthBackdropeRef.addEventListener('click', closeAuthModalOnOverlay);
 authOpenButtonRef.addEventListener('click', openAuthModal);
 
-export default userID; 
+export default userID;
