@@ -16,13 +16,14 @@ const headerRef = document.querySelector('header');
 const footerRef = document.querySelector('footer');
 const paginationBox = document.querySelector('.pagination-wrapper');
 const movieList = document.querySelector('.movies-list');
+const bodyRef = document.querySelector('body');
 //--------------------------------------------------------
 function fixedFooterAndPaginationBox() {
   footerRef.classList.remove('footer--fixed');
   paginationBox.classList.remove('pagination-wrapper--fixed');
-  if (movieList.clientHeight === 0) {
-    footerRef.classList.add('footer--fixed');
+  if (bodyRef.clientHeight < window.innerHeight) {
     paginationBox.classList.add('pagination-wrapper--fixed');
+    footerRef.classList.add('footer--fixed');
   }
 }
 
