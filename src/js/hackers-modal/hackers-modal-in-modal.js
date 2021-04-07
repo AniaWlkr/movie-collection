@@ -14,17 +14,26 @@ function openCardModal(event) {
 
     if(!target.classList.contains('hackers-img')) return;
     refs.backdrop.classList.remove('hide-hacker');
+    refs.backdrop.addEventListener('click', onBackdrop);
 
     const developer = team.find(dev => dev.id === Number(target.dataset.id));
     renderHackerCard(developer);
-    // console.log(refs.card);
+    
     refs.card = document.querySelector('.hacker-modal-card');
-    // console.log(refs.card);
 }
 
 function closeCardModal() {
     refs.backdrop.classList.add('hide-hacker');
-    cleanModal()
+    cleanModal();
+}
+
+function onBackdrop(event) {
+    if(event.target === event.currentTarget) {
+        refs.backdrop.classList.add('hide-hacker');
+        refs.backdrop.removeEventListener('click', onBackdrop);
+        cleanModal();
+    }
+    
 }
 
 function renderHackerCard(developer) {
@@ -32,8 +41,11 @@ function renderHackerCard(developer) {
 }
 
 function cleanModal() {
-    refs.modal.removeChild(refs.card)
+    refs.card.remove()
+    // refs.modal.removeChild(refs.card)
 }
 
-refs.list.addEventListener('click', openCardModal)
-refs.closeModalBtn.addEventListener('click', closeCardModal)
+refs.list.addEventListener('click', openCardModal);
+refs.closeModalBtn.addEventListener('click', closeCardModal);
+
+export default closeCardModal;

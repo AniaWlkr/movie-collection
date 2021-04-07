@@ -1,7 +1,10 @@
+import closeCardModal from './hackers-modal-in-modal';
+
 const refs = {
     openModalLink: document.querySelector('.developers-link'),
     closeModalBtn: document.querySelector('[data-action="hackers-cls-btn"]'),
-    backdrop: document.querySelector('[data-hackers-backdrop]')
+    backdrop: document.querySelector('[data-hackers-backdrop]'),
+    hackerModalBackdrop: document.querySelector('.hacker-modal-backdrop'),
 }
 
 function toggleModal(event) {
@@ -15,9 +18,15 @@ function toggleModal(event) {
 function onESCPress(event) {
     
     if(event.code === 'Escape') {
-        
-        refs.backdrop.classList.add('hide-hackers');
-        window.removeEventListener('keydown', onESCPress);
+
+        if(refs.hackerModalBackdrop.classList.contains('hide-hacker')) {
+
+            refs.backdrop.classList.add('hide-hackers');
+            window.removeEventListener('keydown', onESCPress);
+            return;
+        } else {
+            closeCardModal();
+        }
     }
 }
 
