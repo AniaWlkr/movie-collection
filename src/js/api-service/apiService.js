@@ -5,49 +5,63 @@ import refs from '../refs/refs';
 import AuthNotifications from '../notifications/notifications';
 import filterTmpl from '../../templates/filter.hbs';
 const newNotification = new AuthNotifications();
-
 class MoviesApiServiceVersion {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
-    //масив жанрів
     this.genresArr = [];
-    //сюди записуєм фільм на якому користувач зробить клік записуєм після отримання коректної відповіді
     this.currentMovie = [];
-    //записываем критерий фильтрации
     this.filterCriteria = '';
+     this.genreCriterion = '';
+    this.sortByCriterion = '';
     this.movieId = null;
     this.movie = null;
-    //робим один запит за жанрами при створенні конструктора і записуєм жанри в масив вище
     this.getGenresMovies();
   }
-  //відповідь фільми в тренді
+
   getResponseAll(newPage) {
-    // по замовчуванню 1 сторінка дальше передаем № сторінки
     let page = this.page;
     if (newPage) page = newPage;
-    const results = this.manyRequest(page);
+    const results = this.manyRequest(page, 'all');
     return results;
-    //варіант на 20 відповідей
-    // return axios.get(
-    //   `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&page=${page}`,
-    // );
   }
-  async manyRequest(page) {
+  async manyRequest(page, key) {
+    const requestString = {
+      all: ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${page}`,
+      allPlusOne: ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${
+        page + 1
+      }`,
+      word: `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${page}&query=${this.query}&include_adult=false&language=en`,
+      wordPlusOne: `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${
+        page + 1
+      }&query=${this.query}&include_adult=false&language=en`,
+      filter: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.filterCriteria}`,
+      filterPlusOne: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${
+        page + 1
+      }&language=en-US&with_genres=${this.filterCriteria}`,
+    };
+    let firstRequetString = null;
+    let secondRequetString = null;
+    if (key === 'all') {
+      firstRequetString = requestString.all;
+      secondRequetString = requestString.allPlusOne;
+    }
+    if (key === 'word') {
+      firstRequetString = requestString.word;
+      secondRequetString = requestString.wordPlusOne;
+    }
+    if (key === 'filter') {
+      firstRequetString = requestString.filter;
+      secondRequetString = requestString.filterPlusOne;
+    }
     if (document.documentElement.clientWidth > 1024) {
-      const firstRequest = await axios.get(
-        ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${page}`,
-      );
+      const firstRequest = await axios.get(`${firstRequetString}`);
       const {
         data: { results, total_results, total_pages },
       } = firstRequest;
       try {
-        if (page === total_pages) throw 'Oops, this is the last page ...'; // фікс 404 якщо остання сторінка то 2 запрос не робим
-        const secondRequest = await axios.get(
-          ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${
-            page + 1
-          }`,
-        );
+        if (page === total_pages) throw 'Oops, this is the last page ...';
+        const secondRequest = await axios.get(`${secondRequetString}`);
         return {
           data: {
             results: [...results, secondRequest.data.results[0]],
@@ -59,26 +73,20 @@ class MoviesApiServiceVersion {
         return firstRequest;
       }
     } else {
-      return axios.get(
-        ` ${BASE_URL}3/movie/popular?api_key=${API_KEY}&page=${page}`,
-      );
+      return axios.get(`${firstRequetString}`);
     }
   }
-  //відповідь при пошуку по слову
+ 
   getResponseWord(newPage) {
-    // по замовчуванню 1 сторінка дальше передаем № сторінки
     let page = this.page;
     if (newPage) page = newPage;
-    return axios.get(
-      `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${page}&query=${this.searchQuery}&include_adult=false&language=en`,
-    );
+    const results = this.manyRequest(page, 'word');
+    return results;
   }
-  //відповідь жанри фільміву відповіді пишем в масив
+  
   getGenresMovies() {
     return axios
-      .get(
-        `${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
-      )
+      .get(`${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
       .then(({ data: genres }) => {
         genres.genres.forEach(element => {
           this.genresArr.push(element);
@@ -89,20 +97,8 @@ class MoviesApiServiceVersion {
         );
       });
   }
-  // получаем id фільма віддаем інфу після кліка по карточці
-  //фактично непотрібно проганяти через функцію корекції лиш поправити жанри і все
-  //старий варіант
-  // getResponseInfo(id) {
-  //   return axios.get(
-  //     `${BASE_URL}3/movie/${id}?api_key=${API_KEY}&language=en-US`,
-  //   );
-  // }
   async getResponseInfo(currentId) {
-    //щоб не робити ще один запрос якщо по тому самому фільму клікнули
-    //віддаєм обєкт із конструктора класу
     if (this.movieId === currentId) return this.movie;
-    //пишем в конструктор обєкт якщо відповідь успішна
-    //обнулення конструктора
     this.movieId = currentId;
     this.movie = {};
     try {
@@ -110,9 +106,8 @@ class MoviesApiServiceVersion {
         `${BASE_URL}3/movie/${currentId}?api_key=${API_KEY}&language=en-US`,
       );
       const { genres } = data;
-      const newGenres = genres.map(({ name }) => name); // перезаписуєм по нормальному жанри
+      const newGenres = genres.map(({ name }) => name); 
       data.genres = [...newGenres];
-      //запис обєкта в конструктор
       this.movie = { ...data };
       return data;
     } catch (error) {
@@ -124,11 +119,27 @@ class MoviesApiServiceVersion {
       `${BASE_URL}3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`,
     );
   }
+  // getMoviesByGenre(newPage) {
+  //   let page = this.page;
+  //   if (newPage) page = newPage;
+  //   const results = this.manyRequest(page, 'filter');
+  //   return results;
+  // }
   getMoviesByGenre(newPage) {
     let page = this.page;
     if (newPage) page = newPage;
+    let str = '';
+    if (this.genreCriterion && !this.sortByCriterion) {
+      str = `&with_genres=${this.genreCriterion}`;
+    }
+    if (this.sortByCriterion && !this.genreCriterion) {
+      str = `&sort_by=${this.sortByCriterion}`;
+    }
+    if (this.genreCriterion && this.sortByCriterion) {
+      str = `&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}`;
+    }
     return axios.get(
-      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.filterCriteria}`,
+      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US${str}`,
     );
   }
   get query() {
