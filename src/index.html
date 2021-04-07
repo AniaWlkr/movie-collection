@@ -147,39 +147,39 @@
     <header class="header">
       <div class="container">
         <div class="toolbar">
-          <button type="button" class="auth-open-modal-button"> SIGN-IN </button>
+          <button type="button" class="auth-open-modal-button">SIGN-IN</button>
           <!----------- switch-theme ----------->
           <div class="switch-theme">
             <div class="switch-theme-control">
               <input
-              class="switch-theme-checkbox"
-              type="checkbox"
-              name="theme"
-              id="checkbox"
-              aria-label="Переключить между тёмной и светлой темой"
+                class="switch-theme-checkbox"
+                type="checkbox"
+                name="theme"
+                id="checkbox"
+                aria-label="Переключить между тёмной и светлой темой"
               />
               <label
-              aria-hidden="true"
-              class="switch-theme-track"
-              for="checkbox"
+                aria-hidden="true"
+                class="switch-theme-track"
+                for="checkbox"
               >
-            </label>
-            <svg
-            id="sun"
-            class="switch-theme-icon accent-icon"
-            role="img"
-            aria-label="Иконка солнца"
-            >
-            <use href="./images/sprite.svg#sun"></use>
-          </svg>
-          <svg id="moon" class="switch-theme-icon" aria-label="Иконка луны">
-            <use href="./images/sprite.svg#moon"></use>
-          </svg>
+              </label>
+              <svg
+                id="sun"
+                class="switch-theme-icon accent-icon"
+                role="img"
+                aria-label="Иконка солнца"
+              >
+                <use href="./images/sprite.svg#sun"></use>
+              </svg>
+              <svg id="moon" class="switch-theme-icon" aria-label="Иконка луны">
+                <use href="./images/sprite.svg#moon"></use>
+              </svg>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="header-container">
-      <a href="" class="header-logo link">
+        <div class="header-container">
+          <a href="" class="header-logo link">
             <svg class="logo-icon" width="24" height="24">
               <use href="./images/sprite.svg#icon-film"></use>
             </svg>
@@ -226,15 +226,61 @@
         <div class="filter-container">
           <div class="filter-wrapper">
             <button class="filter-button sort-by" type="button">SORT BY</button>
+            <div class="base-layer-sort-by is-hidden">
+              <div class="select-content filter-sort-by" id="filter-sort-by">
+                <button
+                  class="select-genre-item"
+                  type="button"
+                  data-value="No filter"
+                >
+                  No filter
+                </button>
+                <button
+                  class="select-genre-item"
+                  type="button"
+                  data-value="No filter"
+                >
+                  Popularity <span class="arrow">↓</span>
+                </button>
+                <button
+                  class="select-genre-item"
+                  type="button"
+                  data-value="No filter"
+                >
+                  Popularity <span class="arrow">↑</span>
+                </button>
+                <button
+                  class="select-genre-item"
+                  type="button"
+                  data-value="No filter"
+                >
+                  Vote average <span class="arrow">↑</span>
+                </button>
+                <button
+                  class="select-genre-item"
+                  type="button"
+                  data-value="No filter"
+                >
+                  Vote average <span class="arrow">↑</span>
+                </button>
+              </div>
+            </div>
           </div>
           <div class="filter-wrapper">
             <button class="filter-button by-genre" type="button">
               All GENRES
             </button>
-            <div class="select-content filter-by-genre is-hidden">
-              <button class="select-genre-item" id="0" type="button">
-                ALL GENRES
-              </button>
+            <div class="base-layer-for-genres is-hidden">
+              <div class="select-content filter-by-genre" id="filter-by-genre">
+                <button
+                  class="select-genre-item"
+                  id="0"
+                  type="button"
+                  data-name="genre"
+                >
+                  ALL GENRES
+                </button>
+              </div>
             </div>
           </div>
           <div class="filter-wrapper">
