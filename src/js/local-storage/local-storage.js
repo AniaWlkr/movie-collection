@@ -5,16 +5,11 @@ class LocalStorageService {
     this.movie = {};
     this._moviesList = { watсhed: [], inQueue: [] };
     this._moviesListKey = 'movie';
-    this._currentPageKey = 'currentPage';
     this.addToQueue = this.addToQueue.bind(this);
     this.addToWatched = this.addToWatched.bind(this);
     this.getMoviesFromStorage = this.getMoviesFromStorage.bind(this);
-    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(
-      this,
-    );
-    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(
-      this,
-    );
+    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(this);
+    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(this);
     this.removeMovieFromQueue = this.removeMovieFromQueue.bind(this);
     this.removeMovieFromWatched = this.removeMovieFromWatched.bind(this);
   }
@@ -52,7 +47,6 @@ class LocalStorageService {
   }
 
   addToWatched() {
-    console.log('add to watched');
     this.newMoviesList();
     const id = this.movie.id;
     if (this.checkCurrentMovieInWatchedList(id)) return;
@@ -61,20 +55,11 @@ class LocalStorageService {
   }
 
   addToQueue() {
-    console.log('add to queue');
     this.newMoviesList();
     const id = this.movie.id;
     if (this.checkCurrentMovieInQueueList(id)) return;
     this._moviesList.inQueue.push(this.movie);
     this.saveToStorage(this._moviesListKey, this._moviesList);
-  }
-
-  saveCurrentPageToStorage(page) {
-    this.saveToStorage(this._currentPageKey, page);
-  }
-
-  getCurrentPageFromStorage() {
-    return this.takeFromStorage(this._currentPageKey);
   }
 
   takeFromStorage(key) {
@@ -115,7 +100,6 @@ class LocalStorageService {
   }
 
   removeMovieFromQueue() {
-    console.log('remove from queue');
     this.newMoviesList();
     const id = this.movie.id;
     const currentInQueueMoviesList = this._moviesList.inQueue;
@@ -128,7 +112,6 @@ class LocalStorageService {
   }
 
   removeMovieFromWatched() {
-    console.log('remove from watched');
     this.newMoviesList();
     const id = this.movie.id;
     const currentWatchedMoviesList = this._moviesList.watсhed;
