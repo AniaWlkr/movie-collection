@@ -1,20 +1,13 @@
-<div class="hacker-modal-card">
+<div class="hacker-modal-card" data-id="{{id}}">
     <img class="hacker-pic" src="{{originalPhoto}}" alt="{{name}}">
         <div class="hacker-wrapper">
           <h3 class="hacker-name">{{name}}</h3>
           <p class="hacker-position">{{position}}</p>
           <p class="hacker-stack-and-tools">My stack and tools:</p>
           <ul class="hacker-tools-list">
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/visual-studio-code.png" alt="vs logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/html.png" alt="html logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/css.png" alt="css logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/sass.png" alt="sass logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/javascript.png" alt="js logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/webpack.png" alt="webpack logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/nodejs.png" alt="nodejs logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/babel.png" alt="babel logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/git.png" alt="git logo"></li>
-            <li class="hacker-tools-item"><img class="hacker-tools-img" src="../images/students-modal-pics/stack-and-tools/github.png" alt="github logo"></li>
+            {{#each tools}}
+            <li class="hacker-tools-item"><img class="hacker-tools-img" src="{{this}}" alt="tools logo"></li>
+            {{/each}}
           </ul>
           <p class="hacker-location">Location: <span class="hacker-accent">{{country}}, {{city}}</span></p>
           <ul class="hacker-list">
