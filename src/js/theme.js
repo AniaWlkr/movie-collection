@@ -1,5 +1,4 @@
 import refs from './refs/refs';
-
 function onChangeTheme() {
   toggleDarkTheme();
 
@@ -31,19 +30,27 @@ function currentTheme() {
 function addDarkTheme() {
   document.body.classList.add('dark-theme');
   refs.footer.classList.add('dark-theme');
-  refs.modalContent.classList.add('dark-theme');
+  refs.openTrailerBtn.classList.add('dark-theme');
   refs.hackersModal.classList.add('dark-theme');
   refs.hackerModalDeveloper.classList.add('dark-theme');
-  refs.genresList.classList.add('dark-theme');
+  refs.sortByListBase.classList.add('dark-theme');
+  refs.genresListBase.classList.add('dark-theme');
+  refs.signInForm.classList.add('dark-theme');
+  refs.signUpForm.classList.add('dark-theme');
+  refs.modalAuthControls.classList.add('dark-theme');
 }
 
 function toggleDarkTheme() {
   document.body.classList.toggle('dark-theme');
   refs.footer.classList.toggle('dark-theme');
-  refs.modalContent.classList.toggle('dark-theme');
+  refs.openTrailerBtn.classList.toggle('dark-theme');
   refs.hackersModal.classList.toggle('dark-theme');
   refs.hackerModalDeveloper.classList.toggle('dark-theme');
-  refs.genresList.classList.toggle('dark-theme');
+  refs.sortByListBase.classList.toggle('dark-theme');
+  refs.genresListBase.classList.toggle('dark-theme');
+  refs.signInForm.classList.toggle('dark-theme');
+  refs.signUpForm.classList.toggle('dark-theme');
+  refs.modalAuthControls.classList.toggle('dark-theme');
 }
 
 function setIconsDark() {
