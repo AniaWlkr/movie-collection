@@ -2,6 +2,13 @@ import settings from '../settings/firebase-settings';
 const { BASE_URL, API_KEY } = settings;
 import AuthNotifications from '../notifications/notifications';
 const newNotification = new AuthNotifications();
+import newFireBase from '../api-service/fireBaseService';
+//---------------------------------Додатковий функціонал
+const filterBox = document.querySelector('.filter-container');
+const libraryRef = document.querySelector(
+  '.navigation-link[data-state="library"]',
+);
+//---------------------------------
 
 const refs = {
   controls: document.querySelector('[data-controls]'),
@@ -13,47 +20,51 @@ const authOpenButtonRef = document.querySelector('.auth-open-modal-button');
 const modalAuthRef = document.querySelector('.modal-auth');
 const modalAuthBackdropeRef = document.querySelector('.modal-auth-backdrope');
 // registration refs
-const signUpFormRef = document.querySelector('.sign-up-form'); 
-const signUpMailRef = document.querySelector('.sign-up-form .email'); 
-const signUpPwdRef = document.querySelector('.sign-up-form .password'); 
-const signUpPwdRepeatRef = document.querySelector('.sign-up-form .password-repeat'); 
+const signUpFormRef = document.querySelector('.sign-up-form');
+const signUpMailRef = document.querySelector('.sign-up-form .email');
+const signUpPwdRef = document.querySelector('.sign-up-form .password');
+const signUpPwdRepeatRef = document.querySelector(
+  '.sign-up-form .password-repeat',
+);
 // sign-in refs
-const signInFormRef = document.querySelector('.sign-in-form'); 
-const signInMailRef = document.querySelector('.sign-in-form .email'); 
-const signInPwdRef = document.querySelector('.sign-in-form .password'); 
+const signInFormRef = document.querySelector('.sign-in-form');
+const signInMailRef = document.querySelector('.sign-in-form .email');
+const signInPwdRef = document.querySelector('.sign-in-form .password');
 
-refs.controls.addEventListener('click', event => { 
+refs.controls.addEventListener('click', event => {
   event.preventDefault();
   const controlItem = event.target;
   if (controlItem.nodeName !== 'A') return;
 
-  const currentActiveControlsItem = refs.controls.querySelector('.controls__item--active');
+  const currentActiveControlsItem = refs.controls.querySelector(
+    '.controls__item--active',
+  );
 
-  if (currentActiveControlsItem) { 
+  if (currentActiveControlsItem) {
     currentActiveControlsItem.classList.remove('controls__item--active');
     const paneId = getPaneId(currentActiveControlsItem);
     const pane = getPaneById(paneId);
     pane.classList.toggle('pane--active');
   }
-  
+
   controlItem.classList.add('controls__item--active');
 
   const paneId = getPaneId(controlItem);
 
   const currentActivePane = refs.panes.querySelector('.pane--active');
-  if (currentActivePane) { 
+  if (currentActivePane) {
     currentActivePane.classList.remove('pane--active');
   }
 
   const pane = getPaneById(paneId);
   pane.classList.add('pane--active');
-})
+});
 
-function getPaneId(control) { 
+function getPaneId(control) {
   return control.getAttribute('href').slice(1);
 }
 
-function getPaneById(id) { 
+function getPaneById(id) {
   return refs.panes.querySelector(`#${id}`);
 }
 
@@ -79,7 +90,6 @@ const requestSignIn = (email, password) => {
 
 // registration
 const requestSignUp = (email, password) => {
-
   const data = {
     email: email,
     password: password,
@@ -95,15 +105,14 @@ const requestSignUp = (email, password) => {
         'Content-type': 'application/json',
       },
     },
-  )
-    .then(response => response.json())
-    .then(answer => console.log(answer));
+  ).then(response => response.json());
+  // .then(answer => console.log(answer));//ошибка реєстрації
 };
 
 const registerUser = event => {
   event.preventDefault();
 
-  if (signUpFormRef.password.value !== signUpFormRef.repeatPassword.value) { 
+  if (signUpFormRef.password.value !== signUpFormRef.repeatPassword.value) {
     addInvalidClass(signUpPwdRef);
     addInvalidClass(signUpPwdRepeatRef);
     newNotification.differentPasswords();
@@ -119,16 +128,17 @@ const registerUser = event => {
   const password = JSON.stringify(signUpPwdRef.value);
 
   requestSignUp(email, password).then(answer => {
-    console.log(answer);
+    // console.log(answer);
     if (!answer.error) {
       newNotification.rigistrateUser();
-      authenticationFormRef.reset();
+      // authenticationFormRef.reset();
+      signUpFormRef.reset();
       setTimeout(newNotification.preposeToSignIn, 4000);
     }
     if (answer.error && answer.error.message === 'INVALID_EMAIL') {
       addInvalidClass(signUpMailRef);
       newNotification.wrongEmail();
-      setTimeout(() => { 
+      setTimeout(() => {
         removeInvalidClass(signUpMailRef);
       }, 2000);
     }
@@ -148,10 +158,10 @@ const registerUser = event => {
       addInvalidClass(signUpPwdRepeatRef);
       newNotification.weakPassword();
       setTimeout(() => {
-      signUpFormRef.reset();
-      removeInvalidClass(signUpPwdRef);
-      removeInvalidClass(signUpPwdRepeatRef);
-    }, 2500);
+        signUpFormRef.reset();
+        removeInvalidClass(signUpPwdRef);
+        removeInvalidClass(signUpPwdRepeatRef);
+      }, 2500);
     }
   });
 };
@@ -161,12 +171,14 @@ const signInUser = event => {
 
   const email = signInMailRef.value;
   const password = JSON.stringify(signInPwdRef.value);
-  requestSignIn(email, password).then((answer) => {
-
+  //зареєстрований користувач на тестову БД
+  /*const email = 'hasker1@gmail.com';
+  let password = JSON.stringify('123456Qq');*/
+  requestSignIn(email, password).then(answer => {
     if (answer.registered) {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
-      userID = answer.localId;
+      newFireBase.userID = answer.localId;
 
       setTimeout(closeAuthModal, 1000); //change icon 'Log-In' & unblock Library
     }
@@ -174,7 +186,7 @@ const signInUser = event => {
       addInvalidClass(signInPwdRef);
       newNotification.wrongPassword();
       setTimeout(() => {
-        signUpFormRef.reset();
+        signInFormRef.reset();
         removeInvalidClass(signInPwdRef);
       }, 2500);
     }
@@ -182,22 +194,32 @@ const signInUser = event => {
       addInvalidClass(signInMailRef);
       newNotification.wrongLogin();
       setTimeout(() => {
-        signUpFormRef.reset();
+        signInFormRef.reset();
         removeInvalidClass(signInMailRef);
       }, 2500);
     }
+    //Зайшли в акаунт
+    filterBox.classList.remove('visually-hidden');
+    libraryRef.classList.remove('visually-hidden');
+    authOpenButtonRef.textContent = 'SIGN-OUT';
   });
 };
 
-const addInvalidClass = (elem) => {
+const addInvalidClass = elem => {
   elem.classList.add('invalid');
 };
 
-const removeInvalidClass = (elem) => {
+const removeInvalidClass = elem => {
   elem.classList.remove('invalid');
 };
 
 const openAuthModal = event => {
+  if (authOpenButtonRef.textContent === 'SIGN-OUT') {
+    authOpenButtonRef.textContent = 'SIGN-IN';
+    newFireBase.signOut();
+    signInFormRef.reset();
+    return;
+  } //виходим з користувача
   modalAuthRef.classList.add('is-open');
   window.addEventListener('keyup', modalAuthCloseByEsc);
 };
@@ -207,11 +229,11 @@ const closeAuthModal = event => {
   window.removeEventListener('keyup', modalAuthCloseByEsc);
 };
 
-const closeAuthModalOnOverlay = event => { 
-  if (event.target === event.currentTarget) { 
+const closeAuthModalOnOverlay = event => {
+  if (event.target === event.currentTarget) {
     closeAuthModal();
   }
-}
+};
 
 const modalAuthCloseByEsc = event => {
   if (event.code !== 'Escape') return;
@@ -224,4 +246,4 @@ signInFormRef.addEventListener('submit', signInUser);
 modalAuthBackdropeRef.addEventListener('click', closeAuthModalOnOverlay);
 authOpenButtonRef.addEventListener('click', openAuthModal);
 
-export default userID; 
+export default userID;
