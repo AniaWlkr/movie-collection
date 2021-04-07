@@ -129,23 +129,52 @@ function onSearch(event) {
 //функція фільтрації
 function renderAndPaginationFilteredMovies() {
   refs.genreSelector.addEventListener('click', handleGenreSelection);
+  refs.sortBySelector.addEventListener('click', handleSortBySelection);
 }
 //--------------------------------------------------------
 function handleGenreSelection(event) {
   event.preventDefault();
   const target = event.target;
   if (target.nodeName !== 'BUTTON') return;
-  setGenre(target);
+  if (target.id !== refs.filterByGenreButton.id) {
+    refs.filterByGenreButton.textContent = target.textContent;
+    if (target.id !== '0') {
+      newApi.genreCriterion = target.id;
+    } else {
+      refs.filterByGenreButton.id = 'default';
+      newApi.genreCriterion = '';
+    }
+  }
+
+  setFiltration();
   refs.genresListBase.classList.add('is-hidden');
 }
 
-function setGenre(newGenre) {
-  const genreName = newGenre.textContent;
-  refs.filterByGenreButton.textContent = genreName;
-  newApi.filterCriteria = newGenre.id;
-  if (newApi.filterCriteria !== '0') {
-    renderAndPagination('filter');
-  } else renderAndPagination();
+function handleSortBySelection(event) {
+  event.preventDefault();
+  const target = event.target;
+  if (target.nodeName !== 'BUTTON') return;
+
+  if (target.dataset.value !== refs.filterSortByButton.dataset.value) {
+    if (target.dataset.value === 'no-filter') {
+      refs.filterSortByButton.textContent = 'SORT BY';
+      refs.filterSortByButton.dataset.value = target.dataset.value;
+      newApi.sortByCriterion = '';
+    } else {
+      refs.filterSortByButton.textContent = target.textContent;
+      refs.filterSortByButton.dataset.value = target.dataset.value;
+      newApi.sortByCriterion = target.dataset.value;
+    }
+  }
+
+  setFiltration();
+  refs.sortByListBase.classList.add('is-hidden');
+}
+
+function setFiltration() {
+  if (!newApi.genreCriterion && !newApi.sortByCriterion) {
+    renderAndPagination();
+  } else renderAndPagination('filter');
 }
 //--------------------------------------------------------
 //зміна теми для пагінації
