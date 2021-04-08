@@ -11,8 +11,7 @@ class MoviesApiServiceVersion {
     this.page = 1;
     this.genresArr = [];
     this.currentMovie = [];
-    this.filterCriteria = '';
-     this.genreCriterion = '';
+    this.genreCriterion = '';
     this.sortByCriterion = '';
     this.movieId = null;
     this.movie = null;
@@ -35,10 +34,8 @@ class MoviesApiServiceVersion {
       wordPlusOne: `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${
         page + 1
       }&query=${this.query}&include_adult=false&language=en`,
-      filter: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.filterCriteria}`,
-      filterPlusOne: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${
-        page + 1
-      }&language=en-US&with_genres=${this.filterCriteria}`,
+      filter: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
+      filterPlusOne: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page + 1}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
     };
     let firstRequetString = null;
     let secondRequetString = null;
@@ -119,29 +116,18 @@ class MoviesApiServiceVersion {
       `${BASE_URL}3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`,
     );
   }
+  getMoviesByGenre(newPage) {
+    let page = this.page;
+    if (newPage) page = newPage;
+    const results = this.manyRequest(page, 'filter');
+    return results;
+  }
   // getMoviesByGenre(newPage) {
   //   let page = this.page;
   //   if (newPage) page = newPage;
   //   const results = this.manyRequest(page, 'filter');
   //   return results;
   // }
-  getMoviesByGenre(newPage) {
-    let page = this.page;
-    if (newPage) page = newPage;
-    let str = '';
-    if (this.genreCriterion && !this.sortByCriterion) {
-      str = `&with_genres=${this.genreCriterion}`;
-    }
-    if (this.sortByCriterion && !this.genreCriterion) {
-      str = `&sort_by=${this.sortByCriterion}`;
-    }
-    if (this.genreCriterion && this.sortByCriterion) {
-      str = `&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}`;
-    }
-    return axios.get(
-      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US${str}`,
-    );
-  }
   get query() {
     return this.searchQuery;
   }
