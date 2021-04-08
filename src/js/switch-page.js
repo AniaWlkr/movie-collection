@@ -6,7 +6,6 @@ import {
 import refs from './refs/refs';
 import { newApi } from './api-service/apiService';
 
-
 const renderQueue = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
   let queueMovies = null;
@@ -29,7 +28,7 @@ const renderWatched = () => {
   renderLibrary(watchedMovies);
 };
 
-const refreshLibrary = (selector) => {
+const refreshLibrary = selector => {
   const isLibrary = selector.classList.contains('header-library');
   if (isLibrary) {
     const tabsRef = document.querySelector('.tabs');
@@ -107,6 +106,7 @@ const changeMarkup = page => {
     refs.header.classList.remove('header-library');
     refs.searchForm.classList.remove('is-hidden');
     refs.tabs.classList.add('is-hidden');
+    localStorage.setItem('page', 1); //-перехід на першу сторінку
     renderAndPaginationPopularMovies();
   }
 

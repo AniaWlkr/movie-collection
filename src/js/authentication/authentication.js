@@ -2,6 +2,14 @@ import settings from '../settings/firebase-settings';
 const { BASE_URL, API_KEY } = settings;
 import AuthNotifications from '../notifications/notifications';
 const newNotification = new AuthNotifications();
+import newFireBase from '../api-service/fireBaseService';
+//---------------------------------Додатковий функціонал
+const filterBox = document.querySelector('.filter-container');
+const libraryRef = document.querySelector(
+  '.navigation-link[data-state="library"]',
+);
+import { renderAndPaginationPopularMovies } from '../insert_popular_films';
+//---------------------------------
 
 const refs = {
   controls: document.querySelector('[data-controls]'),
@@ -29,7 +37,10 @@ refs.controls.addEventListener('click', event => {
   event.preventDefault();
   const controlItem = event.target;
   if (controlItem.nodeName !== 'A') return;
-
+  
+  const currentActiveControlsItem = refs.controls.querySelector(
+    '.controls__item--active',
+  );
   controlTabToggle(controlItem);
 });
 
@@ -105,9 +116,8 @@ const requestSignUp = (email, password) => {
         'Content-type': 'application/json',
       },
     },
-  )
-    .then(response => response.json());
-    // .then(answer => console.log(answer));
+  ).then(response => response.json());
+  // .then(answer => console.log(answer));//ошибка реєстрації
 };
 
 const registerUser = event => {
@@ -172,15 +182,23 @@ const signInUser = event => {
 
   const email = signInMailRef.value;
   const password = JSON.stringify(signInPwdRef.value);
+  //зареєстрований користувач на тестову БД
+  /*const email = 'hasker1@gmail.com';
+  let password = JSON.stringify('123456Qq');*/
+
   requestSignIn(email, password).then(answer => {
     if (answer.registered) {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
-      userID = answer.localId;
-      setTimeout(() => {
-        closeAuthModal();
-        signInFormRef.reset();
-      }, 1000); //change icon 'Log-In' & unblock Library
+      newFireBase.userID = answer.localId;
+      setTimeout(closeAuthModal, 1000); //change icon 'Log-In' & unblock Library
+      //Зайшли в акаунт
+      filterBox.classList.remove('visually-hidden');
+      libraryRef.classList.remove('visually-hidden');
+      authOpenButtonRef.textContent = 'SIGN-OUT';
+      signInFormRef.reset();
+      localStorage.setItem('page', 1); //-перехід на першу сторінку
+      renderAndPaginationPopularMovies();
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
       addInvalidClass(signInPwdRef);
@@ -208,6 +226,12 @@ const removeInvalidClass = elem => {
 };
 
 const openAuthModal = event => {
+  if (authOpenButtonRef.textContent === 'SIGN-OUT') {
+    authOpenButtonRef.textContent = 'SIGN-IN';
+    newFireBase.signOut();
+    signInFormRef.reset();
+    return;
+  } //виходим з користувача
   modalAuthRef.classList.add('is-open');
   document.body.classList.add('no-scroll');
   window.addEventListener('keyup', modalAuthCloseByEsc);

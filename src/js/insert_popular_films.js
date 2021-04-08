@@ -42,14 +42,19 @@ async function renderAndPagination(key) {
   let promise = getAllMovie;
   if (key === 'word') promise = getSearchWord;
   if (key === 'filter') promise = getFilteredMovies;
-  //------------------------------------------------------------------ <------ не реалізовано
+  //------------------------------------------------------------------
   //заготовка під скрол до потрібної сторінки
   //якщо у нас записалась якась сторінка на локал сторадж
   let page = 1;
+  let token = localStorage.getItem('token');
+  if (!token) {
+    page = Number(localStorage.getItem('page'));
+  }
+  if (token) page = 1;
   // let storadgePage = 2; //Для перевірки наступну строку заоментувати і навпаки
-  let storadgePage = 0;
-  if (storadgePage !== 1 && storadgePage) page = storadgePage;
-  //------------------------------------------------------------------ <------ не реалізовано
+  // let storadgePage = 0;
+  // if (storadgePage !== 1 && storadgePage) page = storadgePage;
+  //------------------------------------------------------------------
   const {
     data: { results, total_results },
   } = await promise(page);
@@ -87,6 +92,9 @@ async function renderAndPagination(key) {
     const correctResult = await createCorrectResult(results);
     renderCard(correctResult);
     goUp(headerRef);
+    if (!token) {
+      localStorage.setItem('page', page);
+    }
     spinner.hideSpinner();
   });
 }

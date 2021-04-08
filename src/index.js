@@ -27,3 +27,4 @@ function pageLoading() {
 
 //---------------------- Но перед этим закомментировать import './modal-film-card/modal-film-card';
 //---------------------- и всё что ниже констант!
+// import './js/api-service/fireBaseService';
