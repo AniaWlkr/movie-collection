@@ -37,28 +37,28 @@ class MoviesApiServiceVersion {
       filter: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
       filterPlusOne: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page + 1}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
     };
-    let firstRequetString = null;
-    let secondRequetString = null;
+    let firstRequestString = null;
+    let secondRequestString = null;
     if (key === 'all') {
-      firstRequetString = requestString.all;
-      secondRequetString = requestString.allPlusOne;
+      firstRequestString = requestString.all;
+      secondRequestString = requestString.allPlusOne;
     }
     if (key === 'word') {
-      firstRequetString = requestString.word;
-      secondRequetString = requestString.wordPlusOne;
+      firstRequestString = requestString.word;
+      secondRequestString = requestString.wordPlusOne;
     }
     if (key === 'filter') {
-      firstRequetString = requestString.filter;
-      secondRequetString = requestString.filterPlusOne;
+      firstRequestString = requestString.filter;
+      secondRequestString = requestString.filterPlusOne;
     }
     if (document.documentElement.clientWidth > 1024) {
-      const firstRequest = await axios.get(`${firstRequetString}`);
+      const firstRequest = await axios.get(`${firstRequestString}`);
       const {
         data: { results, total_results, total_pages },
       } = firstRequest;
       try {
         if (page === total_pages) throw 'Oops, this is the last page ...';
-        const secondRequest = await axios.get(`${secondRequetString}`);
+        const secondRequest = await axios.get(`${secondRequestString}`);
         return {
           data: {
             results: [...results, secondRequest.data.results[0]],
@@ -70,7 +70,7 @@ class MoviesApiServiceVersion {
         return firstRequest;
       }
     } else {
-      return axios.get(`${firstRequetString}`);
+      return axios.get(`${firstRequestString}`);
     }
   }
  
