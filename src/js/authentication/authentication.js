@@ -191,7 +191,7 @@ const signInUser = event => {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
       newFireBase.userID = answer.localId;
-      setTimeout(closeAuthModal, 1000); //change icon 'Log-In' & unblock Library
+      setTimeout(closeAuthModal, 500); //change icon 'Log-In' & unblock Library
       //Зайшли в акаунт
       filterBox.classList.remove('visually-hidden');
       libraryRef.classList.remove('visually-hidden');
