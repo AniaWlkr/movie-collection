@@ -124,18 +124,8 @@ class MoviesApiServiceVersion {
   getMoviesByGenre(newPage) {
     let page = this.page;
     if (newPage) page = newPage;
-    let str = '';
-    if (this.genreCriterion && !this.sortByCriterion) {
-      str = `&with_genres=${this.genreCriterion}`;
-    }
-    if (this.sortByCriterion && !this.genreCriterion) {
-      str = `&sort_by=${this.sortByCriterion}`;
-    }
-    if (this.genreCriterion && this.sortByCriterion) {
-      str = `&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}`;
-    }
     return axios.get(
-      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US${str}`,
+      `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
     );
   }
   get query() {
