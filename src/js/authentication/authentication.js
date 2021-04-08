@@ -196,7 +196,6 @@ const signInUser = event => {
       filterBox.classList.remove('visually-hidden');
       libraryRef.classList.remove('visually-hidden');
       authOpenButtonRef.textContent = 'SIGN-OUT';
-      signInFormRef.reset();
       localStorage.setItem('page', 1); //-перехід на першу сторінку
       renderAndPaginationPopularMovies();
     }
@@ -241,6 +240,8 @@ const closeAuthModal = event => {
   modalAuthRef.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
   window.removeEventListener('keyup', modalAuthCloseByEsc);
+  signUpFormRef.reset();
+  signInFormRef.reset();
 };
 
 const closeAuthModalOnOverlay = event => {
