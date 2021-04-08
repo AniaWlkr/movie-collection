@@ -24,14 +24,3 @@ function handleSortBYListOpening() {
 function closeSortByList() {
   refs.sortByListBase.classList.add('is-hidden');
 }
-console.log(refs.filterContainer);
-console.log(refs.resetButton);
-
-function filterReset() {
-  refs.filterSortByButton.textContent = 'SORT BY';
-  refs.filterSortByButton.dataset.value = 'no-filter';
-  newApi.sortByCriterion = '';
-  refs.filterByGenreButton.textContent = 'ALL GENRES';
-  refs.filterByGenreButton.id = 'default';
-  newApi.genreCriterion = '';
-}
