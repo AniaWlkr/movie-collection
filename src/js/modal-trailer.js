@@ -39,12 +39,10 @@ function clearContainer() {
 
 function removeClassList() {
   refs.modalOverlayTrailer.classList.remove('show-trailer');
-  document.body.classList.remove('no-scroll');
 }
 
 function addClassList() {
   refs.modalOverlayTrailer.classList.add('show-trailer');
-  document.body.classList.add('no-scroll');
 }
 
 refs.openTrailerBtn.addEventListener('click', onOpenTrailer);

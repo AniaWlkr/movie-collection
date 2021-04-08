@@ -62,7 +62,7 @@ const team = [
     position: 'Front-End Developer',
     city: 'Kiev',
     country: 'Ukraine',
-    github: 'github.com/GolovinaElia',
+    github: 'https://github.com/GolovinaElia',
     email: 'eliagolovina@ukr.net',
     smallPhoto: `${smallPhotoElnara}`,
     originalPhoto: `${photoElnara}`,

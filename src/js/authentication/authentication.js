@@ -31,23 +31,33 @@ const signUpPwdRepeatRef = document.querySelector(
 const signInFormRef = document.querySelector('.sign-in-form');
 const signInMailRef = document.querySelector('.sign-in-form .email');
 const signInPwdRef = document.querySelector('.sign-in-form .password');
+const signInTabRef = document.querySelector('.sign-in-tab');
 
 refs.controls.addEventListener('click', event => {
   event.preventDefault();
   const controlItem = event.target;
   if (controlItem.nodeName !== 'A') return;
-
+  
   const currentActiveControlsItem = refs.controls.querySelector(
+    '.controls__item--active',
+  );
+  controlTabToggle(controlItem);
+});
+
+function controlTabToggle(controlItem) { 
+   const currentActiveControlsItem = refs.controls.querySelector(
     '.controls__item--active',
   );
 
   if (currentActiveControlsItem) {
     currentActiveControlsItem.classList.remove('controls__item--active');
+    currentActiveControlsItem.classList.add('controls__item--inactive');
     const paneId = getPaneId(currentActiveControlsItem);
     const pane = getPaneById(paneId);
     pane.classList.toggle('pane--active');
   }
 
+  controlItem.classList.remove('controls__item--inactive');
   controlItem.classList.add('controls__item--active');
 
   const paneId = getPaneId(controlItem);
@@ -59,7 +69,7 @@ refs.controls.addEventListener('click', event => {
 
   const pane = getPaneById(paneId);
   pane.classList.add('pane--active');
-});
+}
 
 function getPaneId(control) {
   return control.getAttribute('href').slice(1);
@@ -132,8 +142,8 @@ const registerUser = event => {
     // console.log(answer);
     if (!answer.error) {
       newNotification.rigistrateUser();
-      // authenticationFormRef.reset();
       signUpFormRef.reset();
+      controlTabToggle(signInTabRef);
       setTimeout(newNotification.preposeToSignIn, 4000);
     }
     if (answer.error && answer.error.message === 'INVALID_EMAIL') {
@@ -175,6 +185,7 @@ const signInUser = event => {
   //зареєстрований користувач на тестову БД
   /*const email = 'hasker1@gmail.com';
   let password = JSON.stringify('123456Qq');*/
+
   requestSignIn(email, password).then(answer => {
     if (answer.registered) {
       newNotification.enterUser();
@@ -193,7 +204,6 @@ const signInUser = event => {
       addInvalidClass(signInPwdRef);
       newNotification.wrongPassword();
       setTimeout(() => {
-        signInFormRef.reset();
         removeInvalidClass(signInPwdRef);
       }, 2500);
     }
@@ -201,7 +211,6 @@ const signInUser = event => {
       addInvalidClass(signInMailRef);
       newNotification.wrongLogin();
       setTimeout(() => {
-        signInFormRef.reset();
         removeInvalidClass(signInMailRef);
       }, 2500);
     }
@@ -224,11 +233,13 @@ const openAuthModal = event => {
     return;
   } //виходим з користувача
   modalAuthRef.classList.add('is-open');
+  document.body.classList.add('no-scroll');
   window.addEventListener('keyup', modalAuthCloseByEsc);
 };
 
 const closeAuthModal = event => {
   modalAuthRef.classList.remove('is-open');
+  document.body.classList.remove('no-scroll');
   window.removeEventListener('keyup', modalAuthCloseByEsc);
 };
 

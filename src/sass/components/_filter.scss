@@ -7,10 +7,15 @@
   display: flex;
   justify-content: center;
   z-index: 10;
+
+  width: 100%;
 }
+
 .filter-button {
-  width: 92px;
+  max-width: 92px;
   height: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-family: $main-font;
   font-weight: 500;
   font-size: 12px;
@@ -21,7 +26,8 @@
   outline: none;
   border-radius: 5px;
   z-index: 54;
-  @media screen and (min-width: $tablet) {
+
+  @media screen and (min-width: $mobile) {
     width: 92px;
     height: 30px;
   }
@@ -84,8 +90,10 @@ input[type='radio'] {
   height: 145px;
 }
 
-.base-layer {
+.base-layer-sort-by,
+.base-layer-for-genres {
   background-color: $background-color;
   padding-top: 5px;
   margin-top: -5px;
+  z-index: 30;
 }
