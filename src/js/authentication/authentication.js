@@ -191,13 +191,15 @@ const signInUser = event => {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
       newFireBase.userId = answer.localId;
-      setTimeout(closeAuthModal, 400); //change icon 'Log-In' & unblock Library
+      setTimeout(closeAuthModal, 400);
+      setTimeout(() => {
+        filterBox.classList.remove('visually-hidden');
+        libraryRef.classList.remove('visually-hidden');
+        authOpenButtonRef.textContent = 'SIGN-OUT';
+        localStorage.setItem('page', 1); //-перехід на першу сторінку
+        renderAndPaginationPopularMovies();
+      }, 550); //change icon 'Log-In' & unblock Library
       //Зайшли в акаунт
-      filterBox.classList.remove('visually-hidden');
-      libraryRef.classList.remove('visually-hidden');
-      authOpenButtonRef.textContent = 'SIGN-OUT';
-      localStorage.setItem('page', 1); //-перехід на першу сторінку
-      renderAndPaginationPopularMovies();
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
       addInvalidClass(signInPwdRef);
