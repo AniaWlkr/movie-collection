@@ -34,8 +34,12 @@ class MoviesApiServiceVersion {
       wordPlusOne: `${BASE_URL}3/search/movie?api_key=${API_KEY}&page=${
         page + 1
       }&query=${this.query}&include_adult=false&language=en`,
-      filter: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
-      filterPlusOne: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page + 1}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=10000`,
+      filter: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${page}&language=en-US&with_genres=${this.genreCriterion}&sort_by=${this.sortByCriterion}&vote_count.gte=1000`,
+      filterPlusOne: `${BASE_URL}3/discover/movie?api_key=${API_KEY}&page=${
+        page + 1
+      }&language=en-US&with_genres=${this.genreCriterion}&sort_by=${
+        this.sortByCriterion
+      }&vote_count.gte=1000`,
     };
     let firstRequestString = null;
     let secondRequestString = null;
@@ -73,14 +77,14 @@ class MoviesApiServiceVersion {
       return axios.get(`${firstRequestString}`);
     }
   }
- 
+
   getResponseWord(newPage) {
     let page = this.page;
     if (newPage) page = newPage;
     const results = this.manyRequest(page, 'word');
     return results;
   }
-  
+
   getGenresMovies() {
     return axios
       .get(`${BASE_URL}3/genre/movie/list?api_key=${API_KEY}&language=en-US`)
@@ -103,7 +107,7 @@ class MoviesApiServiceVersion {
         `${BASE_URL}3/movie/${currentId}?api_key=${API_KEY}&language=en-US`,
       );
       const { genres } = data;
-      const newGenres = genres.map(({ name }) => name); 
+      const newGenres = genres.map(({ name }) => name);
       data.genres = [...newGenres];
       this.movie = { ...data };
       return data;
