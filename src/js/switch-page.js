@@ -3,17 +3,8 @@ import {
   renderAndPaginationPopularMovies,
   renderLibrary,
 } from './insert_popular_films';
-
-const refs = {
-  header: document.querySelector('.header'),
-  footer: document.querySelector('.footer'),
-  navigationList: document.querySelector('.navigation-list'),
-  searchFofm: document.querySelector('.search-form'),
-  tabs: document.querySelector('.tabs'),
-  movieList: document.querySelector('.movies-list'),
-  paginationBox: document.querySelector('.pagination-wrapper'),
-};
-
+import refs from './refs/refs';
+import { newApi } from './api-service/apiService';
 
 const renderQueue = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
@@ -37,7 +28,7 @@ const renderWatched = () => {
   renderLibrary(watchedMovies);
 };
 
-const refreshLibrary = (selector) => {
+const refreshLibrary = selector => {
   const isLibrary = selector.classList.contains('header-library');
   if (isLibrary) {
     const tabsRef = document.querySelector('.tabs');
@@ -82,35 +73,56 @@ const onChangeList = event => {
   }
 };
 
+const filterReset = () => {
+  refs.filterSortByButton.textContent = 'SORT BY';
+  refs.filterSortByButton.dataset.value = 'no-filter';
+  newApi.sortByCriterion = '';
+  refs.filterByGenreButton.textContent = 'ALL GENRES';
+  refs.filterByGenreButton.id = 'default';
+  newApi.genreCriterion = '';
+}
+
+const hideFilterButtons = () => {
+  refs.filterByGenreButton.classList.add('is-hidden');
+  refs.filterSortByButton.classList.add('is-hidden');
+  refs.resetButton.classList.add('is-hidden');
+};
+
+const showFilterButtons = () => {
+  refs.filterByGenreButton.classList.remove('is-hidden');
+  refs.filterSortByButton.classList.remove('is-hidden');
+  refs.resetButton.classList.remove('is-hidden');
+};
+
 //Перерисовка разметки
 const changeMarkup = page => {
   const activePageState = page.dataset.state;
 
   if (activePageState === 'home') {
-    refs.movieList.innerHTML = '';
+    refs.moviesRef.innerHTML = '';
+    filterReset();
+    showFilterButtons();
     refs.header.classList.add('header');
     refs.header.classList.remove('header-library');
-    refs.searchFofm.classList.remove('is-hidden');
+    refs.searchForm.classList.remove('is-hidden');
     refs.tabs.classList.add('is-hidden');
+    localStorage.setItem('page', 1); //-перехід на першу сторінку
     renderAndPaginationPopularMovies();
   }
 
   if (activePageState === 'library') {
-    refs.movieList.innerHTML = '';
+    refs.moviesRef.innerHTML = '';
+    filterReset();
+    hideFilterButtons();
     checkActive(refs.tabs);
     refs.header.classList.add('header-library');
     refs.header.classList.remove('header');
-    refs.searchFofm.classList.add('is-hidden');
+    refs.searchForm.classList.add('is-hidden');
     refs.tabs.classList.remove('is-hidden');
     document
       .querySelector('button[data-action="waiting"]')
       .classList.add('is-active');
-    try {
-      renderQueue();
-      // fixedFooterAndPaginationBox(); //забираєм фіксацію
-    } catch {
-      // fixedFooterAndPaginationBox(); //забираєм фіксацію
-    }
+    renderQueue();
     refs.tabs.addEventListener('click', onChangeList);
   }
 };

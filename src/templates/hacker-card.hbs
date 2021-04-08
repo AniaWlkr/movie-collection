@@ -1,49 +1,18 @@
-<div class="hacker-modal-card">
-  <img class="hacker-pic" src="{{originalPhoto}}" alt="{{name}}">
-  <div class="hacker-wrapper">
-    <h3 class="hacker-name">{{name}}</h3>
-    <p class="hacker-position">{{position}}</p>
-    <p class="hacker-stack-and-tools">My stack and tools:</p>
-    <ul class="hacker-tools-list">
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/javascript/javascript.png"
-          alt="vs logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/html/html.png"
-          alt="html logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png"
-          alt="css logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/sass/sass.png"
-          alt="sass logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/webpack/webpack.png"
-          alt="webpack logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png"
-          alt="nodejs logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/babel/babel.png"
-          alt="babel logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/git/git.png"
-          alt="git logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png"
-          alt="github logo"></li>
-      <li class="hacker-tools-item"><img class="hacker-tools-img"
-          src="https://cdn.icon-icons.com/icons2/2415/PNG/512/handlebars_original_wordmark_logo_icon_146484.png"
-          alt="handlebars logo"></li>
-    </ul>
-    <p class="hacker-location">Location: <span class="hacker-accent">{{country}}, {{city}}</span></p>
-    <ul class="hacker-list">
-      <li class="hacker-list-item">
-        <p>E-mail: <a href="mailto:{{email}}">text me</a></p>
-      </li>
-      <li class="hacker-list-item">
-        <p>GitHub: <a href="{{github}}">check me</a></p>
-      </li>
-    </ul>
-  </div>
+<div class="hacker-modal-card" data-id="{{id}}">
+    <img class="hacker-pic" src="{{originalPhoto}}" alt="{{name}}">
+        <div class="hacker-wrapper">
+          <h3 class="hacker-name">{{name}}</h3>
+          <p class="hacker-position">{{position}}</p>
+          <p class="hacker-stack-and-tools">My stack and tools:</p>
+          <ul class="hacker-tools-list">
+            {{#each tools}}
+            <li class="hacker-tools-item"><img class="hacker-tools-img" src="{{this}}" alt="tools logo"></li>
+            {{/each}}
+          </ul>
+          <p class="hacker-location">Location: <span class="hacker-accent">{{country}}, {{city}}</span></p>
+          <ul class="hacker-list">
+            <li class="hacker-list-item"><p>E-mail: <a href="mailto:{{email}}">text me</a></p></li>
+            <li class="hacker-list-item"><p>GitHub: <a href="{{github}}" target="_blank">check me</a></p></li>
+        </ul>
+    </div>
 </div>

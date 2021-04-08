@@ -18,6 +18,17 @@ import photoElenaGoeva from '../../images/students-modal-pics/Elena_Goyeva_origi
 import photoElenaGubarenko from '../../images/students-modal-pics/Elena_Gubarenko_original.jpg';
 import photoTatyana from '../../images/students-modal-pics/Tatyana_Rudenko_original.jpg';
 
+import vsc from '../../images/students-modal-pics/stack-and-tools/visual-studio-code.png';
+import html from '../../images/students-modal-pics/stack-and-tools/html.png';
+import css from '../../images/students-modal-pics/stack-and-tools/css.png';
+import sass from '../../images/students-modal-pics/stack-and-tools/sass.png';
+import js from '../../images/students-modal-pics/stack-and-tools/javascript.png';
+import webpack from '../../images/students-modal-pics/stack-and-tools/webpack.png';
+import handelbars from '../../images/students-modal-pics/stack-and-tools/handlebars.png';
+import babel from '../../images/students-modal-pics/stack-and-tools/babel.png';
+import git from '../../images/students-modal-pics/stack-and-tools/git.png';
+import github from '../../images/students-modal-pics/stack-and-tools/github.png';
+
 const team = [
   {
     id: 1,
@@ -29,6 +40,7 @@ const team = [
     email: 'ania.wlkr@gmail.com',
     smallPhoto: `${smallPhotoAnna}`,
     originalPhoto: `${photoAnna}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -41,6 +53,7 @@ const team = [
     email: 'olyasorokolat@gmail.com',
     smallPhoto: `${smallPhotoOlha}`,
     originalPhoto: `${photoOlha}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -49,10 +62,11 @@ const team = [
     position: 'Front-End Developer',
     city: 'Kiev',
     country: 'Ukraine',
-    github: 'github.com/GolovinaElia',
+    github: 'https://github.com/GolovinaElia',
     email: 'eliagolovina@ukr.net',
     smallPhoto: `${smallPhotoElnara}`,
     originalPhoto: `${photoElnara}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -65,6 +79,7 @@ const team = [
     email: 'kostenkoden89@gmail.com',
     smallPhoto: `${smallPhotoDenys}`,
     originalPhoto: `${photoDenys}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -77,6 +92,7 @@ const team = [
     email: 'didukhroma@gmail.com',
     smallPhoto: `${smallPhotoRoma}`,
     originalPhoto: `${photoRoma}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -89,6 +105,7 @@ const team = [
     email: 'Travis789lee@gmail.com',
     smallPhoto: `${smallPhotoIgor}`,
     originalPhoto: `${photoIgor}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -101,6 +118,7 @@ const team = [
     email: 'lena.goyeva@gmail.com',
     smallPhoto: `${smallPhotoElenaGoeva}`,
     originalPhoto: `${photoElenaGoeva}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -113,6 +131,7 @@ const team = [
     email: 'lenagritsishina@gmail.com',
     smallPhoto: `${smallPhotoElenaGubarenko}`,
     originalPhoto: `${photoElenaGubarenko}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 
   {
@@ -125,6 +144,7 @@ const team = [
     email: 'rudenkotatyana19@gmail.com',
     smallPhoto: `${smallPhotoTatyana}`,
     originalPhoto: `${photoTatyana}`,
+    tools: [`${vsc}`,`${html}`,`${css}`,`${sass}`,`${js}`,`${webpack}`,`${handelbars}`,`${babel}`,`${git}`,`${github}`,],
   },
 ];
 

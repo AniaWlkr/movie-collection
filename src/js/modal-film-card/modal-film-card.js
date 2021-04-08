@@ -7,7 +7,7 @@ import onCloseTrailer from '../modal-trailer';
 import { refreshLibrary } from '../switch-page';
 
 const requestError = document.querySelector('.request-error');
-const headerRef = document.querySelector('.header'); 
+const headerRef = document.querySelector('.header');
 
 class ModalFilmCard {
   constructor() {
@@ -25,14 +25,16 @@ class ModalFilmCard {
   }
   openModal() {
     this.modalRef.classList.add('is-open');
+    document.body.classList.add('no-scroll');
     window.addEventListener('keyup', this.modalCloseByEsc);
   }
 
   closeModal() {
     this.modalRef.classList.remove('is-open');
+    document.body.classList.remove('no-scroll');
     this.modalContentRef.innerHTML = '';
     window.removeEventListener('keyup', this.modalCloseByEsc);
-    refreshLibrary(headerRef); 
+    refreshLibrary(headerRef);
   }
 
   modalCloseOnOverlay(event) {
@@ -134,7 +136,7 @@ class ModalFilmCard {
     const storageHandler = this.storageHandler;
 
     spinner.hideSpinner();
-  
+
     contentRef.insertAdjacentHTML('afterbegin', modalCardTemplate(answer));
     const queueBtnRef = document.querySelector('button[data-active="queue"]');
     const watchedBtnRef = document.querySelector(
@@ -159,7 +161,10 @@ class ModalFilmCard {
     modalButtonsDivRef.addEventListener('click', storageHandler);
   }
   addEventListeners() {
-    this.modalBackdropeRef.addEventListener('click', this.modalCloseOnOverlay.bind(this));
+    this.modalBackdropeRef.addEventListener(
+      'click',
+      this.modalCloseOnOverlay.bind(this),
+    );
     this.moviesListRef.addEventListener('click', this.drawSelectedFilm);
   }
 }

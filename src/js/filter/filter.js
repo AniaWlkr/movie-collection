@@ -1,9 +1,9 @@
 import refs from '../refs/refs';
 
-refs.filterByGenreButton.addEventListener('click', hendleGenresListOpening);
-refs.filterSortByButton.addEventListener('click', hendleSortBYListOpening);
+refs.filterByGenreButton.addEventListener('click', handleGenresListOpening);
+refs.filterSortByButton.addEventListener('click', handleSortBYListOpening);
 
-function hendleGenresListOpening() {
+function handleGenresListOpening() {
   if (refs.genresListBase.classList.contains('is-hidden')) {
     refs.genresListBase.classList.remove('is-hidden');
   } else {
@@ -14,7 +14,7 @@ function closeGenresList() {
   refs.genresListBase.classList.add('is-hidden');
 }
 
-function hendleSortBYListOpening() {
+function handleSortBYListOpening() {
   if (refs.sortByListBase.classList.contains('is-hidden')) {
     refs.sortByListBase.classList.remove('is-hidden');
   } else {
