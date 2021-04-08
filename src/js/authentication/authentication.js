@@ -8,6 +8,7 @@ const filterBox = document.querySelector('.filter-container');
 const libraryRef = document.querySelector(
   '.navigation-link[data-state="library"]',
 );
+import { renderAndPaginationPopularMovies } from '../insert_popular_films';
 //---------------------------------
 
 const refs = {
@@ -179,8 +180,14 @@ const signInUser = event => {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
       newFireBase.userID = answer.localId;
-
       setTimeout(closeAuthModal, 1000); //change icon 'Log-In' & unblock Library
+      //Зайшли в акаунт
+      filterBox.classList.remove('visually-hidden');
+      libraryRef.classList.remove('visually-hidden');
+      authOpenButtonRef.textContent = 'SIGN-OUT';
+      signInFormRef.reset();
+      localStorage.setItem('page', 1); //-перехід на першу сторінку
+      renderAndPaginationPopularMovies();
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
       addInvalidClass(signInPwdRef);
@@ -198,10 +205,6 @@ const signInUser = event => {
         removeInvalidClass(signInMailRef);
       }, 2500);
     }
-    //Зайшли в акаунт
-    filterBox.classList.remove('visually-hidden');
-    libraryRef.classList.remove('visually-hidden');
-    authOpenButtonRef.textContent = 'SIGN-OUT';
   });
 };
 
