@@ -5,6 +5,7 @@ import spinner from '../spinner';
 import noImage from '../../images/movies-card/noimage.jpg';
 import onCloseTrailer from '../modal-trailer';
 import { refreshLibrary } from '../switch-page';
+import newFireBase from '../api-service/fireBaseService';
 
 const requestError = document.querySelector('.request-error');
 const headerRef = document.querySelector('.header');
@@ -143,15 +144,24 @@ class ModalFilmCard {
       'button[data-active="watched"]',
     );
 
-    if (isInQueue) {
-      queueBtnRef.textContent = 'Remove from Queue';
-      queueBtnRef.classList.remove('add');
-      queueBtnRef.classList.add('remove');
+    if (!newFireBase.userId) {
+      queueBtnRef.textContent = 'Please sign in';
+      watchedBtnRef.textContent = 'Please sign in';
+      queueBtnRef.disabled = true;
+      watchedBtnRef.disabled = true;
     }
-    if (isInWatched) {
-      watchedBtnRef.textContent = 'Remove from Watched';
-      watchedBtnRef.classList.remove('add');
-      watchedBtnRef.classList.add('remove');
+    else {
+      console.log('should be smth', newFireBase.userId);
+      if (isInQueue) {
+        queueBtnRef.textContent = 'Remove from Queue';
+        queueBtnRef.classList.remove('add');
+        queueBtnRef.classList.add('remove');
+      }
+      if (isInWatched) {
+        watchedBtnRef.textContent = 'Remove from Watched';
+        watchedBtnRef.classList.remove('add');
+        watchedBtnRef.classList.add('remove');
+      }
     }
 
     this.openModal();

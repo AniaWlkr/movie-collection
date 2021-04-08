@@ -88,7 +88,7 @@ const requestSignIn = (email, password) => {
   };
 
   return fetch(
-    `${BASE_URL}accounts:signInWithPassword?key=${API_KEY}`, // 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
+    `${BASE_URL}accounts:signInWithPassword?key=${API_KEY}`, 
     {
       method: 'POST',
       body: JSON.stringify(data),
@@ -108,7 +108,7 @@ const requestSignUp = (email, password) => {
   };
 
   return fetch(
-    `${BASE_URL}accounts:signUp?key=${API_KEY}`, //   'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec',
+    `${BASE_URL}accounts:signUp?key=${API_KEY}`, 
     {
       method: 'POST',
       body: JSON.stringify(data),
@@ -190,8 +190,8 @@ const signInUser = event => {
     if (answer.registered) {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
-      newFireBase.userID = answer.localId;
-      setTimeout(closeAuthModal, 500); //change icon 'Log-In' & unblock Library
+      newFireBase.userId = answer.localId;
+      setTimeout(closeAuthModal, 400); //change icon 'Log-In' & unblock Library
       //Зайшли в акаунт
       filterBox.classList.remove('visually-hidden');
       libraryRef.classList.remove('visually-hidden');
