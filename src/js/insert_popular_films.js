@@ -175,6 +175,22 @@ function setFiltration() {
     renderAndPagination();
   } else renderAndPagination('filter');
 }
+// RESET
+function contentReset() {
+  refs.resetButton.addEventListener('click', resetMovies);
+}
+
+function resetMovies() {
+  refs.filterSortByButton.textContent = 'SORT BY';
+  refs.filterSortByButton.dataset.value = 'no-filter';
+  newApi.sortByCriterion = '';
+  refs.filterByGenreButton.textContent = 'ALL GENRES';
+  refs.filterByGenreButton.id = 'default';
+  newApi.genreCriterion = '';
+  renderAndPagination();
+}
+
+contentReset();
 //--------------------------------------------------------
 //зміна теми для пагінації
 function removeAndChangePagTheme(selector) {
