@@ -38,6 +38,7 @@ function addDarkTheme() {
   refs.signInForm.classList.add('dark-theme');
   refs.signUpForm.classList.add('dark-theme');
   refs.modalAuthControls.classList.add('dark-theme');
+  refs.filterWrapper.classList.add('dark-theme');
 }
 
 function toggleDarkTheme() {

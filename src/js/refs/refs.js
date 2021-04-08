@@ -33,6 +33,7 @@ export default {
   filterByGenreButton: document.querySelector('.filter-button.by-genre'),
   resetButton: document.querySelector('button.reset'),
   filterContainer: document.querySelector('.filter-container'),
+  filterWrapper: document.querySelector('.filter-button'),
 
   //library
   header: document.querySelector('.header'),
