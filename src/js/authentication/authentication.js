@@ -3,6 +3,7 @@ const { BASE_URL, API_KEY } = settings;
 import AuthNotifications from '../notifications/notifications';
 const newNotification = new AuthNotifications();
 import newFireBase from '../api-service/fireBaseService';
+import refs from '../refs/refs';
 //---------------------------------Додатковий функціонал
 const filterBox = document.querySelector('.filter-container');
 const libraryRef = document.querySelector(
@@ -11,7 +12,7 @@ const libraryRef = document.querySelector(
 import { renderAndPaginationPopularMovies } from '../insert_popular_films';
 //---------------------------------
 
-const refs = {
+const refs1 = {
   controls: document.querySelector('[data-controls]'),
   panes: document.querySelector('[data-panes]'),
 };
@@ -33,19 +34,19 @@ const signInMailRef = document.querySelector('.sign-in-form .email');
 const signInPwdRef = document.querySelector('.sign-in-form .password');
 const signInTabRef = document.querySelector('.sign-in-tab');
 
-refs.controls.addEventListener('click', event => {
+refs1.controls.addEventListener('click', event => {
   event.preventDefault();
   const controlItem = event.target;
   if (controlItem.nodeName !== 'A') return;
-  
-  const currentActiveControlsItem = refs.controls.querySelector(
+
+  const currentActiveControlsItem = refs1.controls.querySelector(
     '.controls__item--active',
   );
   controlTabToggle(controlItem);
 });
 
-function controlTabToggle(controlItem) { 
-   const currentActiveControlsItem = refs.controls.querySelector(
+function controlTabToggle(controlItem) {
+  const currentActiveControlsItem = refs1.controls.querySelector(
     '.controls__item--active',
   );
 
@@ -62,7 +63,7 @@ function controlTabToggle(controlItem) {
 
   const paneId = getPaneId(controlItem);
 
-  const currentActivePane = refs.panes.querySelector('.pane--active');
+  const currentActivePane = refs1.panes.querySelector('.pane--active');
   if (currentActivePane) {
     currentActivePane.classList.remove('pane--active');
   }
@@ -76,7 +77,7 @@ function getPaneId(control) {
 }
 
 function getPaneById(id) {
-  return refs.panes.querySelector(`#${id}`);
+  return refs1.panes.querySelector(`#${id}`);
 }
 
 // voiti
@@ -87,16 +88,13 @@ const requestSignIn = (email, password) => {
     returnSecureToken: true,
   };
 
-  return fetch(
-    `${BASE_URL}accounts:signInWithPassword?key=${API_KEY}`, 
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-type': 'application/json',
-      },
+  return fetch(`${BASE_URL}accounts:signInWithPassword?key=${API_KEY}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-type': 'application/json',
     },
-  ).then(response => response.json());
+  }).then(response => response.json());
 };
 
 // registration
@@ -107,16 +105,13 @@ const requestSignUp = (email, password) => {
     returnSecureToken: true,
   };
 
-  return fetch(
-    `${BASE_URL}accounts:signUp?key=${API_KEY}`, 
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-type': 'application/json',
-      },
+  return fetch(`${BASE_URL}accounts:signUp?key=${API_KEY}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-type': 'application/json',
     },
-  ).then(response => response.json());
+  }).then(response => response.json());
   // .then(answer => console.log(answer));//ошибка реєстрації
 };
 
@@ -231,6 +226,17 @@ const openAuthModal = event => {
     authOpenButtonRef.textContent = 'SIGN-IN';
     newFireBase.signOut();
     signInFormRef.reset();
+    //чистим таби і перехід на home
+    refs.moviesRef.innerHTML = '';
+    refs.header.classList.add('header');
+    refs.header.classList.remove('header-library');
+    refs.searchForm.classList.remove('is-hidden');
+    refs.tabs.classList.add('is-hidden');
+    const navListRef = document.querySelector('.navigation-list');
+    navListRef.firstElementChild.firstElementChild.classList.add('current');
+    navListRef.lastElementChild.lastElementChild.classList.remove('current');
+    localStorage.setItem('page', 1); //-перехід на першу сторінку
+    renderAndPaginationPopularMovies();
     return;
   } //виходим з користувача
   modalAuthRef.classList.add('is-open');
