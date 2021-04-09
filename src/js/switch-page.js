@@ -5,7 +5,7 @@ import {
 } from './insert_popular_films';
 import refs from './refs/refs';
 import { newApi } from './api-service/apiService';
-import spinner from './spinner';
+// import spinner from './spinner';
 
 const renderQueue = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
