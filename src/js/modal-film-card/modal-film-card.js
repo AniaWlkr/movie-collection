@@ -144,7 +144,7 @@ class ModalFilmCard {
       'button[data-active="watched"]',
     );
 
-    if (!newFireBase.userId) {
+    if (!newFireBase.userId || !localStorage.getItem('token')) {
       console.log('should be null', newFireBase.userId);
       queueBtnRef.textContent = 'Please sign in';
       watchedBtnRef.textContent = 'Please sign in';
