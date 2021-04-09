@@ -21,7 +21,7 @@ class FireBase {
       .signOut()
       .then(
         function () {
-          filterBox.classList.add('visually-hidden');
+          // filterBox.classList.add('visually-hidden');
           libraryRef.classList.add('visually-hidden');
           localStorage.setItem('token', '');
         },
@@ -41,7 +41,7 @@ class FireBase {
     });
     //ховаєм лишній функціонал
 
-    filterBox.classList.add('visually-hidden');
+    // filterBox.classList.add('visually-hidden');
     libraryRef.classList.add('visually-hidden');
   }
 }
