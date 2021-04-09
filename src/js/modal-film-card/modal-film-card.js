@@ -152,7 +152,7 @@ class ModalFilmCard {
       watchedBtnRef.disabled = true;
     }
     else {
-      console.log('should be smth', newFireBase.userId);
+      // console.log('should be smth', newFireBase.userId);
       if (isInQueue) {
         queueBtnRef.textContent = 'Remove from Queue';
         queueBtnRef.classList.remove('add');

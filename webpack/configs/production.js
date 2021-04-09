@@ -1,7 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
+const HtmlWebpackPartialsPlugin = require('html-webpack-partials-plugin');
 module.exports = env => ({
   devtool: 'source-map',
   output: {
@@ -38,6 +38,18 @@ module.exports = env => ({
     ],
   },
   plugins: [
+    // new HtmlWebpackPlugin(),
+    new HtmlWebpackPartialsPlugin([
+      { path: './src/partials/head.html', priority: 'high', location: 'head' },
+      { path: './src/partials/loader.html' },
+      { path: './src/partials/header.html' },
+      { path: './src/partials/main.html' },
+      { path: './src/partials/footer.html' },
+      { path: './src/partials/modal.html' },
+      { path: './src/partials/modalGroup.html' },
+      { path: './src/partials/modalTrailer.html' },
+      { path: './src/partials/modalAuth.html' },
+    ]),
     new HtmlWebpackPlugin({
       template: './index.html',
       minify: {
