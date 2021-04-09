@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import axios from 'axios';
 import 'firebase/auth';
 import 'firebase/database';
 const filterBox = document.querySelector('.filter-container');
@@ -12,6 +13,7 @@ class FireBase {
     // this.apiKey = 'AIzaSyB60t6UrbfMCgI7czaAVFUumbYPsz4Lbec'; //<-----основний АПІ-ключ
     this.dataBase = 'https://test-85a9b-default-rtdb.firebaseio.com/'; //<-----немає доступу не знаю проект
     this.userId = null;
+    this.token = null;
     this.init();
   }
   //вихід користувача

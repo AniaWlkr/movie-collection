@@ -8,8 +8,12 @@ class LocalStorageService {
     this.addToQueue = this.addToQueue.bind(this);
     this.addToWatched = this.addToWatched.bind(this);
     this.getMoviesFromStorage = this.getMoviesFromStorage.bind(this);
-    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(this);
-    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(this);
+    this.checkCurrentMovieInQueueList = this.checkCurrentMovieInQueueList.bind(
+      this,
+    );
+    this.checkCurrentMovieInWatchedList = this.checkCurrentMovieInWatchedList.bind(
+      this,
+    );
     this.removeMovieFromQueue = this.removeMovieFromQueue.bind(this);
     this.removeMovieFromWatched = this.removeMovieFromWatched.bind(this);
   }
@@ -67,7 +71,7 @@ class LocalStorageService {
       const storageItem = localStorage.getItem(key);
       return storageItem === null ? undefined : JSON.parse(storageItem);
     } catch (error) {
-      console.error(`Parse error: ${error}`);
+      // console.error(`Parse error: ${error}`);
     }
   }
 
@@ -80,28 +84,37 @@ class LocalStorageService {
     const homepege = data.homepage;
     let poster_path;
     if (!data.poster_path) {
-          poster_path = noImage;
-        } else {
-          poster_path =
-            'https://image.tmdb.org/t/p/w500' + data.poster_path;
-        }
+      poster_path = noImage;
+    } else {
+      poster_path = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+    }
     const original_title = data.original_title;
     let vote_average;
     if (!data.vote_average) {
-        vote_average = '0.0';
-        } else {
-          vote_average = data.vote_average.toFixed(1);
-    };
+      vote_average = '0.0';
+    } else {
+      vote_average = data.vote_average.toFixed(1);
+    }
     const vote_count = data.vote_count;
     const popularity = data.popularity;
     let genres = data.genres;
     genres = genres.map(genre => ' ' + genre);
     if (genres.length > 2) {
-          genres = genres.slice(0, 2);
-          genres.push(' Other');
-        }
+      genres = genres.slice(0, 2);
+      genres.push(' Other');
+    }
     const release_date = data.release_date.slice(0, 4);
-    return {id, homepege,  poster_path,  original_title, vote_average, vote_count, popularity, genres, release_date};
+    return {
+      id,
+      homepege,
+      poster_path,
+      original_title,
+      vote_average,
+      vote_count,
+      popularity,
+      genres,
+      release_date,
+    };
   }
 
   removeMovieFromQueue() {
@@ -113,7 +126,6 @@ class LocalStorageService {
     );
     this._moviesList.inQueue = newArreyOfMoviesinQueue;
     this.saveToStorage(this._moviesListKey, this._moviesList);
-
   }
 
   removeMovieFromWatched() {

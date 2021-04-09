@@ -3,6 +3,7 @@ const { BASE_URL, API_KEY } = settings;
 import AuthNotifications from '../notifications/notifications';
 const newNotification = new AuthNotifications();
 import newFireBase from '../api-service/fireBaseService';
+import newlocalStorage from '../local-storage/local-storage';
 import refs from '../refs/refs';
 //---------------------------------Додатковий функціонал
 const filterBox = document.querySelector('.filter-container');
@@ -186,6 +187,7 @@ const signInUser = event => {
       newNotification.enterUser();
       localStorage.setItem('token', answer.idToken);
       newFireBase.userId = answer.localId;
+      newFireBase.token = answer.idToken;
       setTimeout(closeAuthModal, 400);
       setTimeout(() => {
         // filterBox.classList.remove('visually-hidden');
@@ -195,6 +197,29 @@ const signInUser = event => {
         renderAndPaginationPopularMovies();
       }, 550); //change icon 'Log-In' & unblock Library
       //Зайшли в акаунт
+      //получаєм дані з дб при заході користувача
+      newFireBase
+        .getDataFromDB(answer.localId, answer.idToken)
+        .then(({ data }) => {
+          // console.log(data);
+          if (!data || data === 'null') return;
+          localStorage.setItem('movie', ''); //почистили
+
+          const dataObj = Object.values(data);
+          const {
+            0: { watсhed, inQueue },
+          } = dataObj;
+
+          let obj = null;
+          if (!watсhed) {
+            obj = { watсhed: [], inQueue: [...inQueue] };
+          } else if (!inQueue) {
+            obj = { watсhed: [...watсhed], inQueue: [] };
+          } else {
+            obj = { watсhed: [...watсhed], inQueue: [...inQueue] };
+          }
+          localStorage.setItem('movie', JSON.stringify(obj));
+        });
     }
     if (answer.error && answer.error.message === 'INVALID_PASSWORD') {
       addInvalidClass(signInPwdRef);
@@ -221,8 +246,15 @@ const removeInvalidClass = elem => {
   elem.classList.remove('invalid');
 };
 
-const openAuthModal = event => {
+const openAuthModal = async event => {
   if (authOpenButtonRef.textContent === 'SIGN-OUT') {
+    const obj = localStorage.getItem('movie'); //обєкт з локала
+    const parseobj = JSON.parse(obj);
+    // console.log(parseobj);
+
+    await newFireBase.setDataToDB(parseobj); //запис на бд
+    localStorage.setItem('movie', ''); //почистили
+    // newlocalStorage.saveMoviesToBD(); //очистка локала
     authOpenButtonRef.textContent = 'SIGN-IN';
     newFireBase.signOut();
     signInFormRef.reset();
