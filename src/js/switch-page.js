@@ -80,7 +80,7 @@ const filterReset = () => {
   refs.filterByGenreButton.textContent = 'ALL GENRES';
   refs.filterByGenreButton.id = 'default';
   newApi.genreCriterion = '';
-}
+};
 
 const hideFilterButtons = () => {
   refs.filterByGenreButton.classList.add('is-hidden');
@@ -146,3 +146,7 @@ const pageSwitcher = event => {
 };
 
 refs.navigationList.addEventListener('click', pageSwitcher);
+refs.headerLogoRef.addEventListener('click', e => {
+  localStorage.setItem('page', 1);
+  renderAndPaginationPopularMovies();
+});

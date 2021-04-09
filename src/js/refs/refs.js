@@ -1,4 +1,5 @@
 export default {
+  headerLogoRef: document.querySelector('.header-logo'),
   //insert-popular-films
   searchForm: document.querySelector('#search-form'),
   moviesRef: document.querySelector('.movies-list'),
