@@ -146,7 +146,18 @@ const pageSwitcher = event => {
 };
 
 refs.navigationList.addEventListener('click', pageSwitcher);
-refs.headerLogoRef.addEventListener('click', e => {
-  localStorage.setItem('page', 1);
+refs.headerLogoRef.addEventListener('click', event => {
+  //чистим таби і перехід на home
+  const navListRef = document.querySelector('.navigation-list');
+  navListRef.firstElementChild.firstElementChild.classList.add('current');
+  navListRef.lastElementChild.lastElementChild.classList.remove('current');
+  refs.moviesRef.innerHTML = '';
+  filterReset();
+  showFilterButtons();
+  refs.header.classList.add('header');
+  refs.header.classList.remove('header-library');
+  refs.searchForm.classList.remove('is-hidden');
+  refs.tabs.classList.add('is-hidden');
+  localStorage.setItem('page', 1); //-перехід на першу сторінку
   renderAndPaginationPopularMovies();
 });
