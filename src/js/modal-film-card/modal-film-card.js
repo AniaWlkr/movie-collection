@@ -145,7 +145,7 @@ class ModalFilmCard {
     );
 
     if (!newFireBase.userId || !localStorage.getItem('token')) {
-      console.log('should be null', newFireBase.userId);
+      // console.log('should be null', newFireBase.userId);
       queueBtnRef.textContent = 'Please sign in';
       watchedBtnRef.textContent = 'Please sign in';
       queueBtnRef.disabled = true;
