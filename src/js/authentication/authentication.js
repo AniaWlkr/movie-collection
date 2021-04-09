@@ -188,7 +188,7 @@ const signInUser = event => {
       newFireBase.userId = answer.localId;
       setTimeout(closeAuthModal, 400);
       setTimeout(() => {
-        filterBox.classList.remove('visually-hidden');
+        // filterBox.classList.remove('visually-hidden');
         libraryRef.classList.remove('visually-hidden');
         authOpenButtonRef.textContent = 'SIGN-OUT';
         localStorage.setItem('page', 1); //-перехід на першу сторінку
