@@ -30,6 +30,21 @@ class FireBase {
         },
       );
   }
+  async setDataToDB(obj) {
+    await axios.delete(
+      `${this.dataBase}/users/${this.userId}/movies.json?auth=${this.token}`,
+    );
+    await axios.post(
+      `${this.dataBase}/users/${this.userId}/movies.json?auth=${this.token}`,
+      obj,
+    );
+  }
+  async getDataFromDB(id, token) {
+    const response = await axios.get(
+      `${this.dataBase}/users/${id}/movies.json?auth=${token}`,
+    );
+    return response;
+  }
   //запуск
   init() {
     firebase.initializeApp({
