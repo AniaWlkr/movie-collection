@@ -227,7 +227,7 @@ const openAuthModal = event => {
     newFireBase.signOut();
     signInFormRef.reset();
     //чистим таби і перехід на home
-    refs.moviesRef.innerHTML = '';
+    // refs.moviesRef.innerHTML = '';
     refs.header.classList.add('header');
     refs.header.classList.remove('header-library');
     refs.searchForm.classList.remove('is-hidden');
