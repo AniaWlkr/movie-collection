@@ -264,6 +264,9 @@ const openAuthModal = async event => {
     refs.header.classList.remove('header-library');
     refs.searchForm.classList.remove('is-hidden');
     refs.tabs.classList.add('is-hidden');
+    refs.filterByGenreButton.classList.remove('is-hidden');
+    refs.filterSortByButton.classList.remove('is-hidden');
+    refs.resetButton.classList.remove('is-hidden');
     const navListRef = document.querySelector('.navigation-list');
     navListRef.firstElementChild.firstElementChild.classList.add('current');
     navListRef.lastElementChild.lastElementChild.classList.remove('current');
