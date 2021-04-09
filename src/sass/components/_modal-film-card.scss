@@ -31,8 +31,12 @@
     background-color: $primary-text-color;
     transition: transform $transition-duration $transition-timing-function;
 
+    &::-webkit-scrollbar {
+      visibility: hidden;
+    }
+
     &::-webkit-scrollbar-thumb {
-      background-color: transparent;
+      visibility: hidden;
     }
   }
 
