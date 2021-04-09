@@ -5,6 +5,7 @@ import {
 } from './insert_popular_films';
 import refs from './refs/refs';
 import { newApi } from './api-service/apiService';
+import spinner from './spinner';
 
 const renderQueue = () => {
   const movies = LocalStorageService.getMoviesFromStorage();
@@ -99,7 +100,7 @@ const changeMarkup = page => {
   const activePageState = page.dataset.state;
 
   if (activePageState === 'home') {
-    refs.moviesRef.innerHTML = '';
+    // refs.moviesRef.innerHTML = '';
     filterReset();
     showFilterButtons();
     refs.header.classList.add('header');
@@ -147,11 +148,12 @@ const pageSwitcher = event => {
 
 refs.navigationList.addEventListener('click', pageSwitcher);
 refs.headerLogoRef.addEventListener('click', event => {
+  // spinner.showSpinner();
   //чистим таби і перехід на home
   const navListRef = document.querySelector('.navigation-list');
   navListRef.firstElementChild.firstElementChild.classList.add('current');
   navListRef.lastElementChild.lastElementChild.classList.remove('current');
-  refs.moviesRef.innerHTML = '';
+  // refs.moviesRef.innerHTML = '';
   filterReset();
   showFilterButtons();
   refs.header.classList.add('header');
@@ -160,4 +162,5 @@ refs.headerLogoRef.addEventListener('click', event => {
   refs.tabs.classList.add('is-hidden');
   localStorage.setItem('page', 1); //-перехід на першу сторінку
   renderAndPaginationPopularMovies();
+  // spinner.hideSpinner();
 });
